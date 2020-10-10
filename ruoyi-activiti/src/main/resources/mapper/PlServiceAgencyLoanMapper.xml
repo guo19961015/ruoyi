@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.activiti.mapper.PlServiceAgencyLoanMapper">
+    
+    <resultMap type="PlServiceAgencyLoanVo" id="PlServiceAgencyLoanResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="totalTime"    column="total_time"    />
+        <result property="instanceId"    column="instance_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="applyUser"    column="apply_user"    />
+        <result property="applyTime"    column="apply_time"    />
+        <result property="realityStartTime"    column="reality_start_time"    />
+        <result property="realityEndTime"    column="reality_end_time"    />
+        <result property="title"    column="title"    />
+        <result property="reason"    column="reason"    />
+        <result property="creditaCode"    column="credita_code"    />
+        <result property="legal"    column="legal"    />
+        <result property="legalNumber"    column="legal_number"    />
+        <result property="contacts"    column="contacts"    />
+        <result property="contactsNumber"    column="contacts_number"    />
+        <result property="plateType"    column="plate_type"    />
+        <result property="roleLoanId"    column="role_loan_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="application"    column="application"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectPlServiceAgencyLoanVo">
+        select psal.id, psal.type, psal.start_time, psal.end_time, psal.total_time, psal.instance_id, psal.create_by, psal.create_time, psal.update_by, psal.update_time, psal.apply_user, psal.apply_time, psal.reality_start_time, psal.reality_end_time, psal.title, psal.reason, psal.credita_code, psal.legal, psal.legal_number, psal.contacts, psal.contacts_number ,psal.plate_type,psal.role_loan_id,psal.product_id,psal.application,psal.status
+            from sys_user_role sur LEFT JOIN sys_user su
+            ON sur.user_id = su.user_id
+            RIGHT JOIN pl_service_agency_loan psal
+            ON sur.role_id = psal.plate_type
+    </sql>
+
+    <select id="selectPlServiceAgencyLoanList" parameterType="PlServiceAgencyLoanVo" resultMap="PlServiceAgencyLoanResult">
+        <include refid="selectPlServiceAgencyLoanVo"/>
+        <where>  
+            <if test="type != null  and type != ''"> and psal.type = #{type}</if>
+            <if test="startTime != null "> and psal.start_time = #{startTime}</if>
+            <if test="endTime != null "> and psal.end_time = #{endTime}</if>
+            <if test="totalTime != null "> and psal.total_time = #{totalTime}</if>
+            <if test="instanceId != null  and instanceId != ''"> and psal.instance_id = #{instanceId}</if>
+            <if test="applyUser != null  and applyUser != ''"> and psal.apply_user = #{applyUser}</if>
+            <if test="applyTime != null "> and psal.apply_time = #{applyTime}</if>
+            <if test="realityStartTime != null "> and psal.reality_start_time = #{realityStartTime}</if>
+            <if test="realityEndTime != null "> and psal.reality_end_time = #{realityEndTime}</if>
+            <if test="title != null  and title != ''"> and psal.title = #{title}</if>
+            <if test="reason != null  and reason != ''"> and psal.reason = #{reason}</if>
+            <if test="creditaCode != null  and creditaCode != ''"> and psal.credita_code = #{creditaCode}</if>
+            <if test="legal != null  and legal != ''"> and psal.legal = #{legal}</if>
+            <if test="legalNumber != null  and legalNumber != ''"> and psal.legal_number = #{legalNumber}</if>
+            <if test="contacts != null  and contacts != ''"> and psal.contacts = #{contacts}</if>
+            <if test="contactsNumber != null  and contactsNumber != ''"> and psal.contacts_number = #{contactsNumber}</if>
+            <if test="plateType != null  and plateType != ''"> and psal.plate_type = #{plateType}</if>
+            <if test="userId != null  and userId != ''"> and su.user_id = #{userId}</if>
+            <if test="productIdList != null  and productIdList != ''"> and psal.product_id in
+                <foreach item="productIdList" collection="productIdList" open="(" separator="," close=")">
+                    #{productIdList}
+                </foreach>
+             </if>
+            <if test="application != null  and application != ''"> and psal.application = #{application}</if>
+
+        </where>
+    </select>
+
+    <select id="selectProductIdList" resultType="string" >
+        SELECT GROUP_CONCAT(DISTINCT id) as productId from ry_product WHERE  user_id = #{userId}
+    </select>
+
+    <select id="selectPlServiceAgencyLoanListDouble" parameterType="PlServiceAgencyLoan" resultMap="PlServiceAgencyLoanResult">
+        select psal.id, psal.type, psal.start_time, psal.end_time, psal.total_time, psal.instance_id, psal.create_by, psal.create_time, psal.update_by, psal.update_time, psal.apply_user, psal.apply_time, psal.reality_start_time, psal.reality_end_time, psal.title, psal.reason, psal.credita_code, psal.legal, psal.legal_number, psal.contacts, psal.contacts_number ,psal.plate_type,psal.role_loan_id,psal.product_id,psal.application,psal.status
+        from pl_service_agency_loan psal
+        <where>
+            <if test="type != null  and type != ''"> and psal.type = #{type}</if>
+            <if test="startTime != null "> and psal.start_time = #{startTime}</if>
+            <if test="endTime != null "> and psal.end_time = #{endTime}</if>
+            <if test="totalTime != null "> and psal.total_time = #{totalTime}</if>
+            <if test="instanceId != null  and instanceId != ''"> and psal.instance_id = #{instanceId}</if>
+            <if test="applyUser != null  and applyUser != ''"> and psal.apply_user = #{applyUser}</if>
+            <if test="applyTime != null "> and psal.apply_time = #{applyTime}</if>
+            <if test="realityStartTime != null "> and psal.reality_start_time = #{realityStartTime}</if>
+            <if test="realityEndTime != null "> and psal.reality_end_time = #{realityEndTime}</if>
+            <if test="title != null  and title != ''"> and psal.title = #{title}</if>
+            <if test="reason != null  and reason != ''"> and psal.reason = #{reason}</if>
+            <if test="creditaCode != null  and creditaCode != ''"> and psal.credita_code = #{creditaCode}</if>
+            <if test="legal != null  and legal != ''"> and psal.legal = #{legal}</if>
+            <if test="legalNumber != null  and legalNumber != ''"> and psal.legal_number = #{legalNumber}</if>
+            <if test="contacts != null  and contacts != ''"> and psal.contacts = #{contacts}</if>
+            <if test="contactsNumber != null  and contactsNumber != ''"> and psal.contacts_number = #{contactsNumber}</if>
+            <if test="plateType != null  and plateType != ''"> and psal.plate_type = #{plateType}</if>
+            <if test="userId != null  and userId != ''"> and psal.user_id = #{userId}</if>
+
+        </where>
+    </select>
+
+    <select id="selectPlServiceAgencyLoanById" parameterType="Long" resultMap="PlServiceAgencyLoanResult">
+        select psal.id, psal.type, psal.start_time, psal.end_time, psal.total_time, psal.instance_id, psal.create_by, psal.create_time, psal.update_by, psal.update_time, psal.apply_user, psal.apply_time, psal.reality_start_time, psal.reality_end_time, psal.title, psal.reason, psal.credita_code, psal.legal, psal.legal_number, psal.contacts, psal.contacts_number ,psal.plate_type,psal.role_loan_id,psal.product_id,psal.application
+        from pl_service_agency_loan psal
+        where psal.id = #{id}
+    </select>
+        
+    <insert id="insertPlServiceAgencyLoan" parameterType="PlServiceAgencyLoanVo" useGeneratedKeys="true" keyProperty="id">
+        insert into pl_service_agency_loan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null  and type != ''">type,</if>
+            <if test="startTime != null ">start_time,</if>
+            <if test="endTime != null ">end_time,</if>
+            <if test="totalTime != null ">total_time,</if>
+            <if test="instanceId != null  and instanceId != ''">instance_id,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="applyUser != null  and applyUser != ''">apply_user,</if>
+            <if test="applyTime != null ">apply_time,</if>
+            <if test="realityStartTime != null ">reality_start_time,</if>
+            <if test="realityEndTime != null ">reality_end_time,</if>
+            <if test="title != null  and title != ''">title,</if>
+            <if test="reason != null  and reason != ''">reason,</if>
+            <if test="creditaCode != null  and creditaCode != ''">credita_code,</if>
+            <if test="legal != null  and legal != ''">legal,</if>
+            <if test="legalNumber != null  and legalNumber != ''">legal_number,</if>
+            <if test="contacts != null  and contacts != ''">contacts,</if>
+            <if test="contactsNumber != null  and contactsNumber != ''">contacts_number,</if>
+            <if test="plateType != null  and plateType != ''">plate_type,</if>
+            <if test="roleLoanId != null  and roleLoanId != ''">role_loan_id,</if>
+            <if test="userId != null  and userId != ''">user_id,</if>
+            <if test="productId != null  and productId != ''">product_id,</if>
+            <if test="application != null  and application != ''">application,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="startTime != null ">#{startTime},</if>
+            <if test="endTime != null ">#{endTime},</if>
+            <if test="totalTime != null ">#{totalTime},</if>
+            <if test="instanceId != null  and instanceId != ''">#{instanceId},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="applyUser != null  and applyUser != ''">#{applyUser},</if>
+            <if test="applyTime != null ">#{applyTime},</if>
+            <if test="realityStartTime != null ">#{realityStartTime},</if>
+            <if test="realityEndTime != null ">#{realityEndTime},</if>
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="reason != null  and reason != ''">#{reason},</if>
+            <if test="creditaCode != null  and creditaCode != ''">#{creditaCode},</if>
+            <if test="legal != null  and legal != ''">#{legal},</if>
+            <if test="legalNumber != null  and legalNumber != ''">#{legalNumber},</if>
+            <if test="contacts != null  and contacts != ''">#{contacts},</if>
+            <if test="contactsNumber != null  and contactsNumber != ''">#{contactsNumber},</if>
+            <if test="plateType != null  and plateType != ''">#{plateType},</if>
+            <if test="roleLoanId != null  and roleLoanId != ''">#{roleLoanId},</if>
+            <if test="userId != null  and userId != ''">#{userId},</if>
+            <if test="productId != null  and productId != ''">#{productId},</if>
+            <if test="application != null  and application != ''">#{application},</if>
+         </trim>
+    </insert>
+
+
+    <update id="updatePlServiceAgencyLoan" parameterType="PlServiceAgencyLoan">
+        update pl_service_agency_loan
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="startTime != null ">start_time = #{startTime},</if>
+            <if test="endTime != null ">end_time = #{endTime},</if>
+            <if test="totalTime != null ">total_time = #{totalTime},</if>
+            <if test="instanceId != null  and instanceId != ''">instance_id = #{instanceId},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="applyUser != null  and applyUser != ''">apply_user = #{applyUser},</if>
+            <if test="applyTime != null ">apply_time = #{applyTime},</if>
+            <if test="realityStartTime != null ">reality_start_time = #{realityStartTime},</if>
+            <if test="realityEndTime != null ">reality_end_time = #{realityEndTime},</if>
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="reason != null  and reason != ''">reason = #{reason},</if>
+            <if test="creditaCode != null  and creditaCode != ''">credita_code = #{creditaCode},</if>
+            <if test="legal != null  and legal != ''">legal = #{legal},</if>
+            <if test="legalNumber != null  and legalNumber != ''">legal_number = #{legalNumber},</if>
+            <if test="contacts != null  and contacts != ''">contacts = #{contacts},</if>
+            <if test="contactsNumber != null  and contactsNumber != ''">contacts_number = #{contactsNumber},</if>
+            <if test="plateType != null  and plateType != ''">plate_type = #{plateType},</if>
+            <if test="roleLoanId != null  and roleLoanId != ''">role_loan_id = #{roleLoanId},</if>
+            <if test="userId != null  and userId != ''">user_id = #{userId},</if>
+            <if test="productId != null  and productId != ''">product_id = #{productId},</if>
+            <if test="application != null  and application != ''">application = #{application},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePlServiceAgencyLoanById" parameterType="Long">
+        delete from pl_service_agency_loan where id = #{id}
+    </delete>
+
+    <delete id="deletePlServiceAgencyLoanByIds" parameterType="String">
+        delete from pl_service_agency_loan where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="insertComment"  parameterType="PlComment" useGeneratedKeys="true" keyProperty="id">
+        insert into pl_comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="comment != null  and comment != ''">comment,</if>
+            <if test="loanId != null ">loan_id,</if>
+            <if test="productId != null ">product_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="comment != null  and comment != ''">#{comment},</if>
+            <if test="loanId != null ">#{loanId},</if>
+            <if test="productId != null ">#{productId},</if>
+        </trim>
+    </insert>
+
+
+    <select id="selectComment" parameterType="PlComment"   resultType="PlComment">
+            select * from pl_comment where product_id = #{productId}
+    </select>
+</mapper>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('中小企业公共服务平台机构注册')" />
+    <th:block th:include="include :: jquery-steps-css" />
+    <th:block th:include="include :: bootstrap-fileinput-css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>中小企业公共服务平台机构注册</title>
+    <meta name="description" content="中小企业公共服务平台">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link href="../static/css/login.min.css" th:href="@{/css/login.min.css}" rel="stylesheet"/>
+    <link href="../static/ruoyi/css/ry-ui.css" th:href="@{/ruoyi/css/ry-ui.css?v=4.2.0}" rel="stylesheet"/>
+    <!-- 360浏览器急速模式 -->
+    <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{favicon.ico}"/>
+    <style type="text/css">label.error { position:inherit;  }</style>
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script>
+        /*用户管理-新增-选择部门树*/
+        function selectDeptTree() {
+            var treeId = $("#treeId").val();
+            var deptId = $.common.isEmpty(treeId) ? "100" : $("#treeId").val();
+            var url = ctx + "selectDeptTree1/" + deptId;
+            var options = {
+                title: '选择部门',
+                width: "380",
+                url: url,
+                callBack: doSubmit
+            };
+            $.modal.openOptions(options);
+        }
+        function doSubmit(index, layero){
+            var tree = layero.find("iframe")[0].contentWindow.$._tree;
+            if ($.tree.notAllowParents(tree)) {
+                var body = layer.getChildFrame('body', index);
+                $("#treeId").val(body.find('#treeId').val());
+                $("#treeName").val(body.find('#treeName').val());
+                layer.close(index);
+            }
+        }
+
+    </script>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>服务机构注册</h5>
+                </div>
+                <div class="ibox-content" >
+                    <h2>
+                        服务机构注册
+                    </h2>
+
+
+                    <form id="form" action="" class="wizard-big">
+                        <h1>基本信息</h1>
+                        <fieldset style="overflow-y: scroll">
+                            <h2>基本信息</h2>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>登录用户名 *</label>
+                                        <input id="loginName" name="loginName" type="text" class="form-control required">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>密码 *</label>
+                                        <input id="password" name="password" type="password" class="form-control required">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>确认密码 *</label>
+                                        <input id="confirm" name="confirm" type="password" class="form-control required">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>企业名称 *</label>
+                                        <input id="userName" name="userName" type="text" class="form-control required">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>企业地址 *</label>
+                                        <input id="address" name="address" type="text" class="form-control required" >
+                                    </div>
+                                    <div class="form-group">
+                                        <label>服务时间 *</label>
+                                        <input id="serviceTime" name="serviceTime" type="text" class="form-control required">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>统一社会信用代码 *</label>
+                                        <input id="creditaCode" name="creditaCode" type="text" class="form-control required">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>企业法人 *</label>
+                                        <input id="legal" name="legal" type="text" class="form-control required">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>联系人 *</label>
+                                        <input id="contacts" name="contacts" type="text" class="form-control required">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>主营业务 *</label>
+                                        <textarea id="reason" name="reason" type="text" class="form-control required"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>法人电话 *</label>
+                                        <input id="legalNumber" name="legalNumber" type="text" class="form-control required">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>联系人电话 *</label>
+                                        <input id="contactsNumber" name="contactsNumber" type="text" class="form-control required">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="form-group" style="font-size: 18px;">
+                                    <label>服务机构产品: *</label>
+                                    <input type="hidden" name="serviceProductsList" id="serviceProductsList" value="">
+                                    <input name="serviceProducts"  th:each="dict:${@dict.getType('plate')}" class="required serviceProducts" type="checkbox" th:value="${dict.dictValue}" th:attr="data-value=${dict.dictLabel}"  th:text="${dict.dictLabel}" th:disabled="${dict.status == '1'}">
+                                </div>
+                            </div>
+                        </fieldset>
+                        <h1>产品介绍</h1>
+                        <fieldset style="overflow-y: scroll">
+                            <h2>产品介绍</h2>
+                            <div class="row">
+                                <div class="col-sm-6" style="width: 100%;">
+                                    <div class="tabs-container">
+                                        <ul class="nav nav-tabs">
+                                            <!--<li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 第一个选项卡</a>
+                                            </li>
+                                            <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">第二个选项卡</a>
+                                            </li>-->
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div id="tab-1" class="tab-pane active">
+                                                <div class="panel-body">
+                                                    <!--<div class="ibox float-e-margins">
+                                                       <div class="ibox-title">
+                                                           <h5>产品介绍</h5>
+                                                           <button  class="btn btn-primary btn-xs m-l-sm edit1"  type="button">编辑</button>
+                                                           <button  class="btn btn-primary  btn-xs save1"  type="button">保存</button>
+                                                       </div>
+                                                       <div class="ibox-content eg1"  style="height: 452px;overflow-y: scroll;">
+
+                                                           <div class="click2edit1 wrapper" >
+
+                                                           </div>
+
+                                                       </div>
+                                                   </div>-->
+                                                </div>
+                                            </div>
+                                            <div id="tab-2" class="tab-pane">
+                                                <div class="panel-body">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <h1>企业简介及资质上传</h1>
+                        <fieldset style="overflow-y: scroll">
+                            <h2>其它信息</h2>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>服务机构log *</label>
+                                        <input  name="url1"  style="display:none"  onchange="uploadFile('url1')" class="form-control" type="file" />
+                                        <input id="organizationPicture" name="organizationPicture" type="text" placeholder="点击上传服务机构log" readonly="readonly" class="form-control required">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>资质展示(营业执照) *</label>
+                                        <input  name="url"  style="display:none"  onchange="uploadFile('url')" class="form-control" type="file" />
+                                        <input id="qualificationDisplay" name="qualificationDisplay" placeholder="点击上传资质展示" type="text" readonly="readonly" class="form-control required">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="font-noraml">其它资质上传</label>
+                                        <div class="file-loading">
+                                            <input id="fileinput-demo-1" type="file" name="file" multiple>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" style="width: 738px;">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <h5>企业简介</h5>
+                                            <button class="btn btn-primary btn-xs m-l-sm edit2"  type="button">编辑</button>
+                                            <button  class="btn btn-primary  btn-xs save2"  type="button">保存</button>
+                                        </div>
+                                        <div class="ibox-content eg2"  style="height:  452px;overflow-y: scroll;">
+
+                                            <div class="click2edit2 wrapper" >
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <input  type="hidden" name="other" id="other" value="">
+                                <input  name="flage" value="1"  type="hidden"/>
+                            </div>
+                        </fieldset>
+
+                        <h1>完成</h1>
+                        <fieldset>
+                            <h2>条款</h2>
+                            <div class="row m-t" th:if="${captchaEnabled==true}">
+                                <div class="col-xs-6">
+                                    <input type="text" name="validateCode" class="form-control code"  placeholder="验证码"   maxlength="5" >
+                                </div>
+                                <div class="col-xs-6">
+                                    <a href="javascript:void(0);" title="点击更换验证码">
+                                        <img th:src="@{captcha/captchaImage(type=${captchaType})}" class="imgcode" width="85%"/>
+                                    </a>
+                                </div>
+                            </div>
+                            <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required">
+                            <label for="acceptTerms">我同意<a th:href="@{'/clause'}"  target="_blank"><span style="color: red;">注册条款</span></a></label>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<th:block th:include="include :: jquery-steps-js" />
+<script>
+    $(document).ready(function () {
+        $("#wizard").steps();
+        $("#form").steps({
+            bodyTag: "fieldset", onStepChanging: function (event, currentIndex, newIndex) {
+                if (currentIndex > newIndex) {
+                    return true
+                }
+                if (newIndex === 3 && Number($("#age").val()) < 18) {
+                    return false
+                }
+                var form = $(this);
+                if (currentIndex < newIndex) {
+                    $(".body:eq(" + newIndex + ") label.error", form).remove();
+                    $(".body:eq(" + newIndex + ") .error", form).removeClass("error")
+                }
+                form.validate().settings.ignore = ":disabled,:hidden";
+                return form.valid()
+            }, onStepChanged: function (event, currentIndex, priorIndex) {
+                if (currentIndex === 2 && Number($("#age").val()) >= 18) {
+                    $(this).steps("next")
+                }
+                if (currentIndex === 2 && priorIndex === 3) {
+                    $(this).steps("previous")
+                }
+            }, onFinishing: function (event, currentIndex) {
+                var form = $(this);
+                form.validate().settings.ignore = ":disabled";
+                return form.valid()
+            }, onFinished: function (event, currentIndex) {
+                var form = $(this);
+                /*form.submit()*/
+                register();
+            }
+        }).validate({
+            errorPlacement: function (error, element) {
+                element.before(error)
+            }, rules: {confirm: {equalTo: "#password"}}
+        })
+    });
+    $(function() {
+        validateRule();
+        $('.imgcode').click(function() {
+            var url = ctx + "captcha/captchaImage?type=" + captchaType + "&s=" + Math.random();
+            $(".imgcode").attr("src", url);
+        });
+    });
+
+    $.validator.setDefaults({
+        submitHandler: function() {
+            register();
+        }
+    });
+</script>
+<script th:inline="javascript"> var ctx = [[@{/}]]; var captchaType = [[${captchaType}]]; </script>
+<!-- 全局js -->
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<!-- 验证插件 -->
+<script src="../static/ajax/libs/validate/jquery.validate.min.js" th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+<script src="../static/ajax/libs/validate/messages_zh.min.js" th:src="@{/ajax/libs/validate/messages_zh.min.js}"></script>
+<script src="../static/ajax/libs/layer/layer.min.js" th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script src="../static/ruoyi/js/ry-ui.js" th:src="@{/ruoyi/js/ry-ui.js?v=4.2.0}"></script>
+<script src="../static/js/fwjgRegister/upload.js" th:src="@{/js/fwjgRegister/upload.js}"></script>
+<script>
+    function register() {
+        $.modal.loading($("#btnSubmit").data("loading"));
+        var userName = $.common.trim($("input[name='userName']").val());
+        var creditaCode = $.common.trim($("input[name='creditaCode']").val());
+        var reason = $.common.trim($("#reason").val());
+        var address = $.common.trim($("input[name='address']").val());
+        var serviceTime = $.common.trim($("input[name='serviceTime']").val());
+        var legal = $.common.trim($("input[name='legal']").val());
+        var legalNumber = $.common.trim($("input[name='legalNumber']").val());
+        var contacts = $.common.trim($("input[name='contacts']").val());
+        var contactsNumber = $.common.trim($("input[name='contactsNumber']").val());
+        var serviceProducts = $.common.trim(($("input[name='serviceProductsList']").val()));
+        var synopsis = $('.click2edit2').summernote('code');
+        var qualificationDisplay = $.common.trim($("input[name='qualificationDisplay']").val());
+        var organizationPicture = $.common.trim($("input[name='organizationPicture']").val());
+        var flage = $.common.trim($("input[name='flage']").val());
+
+        var loginName = $.common.trim($("input[name='loginName']").val());
+        var password = $.common.trim($("input[name='password']").val());
+        var validateCode = $("input[name='validateCode']").val();
+        var bankId = $('#bankId').val();
+        var other =  $.common.trim($('#other').val());
+        var ryProductList = [];
+        $('.ryProductList').each(function (i) {
+            var sHTML = $('.click2editContent'+i).summernote('code');
+            ryProductList.push(String(sHTML));
+        });
+
+        if(bankId == "" || bankId == undefined){
+            bankId = "0";
+        }
+
+
+        var  data = {
+            "userName": userName,
+            "creditaCode" : creditaCode,
+            "reason" : reason,
+            "address" : address,
+            "serviceTime" : serviceTime,
+            "legal" : legal,
+            "legalNumber" : legalNumber,
+            "contacts" : contacts,
+            "contactsNumber" : contactsNumber,
+            "serviceProducts" : serviceProducts,
+            "synopsis" : synopsis,
+            "qualificationDisplay" : qualificationDisplay,
+            "organizationPicture" : organizationPicture,
+            "loginName": loginName,
+            "password": password,
+            "validateCode": validateCode,
+            "flage": flage,
+            "ryProductList": ryProductList,
+            "other": other
+        };
+        var url = ctx + "mechanismRegister";
+
+        $.ajax({
+            type: "post",
+            url: url,
+            contentType:" application/json",
+            data: JSON.stringify(data),
+            type: "Post",
+            success: function(r) {
+                if (r.code == 0) {
+                    layer.alert("<font color='red'>恭喜你，您的账号 " + userName + " 注册成功！</font>", {
+                            icon: 1,
+                            title: "系统提示"
+                        },
+                        function(index) {
+                            //关闭弹窗
+                            layer.close(index);
+                            location.href = ctx + 'login?bankId='+bankId;
+                        });
+                } else {
+                    $.modal.closeLoading();
+                    $('.imgcode').click();
+                    $(".code").val("");
+                    $.modal.msg(r.msg);
+                }
+            }
+        });
+    }
+    function validateRule() {
+        var prefix = ctx + "system/user";
+        var icon = "<i class='fa fa-times-circle'></i> ";
+        $("#registerForm").validate({
+            rules: {
+                userName: {
+                    required: true,
+                    minlength: 2
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                },
+                confirmPassword: {
+                    required: true,
+                    equalTo: "[name='password']"
+                },
+            },
+            messages: {
+                userName: {
+                    required: icon + "请输入您的用户名",
+                    minlength: icon + "用户名不能小于2个字符"
+                },
+                password: {
+                    required: icon + "请输入您的密码",
+                    minlength: icon + "密码不能小于5个字符",
+                },
+                confirmPassword: {
+                    required: icon + "请再次输入您的密码",
+                    equalTo: icon + "两次密码输入不一致"
+                }
+
+            }
+        })
+    }
+</script>
+<th:block th:include="include :: summernote-css" />
+<th:block th:include="include :: summernote-js" />
+<script>
+    /*富文本编辑器*/
+    $(document).ready(function () {
+        test('1');
+        test('2');
+        $('.edit1').click(function () {
+            test('1');
+        }) ;
+        $('.edit2').click(function () {
+
+            test('2');
+        }) ;
+        function test(i){
+            $('.click2edit'+i).summernote({
+                lang: 'zh-CN',
+                focus: true,
+                height:'300px',
+                callbacks: {
+                    onImageUpload: function (files) {
+                        sendFile(files[0], this);
+                    }
+                }
+            });
+        }
+        $('.save1').click(function () {
+            $(".eg1").removeClass("no-padding");
+            var aHTML = $('.click2edit1').summernote('code');
+            $('.click2edit1').summernote('destroy');
+        });
+        $('.save2').click(function () {
+            $(".eg2").removeClass("no-padding");
+            var aHTML = $('.click2edit2').summernote('code');
+            $('.click2edit2').summernote('destroy');
+        });
+    });
+
+</script>
+<th:block th:include="include :: bootstrap-fileinput-js" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        var imageData = [];
+        $("#fileinput-demo-1").fileinput({
+            language: "zh",//配置语言
+            showUpload : true, //显示整体上传的按钮
+            showRemove : true,//显示整体删除的按钮
+            uploadAsync: true,//默认异步上传
+            uploadUrl: 'register/common/upload',
+            maxFileCount: 3,
+            enctype: 'multipart/form-data',
+            allowedFileExtensions : ["jpg", "png","gif"],/*上传文件格式限制*/
+            autoOrientImage: false,
+            slugCallback : function(filename) {
+                return filename.replace('(', '_').replace(']', '_');
+            }
+        }).on("fileuploaded", function(event, data, previewId, index) {
+            var url = data.response.url;
+            imageData.push(url);
+            $('#other').val(imageData);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        /*前边选择的服务产品这边对应显示tab页面*/
+
+        $('.serviceProducts').change(function () {
+            var str = "";
+            var strContent = "";
+            var m = 0;
+            var list = "";
+            $("input[name='serviceProducts']:checked").each(function(i){//把所有被选中的复选框的值存入数组
+                m ++;
+                if(i == 0){
+                    str = str + " <li class=\"active\"><a data-toggle=\"tab\" href=\"#tab-"+i+"\" aria-expanded=\"true\">"+$(this).data("value") +"</a>\n</li>";
+                    list = list + $(this).val();
+                }else {
+                    list = list + "," + $(this).val();
+
+                    str = str + " <li class=\"\"><a data-toggle=\"tab\" href=\"#tab-"+i+"\" aria-expanded=\"false\"> "+$(this).data("value") +"</a>\n</li>";
+                }
+                strContent = strContent + "<div id=\"tab-"+i+"\" class=\"tab-pane active\">\n" +
+                    "                                                    <div class=\"panel-body\">\n" +
+                    "                                                        <div class=\"ibox float-e-margins\">\n" +
+                    "                                                            <div class=\"ibox-title\">\n" +
+                    "                                                                <h5>"+$(this).data("value") +"</h5>\n" +
+                    "                                                                <button  class=\"btn btn-primary btn-xs m-l-sm \" onclick='editContent("+i+")'  type=\"button\">编辑</button>\n" +
+                    "                                                                <button  class=\"btn btn-primary  btn-xs saveContent"+i+"\"  onclick=\"saveContent("+i+")\"  type=\"button\">保存</button>\n" +
+                    "                                                            </div>\n" +
+                    "                                                            <div class=\"ibox-content egContent"+i+"\"  style=\"height: 452px;overflow-y: scroll;\">\n" +
+                    "\n" +
+                    "                                                                <div class=\"click2editContent"+i+ " wrapper ryProductList\" >\n" +
+                    "\n" +
+                    "                                                                </div>\n" +
+                    "\n" +
+                    "                                                            </div>\n" +
+                    "                                                        </div>\n" +
+                    "                                                    </div>\n" +
+                    "                                                </div>";
+            });
+            console.log(list);
+            $('#serviceProductsList').val(list);
+            $('.nav-tabs').html(str);
+            $('.tab-content').html(strContent);
+            for(var j = 0;j<m;j++){
+                /*富文本编辑器初始化*/
+                $('.click2editContent'+j).summernote({
+                    lang: 'zh-CN',
+                    focus: true,
+                    height:'300px',
+                    callbacks: {
+                        onImageUpload: function (files) {
+                            sendFile(files[0], this);
+                        }
+                    }
+                });
+            }
+        });
+    });
+    function editContent(i){
+        $('.click2editContent'+i).summernote({
+            lang: 'zh-CN',
+            focus: true,
+            height:'300px'
+        });
+    }
+    function saveContent(i){
+        $(".egContent"+i).removeClass("no-padding");
+        var aHTML = $('.click2editContent'+i).summernote('code');
+        $('.click2editContent'+i).summernote('destroy');
+    }
+    // 上传文件
+    function sendFile(file, obj) {
+        var data = new FormData();
+        data.append("file", file);
+        $.ajax({
+            type: "POST",
+            url: ctx + "register/common/upload",
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(result) {
+                if (result.code == web_status.SUCCESS) {
+                    $(obj).summernote('editor.insertImage', result.url, result.fileName);
+                } else {
+                    $.modal.alertError(result.msg);
+                }
+            },
+            error: function(error) {
+                $.modal.alertWarning("图片上传失败。");
+            }
+        });
+    }
+</script>
+</body>
+</html>

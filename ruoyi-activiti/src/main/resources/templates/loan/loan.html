@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('助保贷信息列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                           <!-- <li>
+                                <label>贷款类型：</label>
+                                <select name="type" th:with="type=${@dict.getType('')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>-->
+                           <!-- <li class="select-time">
+                                <label>开始时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginStartTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endStartTime]"/>
+                            </li>
+                            <li class="select-time">
+                                <label>结束时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginEndTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endEndTime]"/>
+                            </li>-->
+                          <!--  <li>
+                                <label>贷款时长，单位秒：</label>
+                                <input type="text" name="totalTime"/>
+                            </li>
+
+                            -->
+                            <!--
+                            <li class="select-time">
+                                <label>实际开始时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginRealityStartTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endRealityStartTime]"/>
+                            </li>
+                            <li class="select-time">
+                                <label>实际结束时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginRealityEndTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endRealityEndTime]"/>
+                            </li>-->
+                           <!-- <li>
+                                <label>流程实例ID：</label>
+                                <input type="text" name="instanceId"/>
+                            </li>
+                            <li>
+                                <label>申请人：</label>
+                                <input type="text" name="applyUser"/>
+                            </li>-->
+
+                            <li>
+                                <label>企业名称：</label>
+                                <input type="text" name="title"/>
+                            </li>
+                            <li class="select-time">
+                                <label>申请时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginApplyTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endApplyTime]"/>
+                            </li>
+                            <!--<li>
+                                <label>主营业务：</label>
+                                <input type="text" name="reason"/>
+                            </li>
+                            <li>
+                                <label>企业法人：</label>
+                                <input type="text" name="legal"/>
+                            </li>
+                            <li>
+                                <label>电话号码：</label>
+                                <input type="text" name="legalNumber"/>
+                            </li>
+                            <li>
+                                <label>联系人：</label>
+                                <input type="text" name="contacts"/>
+                            </li>
+                            <li>
+                                <label>联系人电话：</label>
+                                <input type="text" name="contactsNumber"/>
+                            </li>
+                            <li>
+                                <label>企业简介：</label>
+                                <input type="text" name="synopsis"/>
+                            </li>
+                            <li>
+                                <label>资产总额：</label>
+                                <input type="text" name="totalAssets"/>
+                            </li>
+                            <li>
+                                <label>销售额：</label>
+                                <input type="text" name="salesVolume"/>
+                            </li>
+                            <li>
+                                <label>负债总额：</label>
+                                <input type="text" name="totalLiabilities"/>
+                            </li>
+                            <li>
+                                <label>利润总额：</label>
+                                <input type="text" name="totalProfit"/>
+                            </li>
+                            <li>
+                                <label>净资产：</label>
+                                <input type="text" name="netAssets"/>
+                            </li>
+                            <li>
+                                <label>纳税额：</label>
+                                <input type="text" name="taxAmount"/>
+                            </li>
+                            <li>
+                                <label>固定资产：</label>
+                                <input type="text" name="fixedAssets"/>
+                            </li>
+                            <li>
+                                <label>一年内到期债务：</label>
+                                <input type="text" name="oneYearDebtDue"/>
+                            </li>
+                            <li>
+                                <label>贷款余额：</label>
+                                <input type="text" name="loanBalance"/>
+                            </li>
+                            <li>
+                                <label>其他债务：</label>
+                                <input type="text" name="otherLiabilities"/>
+                            </li>
+                            <li>
+                                <label>关联公司情况：</label>
+                                <input type="text" name="relatedCompanies"/>
+                            </li>
+                            <li>
+                                <label>贷款银行：</label>
+                                <input type="text" name="lendingBank"/>
+                            </li>
+                            <li>
+                                <label>短期贷款逾期状态：</label>
+                                <select name="shortLoanOverdueRecords" th:with="type=${@dict.getType('dkyqzt')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>中长期贷款逾期状态：</label>
+                                <select name="longInLoanOverdueRecords" th:with="type=${@dict.getType('dkyqzt')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>申请助保贷金额：</label>
+                                <input type="text" name="applicationAmount"/>
+                            </li>
+                            <li>
+                                <label>拟贷款银行：</label>
+                                <input type="text" name="proposedBank"/>
+                            </li>
+                            <li>
+                                <label>旗区所属id：</label>
+                                <input type="text" name="sysDeptId"/>
+                            </li>-->
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="pl:loan:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="pl:loan:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="pl:loan:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="pl:loan:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:src="@{/js/activiti.js}"></script>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('pl:loan:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('pl:loan:remove')}]];
+        var shortLoanOverdueRecordsDatas = [[${@dict.getType('dkyqzt')}]];
+        var longInLoanOverdueRecordsDatas = [[${@dict.getType('dkyqzt')}]];
+        var prefix = ctx + "loan";
+        var currentUser = [[${currentUser}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                detailUrl: prefix + "/edit/{id}",
+                modalName: "助保贷信息",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id',
+                    title: '主键ID',
+                    visible: false
+                },
+                    /*{
+                        field: 'type',
+                        title: '贷款类型'
+                    },
+                    {
+                        field: 'startTime',
+                        title: '开始时间'
+                    },
+                    {
+                        field: 'endTime',
+                        title: '结束时间'
+                    },
+                    {
+                        field: 'totalTime',
+                        title: '贷款时长，单位秒'
+                    },
+                    {
+                        field: 'instanceId',
+                        title: '流程实例ID'
+                    },
+                    {
+                        field: 'applyUser',
+                        title: '申请人'
+                    },
+                    {
+                        field: 'applyTime',
+                        title: '申请时间'
+                    },
+                    {
+                        field: 'realityStartTime',
+                        title: '实际开始时间'
+                    },
+                    {
+                        field: 'realityEndTime',
+                        title: '实际结束时间'
+                    },*/
+                {
+                    field: 'instanceId',
+                    title: '流程实例ID',
+                    visible: false
+                },
+                {
+                    field: 'createBy',
+                    title: '创建人ID',
+                    visible: false
+                },
+                {
+                    field: 'createUserName',
+                    title: '创建人',
+                    visible: false
+                },
+                {
+                    field: 'applyUser',
+                    title: '申请人ID',
+                    visible: false
+                },
+                {
+                    field: 'applyUserName',
+                    title: '<span style="color: red;">申请人</span>',
+                    formatter: function(value, row, index) {
+                        return '<span style="color: red;">' + (value ? value : "-") + '</span>';
+                    }
+                },
+                {
+                    field: 'applyTime',
+                    title: '申请时间'
+                },
+                {
+                    field: 'title',
+                    title: '企业名称'
+                },
+                {
+                    field: 'reason',
+                    title: '主营业务'
+                },
+                {
+                    field: 'legal',
+                    title: '企业法人'
+                },
+                {
+                    field: 'legalNumber',
+                    title: '电话号码'
+                },
+                {
+                    field: 'contacts',
+                    title: '联系人'
+                },
+                {
+                    field: 'contactsNumber',
+                    title: '联系人电话'
+                },
+               /* {
+                    field: 'synopsis',
+                    title: '<span style="width: 200px;display: block;">企业简介</span>',
+                },
+                {
+                    field: 'totalAssets',
+                    title: '资产总额(万元)'
+                },
+                {
+                    field: 'salesVolume',
+                    title: '销售额(万元)'
+                },
+                {
+                    field: 'totalLiabilities',
+                    title: '负债总额(万元)'
+                },
+                {
+                    field: 'totalProfit',
+                    title: '利润总额(万元)'
+                },
+                {
+                    field: 'netAssets',
+                    title: '净资产(万元)'
+                },
+                {
+                    field: 'taxAmount',
+                    title: '纳税额(万元)'
+                },
+                {
+                    field: 'fixedAssets',
+                    title: '固定资产(万元)'
+                },
+                {
+                    field: 'oneYearDebtDue',
+                    title: '一年内到期债务(万元)'
+                },
+                {
+                    field: 'loanBalance',
+                    title: '贷款余额(万元)'
+                },
+                {
+                    field: 'otherLiabilities',
+                    title: '其他债务(万元)'
+                },
+                {
+                    field: 'relatedCompanies',
+                    title: '关联公司情况'
+                },
+                {
+                    field: 'lendingBank',
+                    title: '贷款银行'
+                },
+                {
+                    field: 'shortLoanOverdueRecords',
+                    title: '短期贷款逾期状态',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(shortLoanOverdueRecordsDatas, value);
+                    }
+                },
+                {
+                    field: 'longInLoanOverdueRecords',
+                    title: '中长期贷款逾期状态',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(longInLoanOverdueRecordsDatas, value);
+                    }
+                },
+                {
+                    field: 'applicationAmount',
+                    title: '申请助保贷金额'
+                },
+                {
+                    field: 'useOfFunds',
+                    title: '贷款资金用途'
+                },
+                {
+                    field: 'mortgageOfOwnAssets',
+                    title: '自有资产抵押'
+                },
+                {
+                    field: 'thirdPartyAssetMortgage',
+                    title: '第三方资产抵押'
+                },
+                {
+                    field: 'guarantee',
+                    title: '保证担保'
+                },*/
+               /* {
+                    field: 'proposedBank',
+                    title: '拟贷款银行'
+                },*/
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        if (row.instanceId) {
+                            actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.id + '\')"><i class="fa fa-eye"></i> 表单数据</a> ');
+                            actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="showHistoryDialog(\'' + row.instanceId + '\')"><i class="fa fa-list"></i> 审批历史</a> ');
+                            actions.push('<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="showProcessImgDialog(\'' + row.instanceId + '\')"><i class="fa fa-image"></i> 进度查看</a> ');
+                            actions.push('<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="showProcessTimeline(\'' + row.instanceId + '\',\''+ row.id + '\')"><i class="fa fa-image"></i> 审理进度查看</a> ');
+                           /* if (row.taskName.indexOf('已结束') === -1) {
+                                actions.push('<a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="cancelApply(\'' + row.instanceId + '\',\'' + row.createBy + '\')"><i class="fa fa-times"></i> 撤销</a> ');
+                                var suspendOrActive = row.suspendState === '2' ? '激活' : '挂起';
+                                var icon = row.suspendState === '2' ? 'fa fa-check' : 'fa fa-stop';
+                                actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="suspendOrActiveApply(\'' + row.instanceId + '\',\'' + row.createBy + '\',\'' + row.suspendState + '\')"><i class="' + icon + '"></i> ' + suspendOrActive + '</a> ');
+                            }*/
+                        } else {
+                            actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="submitApply(\'' + row.id + '\',\'' + row.createBy + '\')"><i class="fa fa-user"></i> 提交申请</a> ');
+                            actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        }
+
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+
+        function submitApply(id, createBy) {
+            if (createBy !== currentUser.loginName) {
+                $.modal.alertWarning("不允许非创建人提交申请！");
+                return;
+            }
+            $.modal.confirm("确认要提交申请吗?", function() {
+                var url = prefix + "/submitApply";
+                var data = { "id": id };
+                $.operate.submit(url, "post", "json", data);
+            });
+        }
+        function cancelApply(instanceId, createBy) {
+            if (createBy !== currentUser.loginName) {
+                $.modal.alertWarning("不允许非创建人撤销申请！");
+                return;
+            }
+            $.modal.confirm("确认要撤销申请吗?", function() {
+                var url = ctx + "process/cancelApply";
+                var data = { "instanceId": instanceId };
+                $.operate.submit(url, "post", "json", data);
+            });
+        }
+        function showProcessTimeline(instanceId,id) {
+            var url = prefix + '/timeline?instanceId=' + instanceId+"&id="+id;
+            $.modal.open("查看审批时间轴", url, null, null, null, true);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>内蒙古鄂尔多斯市 · 中小企业公共服务平台</title>
+	<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}" href="../static/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" th:href="@{/css/swiper.min.css}" href="../static/css/swiper.min.css">
+	<link rel="stylesheet" th:href="@{/css/content.css}" href="../static/css/content.css">
+	<script th:src="@{/js/jquery-1.11.0.min.js}" src="../static/js/jquery-1.11.0.min.js"></script>
+	<script th:src="@{/js/swiper.min.js}" src="../static/js/swiper.min.js"></script>
+	<script th:src="@{/js/zxqyJavascript.js}" src="../static/js/zxqyJavascript.js"></script>
+	<style type="text/css">
+		.index-rights {
+			width: 100px;
+			position: fixed;
+			z-index: 99;
+			right: 0;
+			top: 37.5%;
+		}
+		.index-back {
+			width: 100px;
+			background: rgba(0, 83, 182, 0.7);
+			border-radius: 10px;
+			text-align: center;
+			padding: 10px 0;
+			margin-top: 0 !important;
+			font-size: 18px;
+			color: #FFFFFF;
+		}
+	</style>
+</head>
+
+<body>
+<div class="head">
+	<div class="container">
+		<div class="row">
+			<div class="logo col-sm-9">
+				<img class="img-responsive" th:src="@{/images/index-first_03.png}" src="../static/images/index-first_03.png" alt="">
+			</div>
+			<div class="search col-sm-3">
+				<div class="login">
+            <span>
+              <a href="">
+                <img th:src="@{/images/index-first_05.png}" src="../static/images/index-first_05.png" alt=""><i>登录</i>
+              </a>
+            </span>
+					<span>
+              <a href="">
+                <img th:src="@{/images/index-first_07.png}" src="../static/images/index-first_07.png" alt=""><i>注册</i>
+              </a>
+            </span>
+					<span>
+              <a href="">
+                <img th:src="@{/images/index-first_09.png}" src="../static/images/index-first_09.png" alt=""><i>热线</i>
+              </a>
+            </span>
+				</div>
+				<div class="searchs pull-right">
+					<form>
+						<div class="input-group">
+							<input type="text" class="form-control">
+							<span class="input-group-btn">
+                  <button class="btn btn-default" type="button">
+                    <img th:src="@{/images/index-first_15.png}" src="../static/images/index-first_15.png" alt="">
+                  </button>
+                </span>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="content-body" th:each="item:${plbank}">
+	<div class="container">
+		<div class="row">
+			<div class="location col-sm-12">
+				当前位置：首页-最新资讯
+			</div>
+			<div class="content col-sm-12">
+				<div class="content-top">
+					<div class="content-top-left col-sm-2">
+						<img th:src="${item.bankImageUrl}" alt="logo">
+					</div>
+					<div class="content-top-left1 col-sm-1 pull-right">
+						<a th:href="@{'/register?bankId='+${item.id}}"><button>立即申请</button></a>
+					</div>
+					<div class="content-top-right col-sm-8 pull-right">
+						<div class="content-lefts">
+							<div class="contentType">助保贷</div>
+							<div>贷款额度：<span th:text="${item.loanLimit}"></span>万元</div>
+							<div>贷款期限：<span th:text="${item.loanTerm}"></span>年</div>
+							<div>担保方式：<span th:text="${item.guaranteeMethod}"></span></div>
+							<div>银行名称：<span th:text="${item.bankName}"></span></div>
+						</div>
+						<div class="content-rights">
+							<div>参考利率：<span th:text="${item.bankInterestRate}"></span>%</div>
+							<div>添加时间：<span th:text="${#dates.format(item.createTime, 'yyyy-MM-dd HH:mm:ss')}"></span></div>
+						</div>
+					</div>
+				</div>
+				<div class="content-bottom col-sm-12">
+					<ul class="list-inline">
+						<li class="col-sm-3 libks">
+							产品介绍
+							<p></p>
+						</li>
+						<li class="col-sm-3">
+							使用客户
+							<p></p>
+						</li>
+						<li class="col-sm-3">
+							申请条件
+							<p></p>
+						</li>
+						<li class="col-sm-3">
+							申请材料
+							<p></p>
+						</li>
+					</ul>
+					<div class="content-bottom-list col-sm-12">
+						<div>
+							产品介绍
+							<p>中小微企业助保金贷款”是指由申请企业缴纳一定比例的助保金及政府提供的风险补偿金共同作为增信手段，对纳入支持范围的中小微企业提供低成本贷款的融资模式。</p>
+						</div>
+						<div>
+							适用客户 <p><span th:text="${item.applicableUsers}"></span></p>
+						</div>
+						<div>
+							申请条件 <p style="font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; font-size: 16px; font-family: sans-serif; white-space: normal;"><span th:text="${item.applicationConditions}"></span></p>
+						</div>
+						<div>
+							申请材料 <p><span th:text="${item.applicationMaterials}"></span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- <div class="foot"></div> -->
+
+<div class="index-left">
+	<a href="">
+		<img class="wx" th:src="@{/images/index-first_22.png}" src="../static/images/index-first_22.png" alt="">
+	</a>
+	<div class="wximg">
+		<img th:src="@{/images/index-first_20.png}" src="../static/images/index-first_20.png" alt="">
+	</div>
+</div>
+
+	<div class="index-right index-rights">
+		<div class="index-back">返回首页</div>
+	</div>
+
+
+
+<script>
+	$(function () {
+		wx();
+		zbdShow();
+		colums();
+		columsDis();
+		// footDis();
+
+		// 列表页返回
+			$(".index-rights>div").click(function () {
+				window.location = "/";
+			});
+	})
+</script>
+</body>
+
+</html>

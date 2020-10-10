@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增银行信息')" />
+    <th:block th:include="include :: bootstrap-fileinput-css" />
+</head>
+<body class="white-bg gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-bank-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">银行名称：</label>
+                <div class="col-sm-8">
+                    <input name="bankName" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="font-noraml">银行图片</label>
+                <div class="file-loading">
+                    <input class="file" type="file" name="bankImage" id="file-pic">
+                </div>
+                301*106
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">所属担保公司：</label>
+                <div class="col-sm-8">
+                    <select id="bank" class="form-control " required>
+                        <option></option>
+                        <option th:each="plGuarantee:${plGuarantees}" th:value="${plGuarantee.guaranteeId}" th:text="${plGuarantee.guaranteeName}" ></option></select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">贷款额度：</label>
+                <div class="col-sm-8">
+                    <input  type="hidden" name="bankImageUrl" id="bankImageUrl" value="">
+                    <input name="loanLimit" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">贷款期限：</label>
+                <div class="col-sm-8">
+                    <input name="loanTerm" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">担保方式：</label>
+                <div class="col-sm-8">
+                    <input name="guaranteeMethod" class="form-control" type="text"required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">参考利率：</label>
+                <div class="col-sm-8">
+                    <input name="bankInterestRate" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">适用客户：</label>
+                <div class="col-sm-8">
+                    <input name="applicableUsers" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">申请条件：</label>
+                <div class="col-sm-8">
+                    <input name="applicationConditions" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">申请材料：</label>
+                <div class="col-sm-8">
+                    <input name="applicationMaterials" class="form-control" type="text" required>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: bootstrap-fileinput-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/bank"
+        $("#form-bank-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-bank-add').serialize());
+            }
+        }
+        $('#file-pic').fileinput({
+            //初始化上传文件框
+            language: "zh",//配置语言
+            showUpload : true, //显示整体上传的按钮
+            showRemove : true,//显示整体删除的按钮
+            uploadAsync: true,//默认异步上传
+            uploadLabel: "上传",//设置整体上传按钮的汉字
+            removeLabel: "移除",//设置整体删除按钮的汉字
+            uploadClass: "btn btn-primary",//设置上传按钮样式
+            showCaption: true,//是否显示标题
+            dropZoneEnabled: false,//是否显示拖拽区域
+            uploadUrl: prefix +'/upload',//这个是配置上传调取的后台地址，本项目是SSM搭建的
+            maxFileSize : 9999,//文件大小限制
+            maxFileCount: 9999,//允许最大上传数，可以多个，
+            enctype: 'multipart/form-data',
+            allowedFileExtensions : ["jpg", "png","gif"],/*上传文件格式限制*/
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            showBrowse: true,
+            browseOnZoneClick: true,
+
+            slugCallback : function(filename) {
+            return filename.replace('(', '_').replace(']', '_');
+        }
+        });
+        $('#file-pic').on("fileuploaded", function(event, data, previewId, index) {
+            var url = data.response.url;
+            $('#bankImageUrl').val(url);
+
+        });
+    </script>
+
+
+</body>
+</html>

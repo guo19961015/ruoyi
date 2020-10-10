@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('待办事项列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>企业名称：</label>
+                                <input type="text" name="title"/>
+                            </li>
+                            <li>
+                                <label>模块名称 (必须以 uri 一致)：</label>
+                                <input type="text" name="module"/>
+                            </li>
+                            <li>
+                                <label>任务 ID：</label>
+                                <input type="text" name="taskId"/>
+                            </li>
+                            <li>
+                                <label>流程实例 ID：</label>
+                                <input type="text" name="instanceId"/>
+                            </li>
+                            <li>
+                                <label>任务名称 (必须以表单页面名称一致)：</label>
+                                <input type="text" name="taskName"/>
+                            </li>
+                            <li>
+                                <label>节点名称：</label>
+                                <input type="text" name="nodeName"/>
+                            </li>
+                            <li>
+                                <label>是否查看 default 0 (0 否 1 是)：</label>
+                                <input type="text" name="isView"/>
+                            </li>
+                            <li>
+                                <label>是否处理 default 0 (0 否 1 是)：</label>
+                                <input type="text" name="isHandle"/>
+                            </li>
+                            <li>
+                                <label>待办人 ID：</label>
+                                <input type="text" name="todoUserId"/>
+                            </li>
+                            <li>
+                                <label>待办人名称：</label>
+                                <input type="text" name="todoUserName"/>
+                            </li>
+                            <li>
+                                <label>处理人 ID：</label>
+                                <input type="text" name="handleUserId"/>
+                            </li>
+                            <li>
+                                <label>处理人名称：</label>
+                                <input type="text" name="handleUserName"/>
+                            </li>
+                            <li class="select-time">
+                                <label>通知时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginTodoTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endTodoTime]"/>
+                            </li>
+                            <li class="select-time">
+                                <label>处理时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginHandleTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endHandleTime]"/>
+                            </li>
+                            <li class="select-time">
+                                <label>开始时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginRealityStartTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endRealityStartTime]"/>
+                            </li>
+                            <li class="select-time">
+                                <label>结束时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginRealityEndTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endRealityEndTime]"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:item:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:item:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:item:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:item:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:item:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:item:remove')}]];
+        var prefix = ctx + "system/item";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "待办事项",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id', 
+                    title: '主键 ID',
+                    visible: false
+                },
+                {
+                    field: 'title', 
+                    title: '企业名称'
+                },
+                {
+                    field: 'legal', 
+                    title: '企业法人'
+                },
+                {
+                    field: 'module', 
+                    title: '模块名称 (必须以 uri 一致)'
+                },
+                {
+                    field: 'taskId', 
+                    title: '任务 ID'
+                },
+                {
+                    field: 'instanceId', 
+                    title: '流程实例 ID'
+                },
+                {
+                    field: 'taskName', 
+                    title: '任务名称 (必须以表单页面名称一致)'
+                },
+                {
+                    field: 'nodeName', 
+                    title: '节点名称'
+                },
+                {
+                    field: 'isView', 
+                    title: '是否查看 default 0 (0 否 1 是)'
+                },
+                {
+                    field: 'isHandle', 
+                    title: '是否处理 default 0 (0 否 1 是)'
+                },
+                {
+                    field: 'todoUserId', 
+                    title: '待办人 ID'
+                },
+                {
+                    field: 'todoUserName', 
+                    title: '待办人名称'
+                },
+                {
+                    field: 'handleUserId', 
+                    title: '处理人 ID'
+                },
+                {
+                    field: 'handleUserName', 
+                    title: '处理人名称'
+                },
+                {
+                    field: 'todoTime', 
+                    title: '通知时间'
+                },
+                {
+                    field: 'handleTime', 
+                    title: '处理时间'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

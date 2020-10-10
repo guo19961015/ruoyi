@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.activiti.mapper.PlGuaranteeMapper">
+    
+    <resultMap type="PlGuarantee" id="PlGuaranteeResult">
+        <result property="guaranteeId"    column="guarantee_id"    />
+        <result property="guaranteeName"    column="guarantee_name"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectPlGuaranteeVo">
+        select guarantee_id, guarantee_name, status, create_by, create_time, update_by, update_time, remark from pl_guarantee
+    </sql>
+
+    <select id="selectPlGuaranteeList" parameterType="PlGuarantee" resultMap="PlGuaranteeResult">
+        <include refid="selectPlGuaranteeVo"/>
+        <where>  
+            <if test="guaranteeName != null  and guaranteeName != ''"> and guarantee_name like concat('%', #{guaranteeName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectPlGuaranteeById" parameterType="Long" resultMap="PlGuaranteeResult">
+        <include refid="selectPlGuaranteeVo"/>
+        where guarantee_id = #{guaranteeId}
+    </select>
+        
+    <insert id="insertPlGuarantee" parameterType="PlGuarantee" useGeneratedKeys="true" keyProperty="guaranteeId">
+        insert into pl_guarantee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guaranteeName != null  and guaranteeName != ''">guarantee_name,</if>
+            <if test="status != null  and status != ''">status,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guaranteeName != null  and guaranteeName != ''">#{guaranteeName},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePlGuarantee" parameterType="PlGuarantee">
+        update pl_guarantee
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="guaranteeName != null  and guaranteeName != ''">guarantee_name = #{guaranteeName},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where guarantee_id = #{guaranteeId}
+    </update>
+
+    <delete id="deletePlGuaranteeById" parameterType="Long">
+        delete from pl_guarantee where guarantee_id = #{guaranteeId}
+    </delete>
+
+    <delete id="deletePlGuaranteeByIds" parameterType="String">
+        delete from pl_guarantee where guarantee_id in 
+        <foreach item="guaranteeId" collection="array" open="(" separator="," close=")">
+            #{guaranteeId}
+        </foreach>
+    </delete>
+    
+</mapper>

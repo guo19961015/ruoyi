@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>内蒙古鄂尔多斯市 · 中小企业公共服务平台</title>
+	<link th:src="@{zxqy/bootstrap/css/bootstrap.css}" rel="stylesheet" href="zxqy/bootstrap/css/bootstrap.css">
+	<link th:src="@{zxqy/css/chromagallery.min.css}" rel="stylesheet" href="zxqy/css/chromagallery.min.css">
+	<link th:src="@{zxqy/css/main.css}" rel="stylesheet" href="zxqy/css/main.css">
+	<script th:href="@{zxqy/js/jquery-1.11.0.min.js}" src="zxqy/js/jquery-1.11.0.min.js"></script>
+	<script th:href="@{zxqy/layer/layer.js}" src="zxqy/layer/layer.js"></script>
+	<script th:href="@{zxqy/layer/extend/layer.ext.js}" src="zxqy/layer/extend/layer.ext.js"></script>
+	<script th:href="@{zxqy/js/zxqyJavascript.js}" src="zxqy/js/zxqyJavascript.js"></script>
+</head>
+
+<body>
+<div class="head"></div>
+<div class="service-body">
+	<div class="container">
+		<div class="row">
+			<div class="service-list-left col-sm-9">
+				<div class="index-title col-sm-12">
+					<span><a href=""><i>[[${fontText.roleName}]]</i></a></span>
+				</div>
+				<div class="row">
+					<div class="service-list col-sm-12">
+						<ul class="list-inline" th:each="userList : ${usersList}">
+							<li class="col-sm-3">
+								<div class="service-img">
+									<img src="" th:src="@{${userList.organizationPicture}}" alt="">
+									<p>主营业务：[[${userList.reason}]]</p>
+								</div>
+								<div class="service-type">
+									<span>[[${userList.userName}]]</span>
+									<a class="time" th:href="@{'/serviceConten?userId='+${userList.userId}+'&productId='+${userList.productId}}" target="_blank">查看申请</a>
+								</div>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+				<div class="servicePage">
+
+				</div>
+			</div>
+			<div class="service-list-right col-sm-3">
+				<div class="index-title col-sm-12">
+					<span><a href=""><i>数据</i>统计</a></span>
+				</div>
+				<div class="service-right col-sm-12">
+					<div>
+						<span id="great">80</span>
+						<p>成功对接事项</p>
+						<i></i>
+					</div>
+					<div>
+						<span id="serviceNum">122</span>
+						<p>入驻服务机构数量</p>
+						<i></i>
+					</div>
+					<div>
+						<span id="orgNum">400</span>
+						<p>入驻企业数量</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="footbut">
+	<a href="javascript:void(0);">
+		<img src="images/index-seventh_14.png" th:src="@{/zxqy/images/index-seventh_14.png}" alt="">
+	</a>
+</div>
+<div class="foot"></div>
+
+<div class="index-left">
+	<a href="">
+		<img class="wx" src="images/index-first_22.png" th:src="@{/zxqy/images/index-first_22.png}" alt="">
+	</a>
+	<div class="wximg">
+		<img src="images/index-first_20.png" th:src="@{/zxqy/images/index-first_20.png}" alt="">
+	</div>
+</div>
+<div class="index-right index-rights">
+	<div class="index-back">返回首页</div>
+</div>
+
+<script>
+	$(function() {
+		$(".head").load("zxqy/head.html");
+		$(".foot").load("zxqy/foot.html");
+		wx();
+		footDis();
+		footMove();
+		// 列表页返回
+		$(".index-rights>div").click(function () {
+			window.location = "/";
+		});
+	})
+	/*$(document).ready(function () {
+
+		$.ajax({
+			type: "get",
+			url: "http://localhost:8003/serviceAjax",
+			dataType: "json",
+			success: function (data) {
+				var content = ""
+				for (var i = 0; i < data.length; i++) {
+					content = content + "<li class=\"col-sm-3\">\n" +
+							"<div>\n" +
+							"<img class=\"img-responsive\" src=\"" + data[i].bankImageUrl + "\" alt=\"\">\n" +
+							"<p>助保贷</p>\n" +
+							"<div>\n" +
+							"<span><a href=\"http://ordoszxqy.org.cn/ry/details?bankId=" + data[i].id + "\">查看详情</a></span><a href=\"http://ordoszxqy.org.cn/ry/register?bankId=" + data[i].id + "\" class=\"time\">立即申请</a>\n" +
+							"</div>\n" +
+							"</div>\n" +
+							"</li>";
+					content = content + "<li class=\"col-sm-3\">\n" +
+					"\<div class=\"service-img\">\n" +
+					"\<img src=\"images/list_03.jpg\" \" />\n" +
+					"\<p>主营业务主营业务主营业务主营业务主营业务主营业务主营业务...</p>\n" +
+					"\</div>\n" +
+					"\<div class=\"service-type\">\n" +
+					"\<span>流动资金贷款</span>\n" +
+					"\<a class=\"time\" href=\"\" target=\"_blank\">查看申请</a>\n" +
+					"\</div>\n" +
+					"\</li>"
+				}
+				$('#capitalContent').html(content);
+			}
+		}).done(function (data) {
+			// 请求成功
+		}).fail(function (jqXHR, textStatus, errorThrown) {
+			// net::ERR_CONNECTION_REFUSED 发生时，也能进入
+			console.info("网络出错");
+		});
+	});*/
+</script>
+</body>
+
+</html>

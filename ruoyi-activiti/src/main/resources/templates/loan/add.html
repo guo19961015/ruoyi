@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增助保贷信息')" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: select2-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-loan-add">
+            <!--<div class="form-group">
+                <label class="col-sm-3 control-label">贷款类型：</label>
+                <div class="col-sm-8">
+                    <select name="type" class="form-control m-b">
+                        <option value="">所有</option>
+                    </select>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>-->
+            <!--<div class="form-group">
+                <label class="col-sm-3 control-label">开始时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="startTime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">结束时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="endTime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">贷款时长，单位秒：</label>
+                <div class="col-sm-8">
+                    <input name="totalTime" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">流程实例ID：</label>
+                <div class="col-sm-8">
+                    <input name="instanceId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">申请人：</label>
+                <div class="col-sm-8">
+                    <input name="applyUser" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">申请时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="applyTime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">实际开始时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="realityStartTime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">实际结束时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="realityEndTime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>-->
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required">企业名称：</label>
+                <div class="col-sm-8">
+                    <input name="title" class="form-control" type="text" th:value="${sysUser.userName}" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required">主营业务：</label>
+                <div class="col-sm-8">
+                    <textarea name="reason" class="form-control"  >[[${sysUser.reason}]]</textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">企业法人：</label>
+                        <div class="col-sm-8">
+                            <input name="legal" class="form-control" type="text" th:value="${sysUser.legal}" >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required" >电话号码：</label>
+                        <div class="col-sm-8">
+                            <input name="legalNumber" class="form-control" th:value="${sysUser.legalNumber}" type="text" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">联系人：</label>
+                        <div class="col-sm-8">
+                            <input name="contacts" class="form-control" th:value="${sysUser.contacts}" type="text" >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">联系人电话：</label>
+                        <div class="col-sm-8">
+                            <input name="contactsNumber" class="form-control" type="text" th:value="${sysUser.contactsNumber}" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label is-required">企业简介：</label>
+                <div class="col-sm-8">
+                    <textarea name="synopsis" class="form-control" th:value="${sysUser.synopsis}" type="text" ></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">资产总额(万元)：</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input name="totalAssets" class="form-control" type="text" oninput="num(this)"  required>
+                        <div class="input-group-addon">.00</div>
+
+                    </div>
+                </div>
+                </div>
+                <div class="col-sm-5">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">销售额(万元)：</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input name="salesVolume" class="form-control" oninput="num(this)"  type="text" required>
+                        <div class="input-group-addon">.00</div>
+                    </div>
+                </div>
+                </div>
+            </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label is-required">负债总额(万元)：</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                            <input name="totalLiabilities" class="form-control" oninput="num(this)"  type="text" required>
+                        <div class="input-group-addon">.00</div>
+                        </div>
+                </div>
+
+
+            <div class="form-group">
+                    <label class="col-sm-3 control-label is-required">利润总额(万元)：</label>
+                <div class="input-group">
+                    <div class="input-group-addon">$</div>
+
+                        <input name="totalProfit" class="form-control" type="text" oninput="num(this)"  required>
+                    <div class="input-group-addon">.00</div>
+                </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label is-required">净资产(万元)：</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input name="netAssets" class="form-control" type="text" oninput="num(this)"  required>
+                        <div class="input-group-addon">.00</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label is-required">纳税额(万元)：</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input name="taxAmount" class="form-control" type="text" oninput="num(this)"  required>
+                        <div class="input-group-addon">.00</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label is-required">固定资产(万元)：</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input name="fixedAssets" class="form-control" type="text" oninput="num(this)"  required>
+                        <div class="input-group-addon">.00</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label is-required">一年内到期债务(万元)：</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input name="oneYearDebtDue" class="form-control" type="text" oninput="num(this)"  required>
+                        <div class="input-group-addon">.00</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label is-required">贷款余额(万元)：</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input name="loanBalance" class="form-control" type="text" oninput="num(this)"  required>
+                        <div class="input-group-addon">.00</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label is-required">其他债务(万元)：</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input name="otherLiabilities" class="form-control" type="text" oninput="num(this)"  required>
+                        <div class="input-group-addon">.00</div>
+                    </div>
+                </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required">关联公司情况：</label>
+                <div class="col-sm-8">
+                    <input name="relatedCompanies" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required">贷款银行：</label>
+                <div class="col-sm-8">
+                    <input name="lendingBank" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">短期贷款逾期状态：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('dkyqzt')}">
+                        <input type="radio" th:id="${'shortLoanOverdueRecords_' + dict.dictCode}" name="shortLoanOverdueRecords" th:value="${dict.dictValue}" th:checked="${dict.default}" required>
+                        <label th:for="${'shortLoanOverdueRecords_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">中长期贷款逾期状态：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('dkyqzt')}">
+                        <input type="radio" th:id="${'longInLoanOverdueRecords_' + dict.dictCode}" name="longInLoanOverdueRecords" th:value="${dict.dictValue}" th:checked="${dict.default}" required>
+                        <label th:for="${'longInLoanOverdueRecords_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required">申请银行：</label>
+                <div class="col-sm-8">
+                    <select id="proposedBank" name="proposedBank" class="form-control " required>
+                        <option></option>
+                        <option th:each="bank:${banks}" th:value="${bank.id}" th:text="${bank.bankName}" th:selected="${bank.flag}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required">申请助保贷金额：</label>
+                <div class="input-group">
+                    <div class="input-group-addon">$</div>
+                        <input name="applicationAmount" class="form-control col-sm-3" type="text" oninput="num(this)" required>
+                    <div class="input-group-addon">.00</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required">贷款资金用途：</label>
+                <div class="col-sm-8">
+                    <textarea name="useOfFunds" class="form-control" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label ">自有资产抵押：</label>
+                <div class="col-sm-8">
+                    <select  class="form-control select2-multiple" name="mortgageOfOwnAssets" th:with="type=${@dict.getType('zycchdy')}" multiple >
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:disabled="${dict.status == '1'}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label ">第三方资产抵押：</label>
+                <div class="col-sm-8">
+                    <select  class="form-control select2-multiple" name="thirdPartyAssetMortgage" th:with="type=${@dict.getType('dsfzchdy')}" multiple >
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:disabled="${dict.status == '1'}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">保证担保：</label>
+                <div class="col-sm-8">
+                    <select  class="form-control select2-multiple" name="guarantee" th:with="type=${@dict.getType('bzhdb')}" multiple >
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:disabled="${dict.status == '1'}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required" required>反担保抵押物详细情况：</label>
+                <div class="col-sm-8">
+                    <textarea name="detailsCollateral" class="form-control" type="text" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">信用评级报告：</label>
+                <div class="col-sm-8">
+                    <input name="url" class="form-control " type="file"  onchange="uploadFile('url')" >
+                    <input id="creditRatingReport1"  class="form-control" readonly rows="4">
+                        [[*{creditRatingReport}]]</input>
+                     <input id="creditRatingReport"  name="creditRatingReport" class="form-control" type="hidden" value="">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <th:block th:include="include :: select2-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "loan"
+        $("#form-loan-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-loan-add').serialize());
+            }
+        }
+
+        $("input[name='startTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='endTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='applyTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='realityStartTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='realityEndTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+        //input输入框只能输入数字和 小数点后两位
+        function num(obj,val){
+            obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+            obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字
+            obj.value = obj.value.replace(/\.{2,}/g,""); //只保留第一个, 清除多余的
+            obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+            obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
+        }
+        function uploadFile(filePath) {
+            $.modal.loading("文件上传中，请勿做其他操作，耐心等待"); 	//若依的遮罩
+            var formData = new FormData();
+            if ($("input[name='" + filePath + "']")[0].files[0] == null) {
+                $.modal.alertWarning("请先选择文件路径");
+                return false;
+            }
+            formData.append('file', $("input[name='" + filePath + "']")[0].files[0]);
+            $.ajax({
+                url: prefix+ "/uploadFile",
+                type: 'post',
+                cache: false,
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function (result) {
+                    $("#creditRatingReport1").val(result.msg);
+                    $("#creditRatingReport").val(result.fileName);
+                    $.modal.closeLoading(); 	//遮罩结束
+                }
+            });
+        }
+    </script>
+</body>
+</html>

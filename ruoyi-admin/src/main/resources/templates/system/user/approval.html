@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('审批用户')" />
+	<th:block th:include="include :: select2-css" />
+</head>
+<body>
+    <div class="main-content">
+        <form class="form-horizontal" id="form-user-edit" th:object="${user}">
+            <input name="userId" id="userId" type="hidden"  th:field="*{userId}" />
+			<input name="deptId"  type="hidden"  th:field="*{deptId}" id="treeId"/>
+            <h4 class="form-header h4">基本信息</h4>
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">用户名称：</label>
+                        <div class="col-sm-8">
+                            <input name="loginName" placeholder="请输入用户名称" class="form-control" type="text" maxlength="30" th:field="*{loginName}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">企业名称：</label>
+                        <div class="col-sm-8">
+                            <input name="userName" placeholder="请输入用户名称" class="form-control" type="text" maxlength="30" th:field="*{userName}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">企业地址：</label>
+                        <div class="col-sm-8">
+                            <input name="address" placeholder="请输入用户名称" class="form-control" type="text" maxlength="30" th:field="*{address}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">服务时间：</label>
+                        <div class="col-sm-8">
+                            <input name="serviceTime" placeholder="请输入用户名称" class="form-control" type="text" maxlength="30" th:field="*{serviceTime}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">统一社会信用代码：</label>
+                        <div class="col-sm-8">
+                            <input name="creditaCode" placeholder="请输入用户名称" class="form-control" type="text" maxlength="30" th:field="*{creditaCode}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">企业法人：</label>
+                        <div class="col-sm-8">
+                            <input name="legal" placeholder="请输入用户名称" class="form-control" type="text" maxlength="30" th:field="*{legal}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">联系人：</label>
+                        <div class="col-sm-8">
+                            <input name="contacts" placeholder="请输入用户名称" class="form-control" type="text" maxlength="30" th:field="*{contacts}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">主营业务：</label>
+                        <div class="col-sm-8">
+                            <input name="reason" placeholder="请输入用户名称" class="form-control" type="text" maxlength="30" th:field="*{reason}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">法人电话：</label>
+                        <div class="col-sm-8">
+                            <input name="legalNumber" placeholder="请输入用户名称" class="form-control" type="text" maxlength="30" th:field="*{legalNumber}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">联系人电话：</label>
+                        <div class="col-sm-8">
+                            <input name="contactsNumber" placeholder="请输入用户名称" class="form-control" type="text" maxlength="30" th:field="*{contactsNumber}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">服务机构产品: *</label>
+                        <div class="col-xs-10">
+                            <label th:each="dict:${sysDictList}" class="check-box ">
+                                <input name="serviceProducts" th:checked="${dict.flage}"   class=" serviceProducts"  type="checkbox" th:value="${dict.dictValue}" th:attr="data-value=${dict.dictLabel}"  th:text="${dict.dictLabel}"  >
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">产品介绍:</label>
+                            <div class="col-xs-10">
+                                <div class="row">
+                                        <div class="tabs-container">
+                                            <ul class="nav nav-tabs">
+                                            </ul>
+                                            <div class="tab-content">
+
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">服务机构log：</label>
+                        <div class="col-sm-8">
+                            <img  th:src="*{organizationPicture}" width="93%" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">资质展示(营业执照)：</label>
+                        <div class="col-sm-8">
+                            <img  th:src="*{qualificationDisplay}" width="93%" height="168px" alt="">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">其它资质上传：</label>
+                        <div class="col-sm-6">
+                            <th:block th:each="image : ${#strings.listSplit(user.other, ',')}">
+                                <img  th:src="${image}" alt="" width="128%">
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">企业简介：</label>
+                        <div class="col-sm-8">
+                            <img  th:utext="*{synopsis}" alt="" width="548px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-offset-5 col-sm-10">
+                    <button type="button" class="btn btn-sm btn-primary" onclick="approvalDisable()"><i class="fa fa-check"></i>通过</button>&nbsp;
+                    <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    </div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: select2-js" />
+	<script type="text/javascript">
+        var prefix = ctx + "system/user";
+        function submitHandler() {
+
+	        	var data = $("#form-user-edit").serializeArray();
+	        	var status = $("input[id='status']").is(':checked') == true ? 0 : 1;
+	        	var roleIds = $.form.selectCheckeds("role");
+	        	var postIds = $.form.selectSelects("post");
+                var bankId = $.form.selectSelects("bank");
+                var guaranteeId = $.form.selectSelects("guaranteeId");
+	        	data.push({"name": "status", "value": status});
+	        	data.push({"name": "roleIds", "value": roleIds});
+                data.push({"name": "bankId", "value": bankId});
+	        	data.push({"name": "postIds", "value": postIds});
+                data.push({"name": "guaranteeId", "value": guaranteeId});
+                $.operate.saveTab(prefix + "/edit", data);
+
+	    }
+
+
+		function doSubmit(index, layero){
+			var tree = layero.find("iframe")[0].contentWindow.$._tree;
+			if ($.tree.notAllowParents(tree)) {
+    			var body = layer.getChildFrame('body', index);
+    			$("#treeId").val(body.find('#treeId').val());
+    			$("#treeName").val(body.find('#treeName').val());
+    			layer.close(index);
+			}
+		}
+
+    </script>
+    <th:block th:include="include :: summernote-css" />
+    <th:block th:include="include :: summernote-js" />
+    <script  th:inline="javascript">
+        /*富文本编辑器*/
+        $(document).ready(function () {
+            test('1');
+            test('2');
+            $('.edit1').click(function () {
+                test('1');
+            }) ;
+            $('.edit2').click(function () {
+
+                test('2');
+            }) ;
+            function test(i){
+                $('.click2edit'+i).summernote({
+                    lang: 'zh-CN',
+                    focus: true,
+                    height:'300px',
+                    callbacks: {
+                        onImageUpload: function (files) {
+                            sendFile(files[0], this);
+                        }
+                    }
+                });
+            }
+            $('.save1').click(function () {
+                $(".eg1").removeClass("no-padding");
+                var aHTML = $('.click2edit1').summernote('code');
+                $('.click2edit1').summernote('destroy');
+            });
+            $('.save2').click(function () {
+                $(".eg2").removeClass("no-padding");
+                var aHTML = $('.click2edit2').summernote('code');
+                $('.click2edit2').summernote('destroy');
+            });
+        });
+        $(document).ready(function () {
+            var str = "";
+            var strContent = "";
+            var list = "";
+            var ryProducts =  [[${ryProducts}]];
+            /*前边选择的服务产品这边对应显示tab页面*/
+                $("input[name='serviceProducts']:checked").each(function (i) {
+                    if(i == 0){
+                        str = str + " <li class=\"active\"><a data-toggle=\"tab\" href=\"#tab-"+i+"\" aria-expanded=\"true\">"+$(this).data("value") +"</a>\n</li>";
+                        strContent = strContent + "<div id=\"tab-"+i+"\" class=\"tab-pane active\"><div class=\"panel-body\">"+ ryProducts[i].introduce + "</div></div>";
+                    }else {
+                        str = str + " <li class=\"\"><a data-toggle=\"tab\" href=\"#tab-"+i+"\" aria-expanded=\"false\">"+$(this).data("value") +"</a>\n</li>";
+                        strContent = strContent + "<div id=\"tab-"+i+"\" class=\"tab-pane\"><div class=\"panel-body\">"+ ryProducts[i].introduce + "</div></div>";
+                    }
+
+
+                    /*富文本编辑器初始化*/
+                        $('.click2editContent'+ i).summernote({
+                            lang: 'zh-CN',
+                            focus: true,
+                            height:'300px',
+                            callbacks: {
+                                onImageUpload: function (files) {
+                                    sendFile(files[0], this);
+                                }
+                            }
+                        });
+
+                });
+
+            $('.nav-tabs').html(str);
+            $('.tab-content').html(strContent);
+        });
+
+        /* 用户管理-通过 */
+        function approvalDisable() {
+            $.modal.confirm("确认要通过该服务机构吗？", function() {
+                $.ajax({
+                    url: prefix + "/changeStatus",
+                    async: false,//改为同步方式
+                    type: "POST",
+                    data: { "userId": $('#userId').val(), "status": 0 },
+                    success: function (data) {
+                        $.modal.alert('服务机构审批成功!');
+                        parent.location.reload();
+                    }
+                });
+
+            })
+        }
+    </script>
+</body>
+</html>

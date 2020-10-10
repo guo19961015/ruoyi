@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.activiti.mapper.PlLoanRoleMapper">
+    
+    <resultMap type="PlLoanRole" id="PlLoanRoleResult">
+        <result property="id"    column="id"    />
+        <result property="roleId"    column="role_id"    />
+        <result property="loanId"    column="loan_id"    />
+    </resultMap>
+
+    <sql id="selectPlLoanRoleVo">
+        select id, role_id, loan_id from pl_loan_role
+    </sql>
+
+    <select id="selectPlLoanRoleList" parameterType="PlLoanRole" resultMap="PlLoanRoleResult">
+        <include refid="selectPlLoanRoleVo"/>
+        <where>  
+            <if test="roleId != null  and roleId != ''"> and role_id = #{roleId}</if>
+            <if test="loanId != null  and loanId != ''"> and loan_id = #{loanId}</if>
+        </where>
+    </select>
+    
+    <select id="selectPlLoanRoleById" parameterType="Long" resultMap="PlLoanRoleResult">
+        <include refid="selectPlLoanRoleVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPlLoanRole" parameterType="PlLoanRole">
+        insert into pl_loan_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="roleId != null  and roleId != ''">role_id,</if>
+            <if test="loanId != null  and loanId != ''">loan_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="roleId != null  and roleId != ''">#{roleId},</if>
+            <if test="loanId != null  and loanId != ''">#{loanId},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePlLoanRole" parameterType="PlLoanRole">
+        update pl_loan_role
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="roleId != null  and roleId != ''">role_id = #{roleId},</if>
+            <if test="loanId != null  and loanId != ''">loan_id = #{loanId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePlLoanRoleById" parameterType="Long">
+        delete from pl_loan_role where id = #{id}
+    </delete>
+
+    <delete id="deletePlLoanRoleByIds" parameterType="String">
+        delete from pl_loan_role where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

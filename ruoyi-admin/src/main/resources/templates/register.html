@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>中小企业公共服务平台</title>
+    <meta name="description" content="中小企业公共服务平台">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link href="../static/css/login.min.css" th:href="@{/css/login.min.css}" rel="stylesheet"/>
+    <link href="../static/ruoyi/css/ry-ui.css" th:href="@{/ruoyi/css/ry-ui.css?v=4.2.0}" rel="stylesheet"/>
+    <!-- 360浏览器急速模式 -->
+    <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{favicon.ico}"/>
+    <style type="text/css">label.error { position:inherit;  }</style>
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script>
+        /*用户管理-新增-选择部门树*/
+        function selectDeptTree() {
+            var treeId = $("#treeId").val();
+            var deptId = $.common.isEmpty(treeId) ? "100" : $("#treeId").val();
+            var url = ctx + "selectDeptTree1/" + deptId;
+            var options = {
+                title: '选择部门',
+                width: "380",
+                url: url,
+                callBack: doSubmit
+            };
+            $.modal.openOptions(options);
+        }
+        function doSubmit(index, layero){
+            var tree = layero.find("iframe")[0].contentWindow.$._tree;
+            if ($.tree.notAllowParents(tree)) {
+                var body = layer.getChildFrame('body', index);
+                $("#treeId").val(body.find('#treeId').val());
+                $("#treeName").val(body.find('#treeName').val());
+                layer.close(index);
+            }
+        }
+    </script>
+</head>
+<body class="signin">
+    <div class="signinpanel">
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="signin-info">
+                    <div class="logopanel m-b">
+                        <h1><!--<img alt="[ 若依 ]" src="../static/ruoyi.png" th:src="@{/ruoyi.png}">--></h1>
+                    </div>
+                    <div class="m-b"></div>
+                    <h1>欢迎使用 <br><strong><span style="text-align: center;font-size: 42px;">鄂尔多斯市</br>中小企业公共服务平台</span></strong></h1>
+                   <!-- <ul class="m-b">
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> SpringBoot</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Mybatis</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Shiro</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Thymeleaf</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Bootstrap</li>
+                    </ul>-->
+                    <strong>已经注册过? <a th:href="@{'/login?bankId='+${bankId == null ? '0' : bankId}+'&productId='+${productId == null ? '0' : productId}}"><span style="color: red;">直接登录&raquo;</span></a></strong><br>
+                    <strong><a th:href="@{'/wizard'}"><span style="color: red;">服务机构注册&raquo;</span></a></strong>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <form id="registerForm" autocomplete="off">
+                    <input id="treeId" name="parentId" type="hidden" value=""   />
+                    <h4 class="no-margins">注册：</h4>
+                    <input name="userName" placeholder="请输入企业名称" class="form-control " style="color: #1a1a1a" type="text" maxlength="30" required>
+                    <input name="reason" placeholder="请输入主营业务" class="form-control" style="color: #1a1a1a" type="text" maxlength="30" required>
+<!--
+                    <input name="synopsis" placeholder="请输入企业简介" class="form-control" style="color: #1a1a1a" type="text" maxlength="30" required>
+-->
+                    <input name="creditaCode" placeholder="统一社会信用代码" class="form-control" style="color: #1a1a1a" type="text" maxlength="30" required>
+                    <input name="legal" placeholder="请输入企业法人" class="form-control" style="color: #1a1a1a" type="text" maxlength="30" required>
+                    <input name="legalNumber" placeholder="请输入企业法人联系电话" class="form-control" style="color: #1a1a1a" type="text" maxlength="30" required>
+                    <input name="contacts" placeholder="请输入联系人姓名" class="form-control" style="color: #1a1a1a" type="text" maxlength="30" required>
+                    <input name="contactsNumber" placeholder="请输入联系人电话" class="form-control" style="color: #1a1a1a" type="text" maxlength="30" required>
+                    <input class="form-control" type="text" name="deptId" placeholder="请选择所属旗区"  onclick="selectDeptTree()" style="color: #1a1a1a"  id="treeName" value=""/>
+                    <p class="m-t-md"><!--你若不离不弃，我必生死相依--></p>
+                    <input type="text"     name="loginName" class="form-control uname required"         placeholder="登录用户名"   maxlength="20" />
+                    <input type="password" name="password" class="form-control pword"         placeholder="密码"     maxlength="20" />
+                    <input type="password" name="confirmPassword" class="form-control pword"  placeholder="确认密码" maxlength="20" />
+					<div class="row m-t" th:if="${captchaEnabled==true}">
+						<div class="col-xs-6">
+						    <input type="text" name="validateCode" class="form-control code"  placeholder="验证码"   maxlength="5" >
+						</div>
+						<div class="col-xs-6">
+							<a href="javascript:void(0);" title="点击更换验证码">
+								<img th:src="@{captcha/captchaImage(type=${captchaType})}" class="imgcode" width="85%"/>
+							</a>
+						</div>
+					</div>
+                    <div class="checkbox-custom" th:classappend="${captchaEnabled==false} ? 'm-t'">
+				        <input type="checkbox" id="acceptTerm" name="acceptTerm" required> <label for="acceptTerm">我已阅读并同意</label>
+				        <a th:href="@{'/clause'}"  target="_blank"><span style="color: red;">使用条款</span></a>
+				    </div>
+                    <button class="btn btn-success btn-block" id="btnSubmit" data-loading="正在验证注册，请稍后...">注册</button>
+                </form>
+            </div>
+        </div>
+        <div class="signup-footer">
+            <div class="pull-left">
+<!--
+                &copy; 2019 All Rights Reserved. RuoYi <br>
+-->
+                <input type="hidden" id="bankId" th:value="${bankId}">
+                <input type="hidden" id="productId" th:value="${productId}">
+            </div>
+        </div>
+    </div>
+<script th:inline="javascript"> var ctx = [[@{/}]]; var captchaType = [[${captchaType}]]; </script>
+<!-- 全局js -->
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<!-- 验证插件 -->
+<script src="../static/ajax/libs/validate/jquery.validate.min.js" th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+<script src="../static/ajax/libs/validate/messages_zh.min.js" th:src="@{/ajax/libs/validate/messages_zh.min.js}"></script>
+<script src="../static/ajax/libs/layer/layer.min.js" th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script src="../static/ruoyi/js/ry-ui.js" th:src="@{/ruoyi/js/ry-ui.js?v=4.2.0}"></script>
+<!--
+<script src="../static/ruoyi/register.js" th:src="@{/ruoyi/register.js}"></script>
+-->
+<script>
+
+
+
+    $(function() {
+        validateRule();
+        $('.imgcode').click(function() {
+            var url = ctx + "captcha/captchaImage?type=" + captchaType + "&s=" + Math.random();
+            $(".imgcode").attr("src", url);
+        });
+    });
+
+    $.validator.setDefaults({
+        submitHandler: function() {
+            register();
+        }
+    });
+
+    function register() {
+        $.modal.loading($("#btnSubmit").data("loading"));
+        var userName = $.common.trim($("input[name='userName']").val());
+        var reason = $.common.trim($("input[name='reason']").val());
+/*
+        var synopsis = $.common.trim($("input[name='synopsis']").val());
+*/
+        var creditaCode = $.common.trim($("input[name='creditaCode']").val());
+        var legal = $.common.trim($("input[name='legal']").val());
+        var legalNumber = $.common.trim($("input[name='legalNumber']").val());
+        var contacts = $.common.trim($("input[name='contacts']").val());
+        var contactsNumber = $.common.trim($("input[name='contactsNumber']").val());
+        var deptId = $.common.trim($("input[name='parentId']").val());
+        var loginName = $.common.trim($("input[name='loginName']").val());
+        var password = $.common.trim($("input[name='password']").val());
+        var validateCode = $("input[name='validateCode']").val();
+        var bankId = $('#bankId').val();
+        debugger;
+        if(bankId == ""){
+            bankId = "0";
+        }
+
+        console.log(bankId);
+        var  data = {
+            "userName": userName,
+            "reason" : reason,
+/*
+            "synopsis" : synopsis,
+*/
+            "creditaCode" : creditaCode,
+            "legal" : legal,
+            "legalNumber" : legalNumber,
+            "contacts" : contacts,
+            "contactsNumber" : contactsNumber,
+            "deptId" : deptId,
+            "loginName": loginName,
+            "password": password,
+            "validateCode": validateCode
+        };
+
+        $.ajax({
+            type: "post",
+            url: ctx + "register",
+            data: data,
+            type: "Post",
+            success: function(r) {
+                if (r.code == 0) {
+                    layer.alert("<font color='red'>恭喜你，您的账号 " + userName + " 注册成功！</font>", {
+                            icon: 1,
+                            title: "系统提示"
+                        },
+                        function(index) {
+                            //关闭弹窗
+                            layer.close(index);
+                            location.href = ctx + 'login?bankId='+bankId;
+                        });
+                } else {
+                    $.modal.closeLoading();
+                    $('.imgcode').click();
+                    $(".code").val("");
+                    $.modal.msg(r.msg);
+                }
+            }
+        });
+    }
+
+    function validateRule() {
+        var prefix = ctx + "system/user";
+        var icon = "<i class='fa fa-times-circle'></i> ";
+        $("#registerForm").validate({
+            rules: {
+                username: {
+                    required: true,
+                    minlength: 2
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                },
+                confirmPassword: {
+                    required: true,
+                    equalTo: "[name='password']"
+                },
+            },
+            messages: {
+                username: {
+                    required: icon + "请输入您的用户名",
+                    minlength: icon + "用户名不能小于2个字符"
+                },
+                password: {
+                    required: icon + "请输入您的密码",
+                    minlength: icon + "密码不能小于5个字符",
+                },
+                confirmPassword: {
+                    required: icon + "请再次输入您的密码",
+                    equalTo: icon + "两次密码输入不一致"
+                }
+
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

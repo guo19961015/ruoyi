@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('服務信息列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <!--<li>
+                                <label>七大板块类型：</label>
+                                <select name="type" th:with="type=${@dict.getType('')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li class="select-time">
+                                <label>开始时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginStartTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endStartTime]"/>
+                            </li>
+                            <li class="select-time">
+                                <label>结束时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginEndTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endEndTime]"/>
+                            </li>
+                            <li>
+                                <label>贷款时长，单位秒：</label>
+                                <input type="text" name="totalTime"/>
+                            </li>
+                            <li>
+                                <label>流程实例ID：</label>
+                                <input type="text" name="instanceId"/>
+                            </li>
+                            <li>
+                                <label>申请人：</label>
+                                <input type="text" name="applyUser"/>
+                            </li>
+                            <li class="select-time">
+                                <label>申请时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginApplyTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endApplyTime]"/>
+                            </li>
+                            <li class="select-time">
+                                <label>实际开始时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginRealityStartTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endRealityStartTime]"/>
+                            </li>
+                            <li class="select-time">
+                                <label>实际结束时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginRealityEndTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endRealityEndTime]"/>
+                            </li>-->
+                            <li>
+                                <label>企业名称：</label>
+                                <input type="text" name="title"/>
+                            </li>
+                            <li class="select-time">
+                                <label>申请时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginApplyTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endApplyTime]"/>
+                            </li>
+                            <!--<li>
+                                <label>主营业务：</label>
+                                <input type="text" name="reason"/>
+                            </li>
+                            <li>
+                                <label>统一社会信用代码：</label>
+                                <input type="text" name="creditaCode"/>
+                            </li>
+                            <li>
+                                <label>企业法人：</label>
+                                <input type="text" name="legal"/>
+                            </li>
+                            <li>
+                                <label>电话号码：</label>
+                                <input type="text" name="legalNumber"/>
+                            </li>
+                            <li>
+                                <label>联系人：</label>
+                                <input type="text" name="contacts"/>
+                            </li>
+                            <li>
+                                <label>联系人电话：</label>
+                                <input type="text" name="contactsNumber"/>
+                            </li>-->
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:loan:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:loan:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:loan:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:loan:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:loan:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:loan:remove')}]];
+        var currentUser = [[${currentUser}]];
+        var typeDatas = [[${@dict.getType('plate')}]];
+        var prefix = ctx + "system/loan";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                detailUrl: prefix + "/edit/{id}",
+                modalName: "7大板款信息",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id', 
+                    title: '主键ID',
+                    visible: false
+                },
+                /*{
+                    field: 'type', 
+                    title: '七大板块类型'
+                },
+                {
+                    field: 'startTime', 
+                    title: '开始时间'
+                },
+                {
+                    field: 'endTime', 
+                    title: '结束时间'
+                },
+                {
+                    field: 'totalTime', 
+                    title: '贷款时长，单位秒'
+                },
+                {
+                    field: 'instanceId', 
+                    title: '流程实例ID'
+                },*/
+                    {
+                        field: 'plateType',
+                        title: '服务类型',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(typeDatas, value);
+                        }
+                    },
+                    {
+                        field: 'title',
+                        title: '企业名称'
+                    },
+                    {
+                        field: 'reason',
+                        title: '主营业务'
+                    },
+                    {
+                        field: 'creditaCode',
+                        title: '统一社会信用代码'
+                    },
+                    {
+                        field: 'legal',
+                        title: '企业法人'
+                    },
+                    {
+                        field: 'legalNumber',
+                        title: '电话号码'
+                    },
+                    {
+                        field: 'contacts',
+                        title: '联系人'
+                    },
+                    {
+                        field: 'contactsNumber',
+                        title: '联系人电话'
+                    },
+                    {
+                        field: 'application',
+                        title: '申请事项'
+                    },
+                {
+                    field: 'applyUser', 
+                    title: '申请人'
+                },
+                {
+                    field: 'applyTime', 
+                    title: '申请时间'
+                },
+                {
+                    field: 'realityStartTime', 
+                    title: '实际开始时间'
+                },
+                {
+                    field: 'realityEndTime', 
+                    title: '实际结束时间'
+                },
+
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        if (row.instanceId) {
+
+                            actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.id + '\')"><i class="fa fa-eye"></i> 表单数据</a> ');
+                            actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="showHistoryDialog(\'' + row.instanceId + '\')"><i class="fa fa-list"></i> 审批历史</a> ');
+                            actions.push('<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="showProcessImgDialog(\'' + row.instanceId + '\')"><i class="fa fa-image"></i> 进度查看</a> ');
+                            actions.push('<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="showProcessTimeline(\'' + row.instanceId + '\',\''+ row.id + '\')"><i class="fa fa-image"></i> 审理进度查看</a> ');
+                            if(row.status == 1){
+                                actions.push('<a class="btn btn-danger btn-xs"   data-toggle="modal" data-target="#myModal2"><i class="fa fa-comment"></i> 评论</a> ' +
+                                    '<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">\n' +
+                                    '                        <div class="modal-dialog">\n' +
+                                    '                            <div class="modal-content animated flipInY">\n' +
+                                    '                                <div class="modal-header">\n' +
+                                    '                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>\n' +
+                                    '                                    </button>\n' +
+                                    '                                    <h4 class="modal-title">服务评价</h4>\n' +
+                                    '                                    <small class="font-bold">\n' +
+                                    '                                </div>\n' +
+                                    '                                <div class="modal-body">\n' +
+                                    '                                    <textarea style="width: 100%;height: 100px" id="comment"></textarea>' +
+                                    '                                </div>\n' +
+                                    '                                <div class="modal-footer">\n' +
+                                    '                                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>\n' +
+                                    '                                    <button type="button" onclick="saveComment(\'' + row.id + '\',\''  +row.productId+'\')" class="btn btn-primary">保存</button>\n' +
+                                    '                                </div>\n' +
+                                    '                            </div>\n' +
+                                    '                        </div>\n' +
+                                    '                    </div>');
+                            }
+                                 /*actions.push('<a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="cancelApply(\'' + row.instanceId + '\',\'' + row.createBy + '\')"><i class="fa fa-times"></i> 撤销</a> ');
+                                 var suspendOrActive = row.suspendState === '2' ? '激活' : '挂起';
+                                 var icon = row.suspendState === '2' ? 'fa fa-check' : 'fa fa-stop';
+                                 actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="suspendOrActiveApply(\'' + row.instanceId + '\',\'' + row.createBy + '\',\'' + row.suspendState + '\')"><i class="' + icon + '"></i> ' + suspendOrActive + '</a> ');*/
+
+                        } else {
+                            actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="submitApply(\'' + row.id + '\',\'' + row.createBy + '\')"><i class="fa fa-user"></i> 提交申请</a> ');
+                            actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        }
+
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+
+        function submitApply(id, createBy) {
+            if (createBy !== currentUser.loginName) {
+                $.modal.alertWarning("不允许非创建人提交申请！");
+                return;
+            }
+            $.modal.confirm("确认要提交申请吗?", function() {
+                var url = prefix + "/submitApply";
+                var data = { "id": id };
+                $.operate.submit(url, "post", "json", data);
+            });
+        }
+        function cancelApply(instanceId, createBy) {
+            if (createBy !== currentUser.loginName) {
+                $.modal.alertWarning("不允许非创建人撤销申请！");
+                return;
+            }
+            $.modal.confirm("确认要撤销申请吗?", function() {
+                var url = ctx + "process/cancelApply";
+                var data = { "instanceId": instanceId };
+                $.operate.submit(url, "post", "json", data);
+            });
+        }
+        function showProcessTimeline(instanceId,id) {
+            var url = prefix + '/timeline?instanceId=' + instanceId+"&id="+id;
+            $.modal.open("查看审批时间轴", url, null, null, null, true);
+        }
+        function showProcessImgDialog(instanceId) {
+            var url = ctx + 'process/processImg/' + instanceId;
+            $.modal.open("查看流程图", url, null, null, null, true);
+        }
+        function showHistoryDialog(instanceId) {
+            var url = ctx + 'process/historyList/' + instanceId;
+            $.modal.open("查看审批历史", url, null, null, null, true);
+        }
+        function saveComment(id,productId) {
+            let comment = $('#comment').val();
+            if(comment != "" ){
+                $.modal.confirm("确认要提交评论信息吗?", function() {
+                    var url = prefix + "/submitComment";
+                    var data = { "id": id,"comment":comment,"productId": productId};
+                    $.operate.submit(url, "post", "json", data);
+                    $.modal.msgReload();
+                });
+            }else {
+                $.modal.alertWarning("请输入评论信息！" );
+            }
+
+
+        }
+    </script>
+</body>
+</html>

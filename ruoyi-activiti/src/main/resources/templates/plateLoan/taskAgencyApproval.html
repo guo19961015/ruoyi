@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('服务机构审批')" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: select2-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal " id="form-leave-edit" th:object="${plsal}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <input name="taskId" th:field="*{taskId}" type="hidden">
+            <input type="hidden" name="p_COM_comment" />
+            <div class="form-group">
+                <label class="col-sm-3 control-label">服务类型：</label>
+                <div class="col-sm-8">
+                    <select name="plateType" class="form-control m-b" th:with="type=${@dict.getType('plate')}">
+                        <option></option>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{plateType}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">申请人：</label>
+                <div class="col-sm-8">
+                    <input name="applyUserName" th:field="*{applyUser}" class="form-control" type="text" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">申请时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="applyTime" th:value="${#dates.format(plsal.applyTime, 'yyyy-MM-dd HH:mm')}" class="form-control" type="text" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label ">企业名称：</label>
+                <div class="col-sm-8">
+                    <input name="title" class="form-control" type="text" th:value="*{title}" disabled>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label ">主营业务：</label>
+                <div class="col-sm-8">
+                    <textarea name="reason" class="form-control"  disabled>[[*{reason}]]</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label ">企业法人：</label>
+                <div class="col-sm-8">
+                    <input name="legal" class="form-control" type="text" th:value="*{legal}" disabled>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label ">统一社会信用代码：</label>
+                <div class="col-sm-8">
+                    <input name="creditaCode" class="form-control" type="text" th:value="*{creditaCode}" disabled>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label ">电话号码：</label>
+                <div class="col-sm-8">
+                    <input name="legalNumber" class="form-control" type="text" th:value="*{legalNumber}" disabled>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label ">联系人：</label>
+                <div class="col-sm-8">
+                    <input name="contacts" class="form-control" type="text" th:value="*{contacts}" disabled>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label ">联系人电话：</label>
+                <div class="col-sm-8">
+                    <input name="contactsNumber" class="form-control" th:value="*{contactsNumber}" type="text" disabled>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label ">申请事项：</label>
+                <div class="col-sm-8">
+                    <textarea name="application" class="form-control" style="height: 105px;"  type="text" disabled>[[*{application}]]</textarea>
+                </div>
+            </div>
+
+
+            <hr />
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="approvalOpinions">审批意见：</label>
+                <div class="col-sm-8">
+                    <select name="p_B_approvalOpinions" id="approvalOpinions" class="form-control m-b">
+                        <option value="true">同意</option>
+                        <option value="false">拒绝</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group pzhu">
+                <label class="col-sm-3 control-label">反馈意见：</label>
+                <div class="col-sm-8">
+                    <textarea name="comment" class="form-control"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <th:block th:include="include :: select2-js" />
+    <script th:src="@{/js/activiti.js}"></script>
+    <script th:inline="javascript">
+        var prefix = ctx + "system/loan";
+        $("#form-leave-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                if ($('textarea[name="comment"]').val()) {
+                    $('input[name="p_COM_comment"]').val($('textarea[name="comment"]').val());
+                }
+                var taskId = [[${taskId}]];
+                $.operate.save(prefix + "/complete/" + taskId, $('#form-leave-edit').serialize());
+            }
+        }
+
+        $("input[name='startTime']").datetimepicker({
+            autoclose: true
+        });
+
+        $("input[name='endTime']").datetimepicker({
+            autoclose: true
+        });
+
+        /*$(function () {
+            var plsal = [[${plsal}]];
+            var dateSub = formatTotalDateSub(plsal.totalTime);
+            $('input[name="totalTimeText"]').val(dateSub);
+
+            $('select[name="type"]').prop('disabled', true);
+        });*/
+        $(function () {
+            $('.pzhu').hide();
+            $('#approvalOpinions').change(function () {
+                let val = $('#approvalOpinions option:selected').val();
+
+                if(val == "true"){
+                    $('.pzhu').hide();
+                }else{
+                    $('.pzhu').show();
+                }
+            })
+        });
+
+    </script>
+</body>
+</html>

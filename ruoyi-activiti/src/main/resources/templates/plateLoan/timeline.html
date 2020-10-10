@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间轴</title>
+	<link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+<body class="gray-bg">
+    <div class="row animated fadeInRight" >
+        <div class="ibox float-e-margins">
+            <div class="text-center float-e-margins p-md">
+                <!--<span>打开/关闭颜色/背景或方向版本: </span>
+                <a href="#" class="btn btn-xs btn-primary" id="lightVersion">轻型版本 </a>
+                <a href="#" class="btn btn-xs btn-primary" id="darkVersion">黑色版本 </a>-->
+            </div>
+            <div id="ibox-content">
+                 <div id="vertical-timeline" class="vertical-container light-timeline">
+                     <div class="vertical-timeline-block">
+                         <div class="vertical-timeline-icon navy-bg">
+                             <i class="fa fa-user-md"></i>
+                         </div>
+
+                         <div class="vertical-timeline-content">
+                             <h1>第1步</h1>
+                             <h2>企业发起服务申请</h2>
+                             <p>
+                             开始时间</br>
+                             </p>
+                             <span class="vertical-date">
+
+                         <small>[[${#dates.format(plServiceAgencyLoanVo.createTime, 'yyyy-MM-dd hh:mm:ss')}]]</small>
+                     </span>
+                         </div>
+                     </div>
+
+                     <div class="vertical-timeline-block" th:each="item,itemStstu:${list}">
+                         <div class="vertical-timeline-icon blue-bg">
+                             <i class="fa fa-file-text"></i>
+                         </div>
+
+                         <div class="vertical-timeline-content">
+                             <h1>第[[${itemStstu.count + 1}]]步</h1>
+                             <h2>[[${item.activityName}]]</h2>
+                             <p>审批结果：[[${item.comment} ? ${item.comment}:'通过']]</p>
+                             <span class="vertical-date">
+                         	审批时间： <br>
+                         <small>[[${#dates.format(item.endTime, 'yyyy-MM-dd hh:mm:ss')}]]</small>
+                            </span>
+                         </div>
+                     </div>
+
+
+                     <div class="vertical-timeline-block">
+                         <div class="vertical-timeline-icon lazur-bg">
+                             <i class="fa fa-briefcase"></i>
+                         </div>
+
+                         <div class="vertical-timeline-content">
+                             <h1>第[[${list.size()+2}]]步</h1>
+                             <p>[[${plServiceAgencyLoanVo.application}]]</p>
+                             <h2>服务申请结束</h2>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script>
+        $(document).ready(function(){
+            $('#lightVersion').click(function(event) {
+                event.preventDefault()
+                $('#ibox-content').removeClass('ibox-content');
+                $('#vertical-timeline').removeClass('dark-timeline');
+                $('#vertical-timeline').addClass('light-timeline');
+            });
+            $('#darkVersion').click(function(event) {
+                event.preventDefault()
+                $('#ibox-content').addClass('ibox-content');
+                $('#vertical-timeline').removeClass('light-timeline');
+                $('#vertical-timeline').addClass('dark-timeline');
+            });
+        });
+    </script>
+</body>
+</html>

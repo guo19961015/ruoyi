@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('图表组合')" />
+</head>
+<body class="gray-bg" >
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+
+            <div class="col-sm-3">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h2>申请企业数</h2>
+                        <h1 class="no-margins" >[[${groupFourList.numOne}]]</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h2>放款企业数</h2>
+                        <h1 class="no-margins">[[${groupFourList.numTwo}]]</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h2>放款总金额</h2>
+                        <h1 class="no-margins">[[${groupFourList.numThree}]](万元)</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h2>已合作银行数</h2>
+                        <h1 class="no-margins">[[${groupFourList.numFour}]](个)</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>各银行助保贷数量</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="echarts" id="echarts-pie-chart1"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>各旗区助保贷数量</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="echarts" id="echarts-pie-chart2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>各旗区保贷数量</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="echarts" id="echarts-pie-chart3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <input type="hidden" th:value="${jsonBankList}" id="jsonBankList">
+    <input type="hidden" th:value="${bankList}" id="bankList">
+    <input type="hidden" th:value="${dateNumberList}" id="dateNumberList">
+    <input type="hidden" th:value="${dateYearList}" id="dateYearList">
+    <input type="hidden" th:value="${deptNameList}" id="deptNameList">
+    <input type="hidden" th:value="${deptNumberList}" id="deptNumberList">
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: peity-js" />
+    <th:block th:include="include :: sparkline-js" />
+    <th:block th:include="include :: echarts-js" />
+    <script type="text/javascript">
+	    $(document).ready(function () {
+            var pieChart1 = echarts.init(document.getElementById("echarts-pie-chart1"));
+            let jsonBankList = JSON.parse($('#jsonBankList').val());
+            let bankList = JSON.parse($('#bankList').val());
+            var pieoption = {
+                title: {
+                    text: '银行助保贷数量',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    x: 'left',
+                    data: bankList
+                },
+                calculable: true,
+                series: [
+                    {
+                        name: '银行所占比',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data: jsonBankList
+                    }
+                ]
+            };
+            pieChart1.setOption(pieoption);
+            $(window).resize(pieChart1.resize);
+
+            var pieChart2 = echarts.init(document.getElementById("echarts-pie-chart2"));
+            var option = {
+                xAxis: {
+                    type: 'category',
+                    data: JSON.parse($('#dateYearList').val())
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: JSON.parse($('#dateNumberList').val()),
+                    type: 'bar',
+                    showBackground: true,
+                    backgroundStyle: {
+                        color: 'rgba(220, 220, 220, 0.8)'
+                    }
+                }]
+            };
+            pieChart2.setOption(option);
+            $(window).resize(pieChart2.resize);
+
+            //按旗区划分
+
+            var dataAxis = JSON.parse($('#deptNameList').val());
+            var data = JSON.parse($('#deptNumberList').val());
+            var yMax = 40;
+            var dataShadow = [];
+
+            for (var i = 0; i < data.length; i++) {
+                dataShadow.push(yMax);
+            }
+            var pieChart3 = echarts.init(document.getElementById("echarts-pie-chart3"));
+            var option1 = {
+                title: {
+                    text: '各旗区保贷数量',
+                },
+                xAxis: {
+                    data: dataAxis,
+                    axisLabel: {
+                        inside: true,
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine: {
+                        show: false
+                    },
+                    z: 10
+                },
+                yAxis: {
+                    axisLine: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLabel: {
+                        textStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                dataZoom: [
+                    {
+                        type: 'inside'
+                    }
+                ],
+                series: [
+                    { // For shadow
+                        type: 'bar',
+                        itemStyle: {
+                            color: 'rgba(0,0,0,0.05)'
+                        },
+                        barGap: '-100%',
+                        barCategoryGap: '40%',
+                        data: dataShadow,
+                        animation: false
+                    },
+                    {
+                        type: 'bar',
+                        itemStyle: {
+                            color: new echarts.graphic.LinearGradient(
+                                0, 0, 0, 1,
+                                [
+                                    {offset: 0, color: '#1AB394'},
+                                    {offset: 0.5, color: '#1AB394'},
+                                    {offset: 1, color: '#1AB394'}
+                                ]
+                            )
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                color: new echarts.graphic.LinearGradient(
+                                    0, 0, 0, 1,
+                                    [
+                                        {offset: 0, color: '#1AB394'},
+                                        {offset: 0.7, color: '#1AB394'},
+                                        {offset: 1, color: '#1AB394'}
+                                    ]
+                                )
+                            }
+                        },
+                        data: data
+                    }
+                ]
+            };
+
+            // Enable data zoom when user click bar.
+            var zoomSize = 6;
+            pieChart3.on('click', function (params) {
+                console.log(dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)]);
+                pieChart3.dispatchAction({
+                    type: 'dataZoom',
+                    startValue: dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
+                    endValue: dataAxis[Math.min(params.dataIndex + zoomSize / 2, data.length - 1)]
+                });
+            });
+            pieChart3.setOption(option1);
+            $(window).resize(pieChart3.resize);
+        });
+
+
+    </script>
+
+</body>
+</html>

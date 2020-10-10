@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>内蒙古鄂尔多斯市 · 中小企业公共服务平台</title>
+	<link th:src="@{zxqy/bootstrap/css/bootstrap.css}" rel="stylesheet" href="zxqy/bootstrap/css/bootstrap.css" />
+	<link th:src="@{zxqy/css/chromagallery.min.css}" rel="stylesheet" href="zxqy/css/chromagallery.min.css" />
+	<link th:src="@{zxqy/css/main.css}" rel="stylesheet" href="zxqy/css/main.css"/>
+	<script th:href="@{zxqy/js/jquery-1.11.0.min.js}" src="zxqy/js/jquery-1.11.0.min.js" ></script>
+	<script th:href="@{zxqy/layer/layer.js}" src="zxqy/layer/layer.js" ></script>
+	<script th:href="@{zxqy/layer/extend/layer.ext.js}" src="zxqy/layer/extend/layer.ext.js" ></script>
+	<script th:href="@{zxqy/js/zxqyJavascript.js}" src="zxqy/js/zxqyJavascript.js" ></script>
+</head>
+
+<body>
+<div class="head"></div>
+<div class="service-body">
+	<div class="container">
+		<div class="row">
+			<div class="service-content col-sm-12">
+				<div class="service-location col-sm-12">
+					当前位置：首页>找
+				</div>
+				<div class="service-org col-sm-12">
+					<div class="row">
+						<div class="service-imgs col-sm-3">
+							<div>
+								<img src="" th:src="@{${sysUser.organizationPicture}}" alt="">
+							</div>
+						</div>
+						<div class="service-msg col-sm-7">
+							<h1>[[${sysUser.userName}]]</h1>
+							<p>主营业务：<i>[[${sysUser.reason}]]</i></p>
+							<p>经营地址：<i>[[${sysUser.address}]]</i></p>
+							<p>服务时间：<i>[[${sysUser.serviceTime}]]</i></p>
+						</div>
+						<div class="service-button col-sm-2">
+							<a  th:href="@{'/register?userId='+${sysUser.userId}+'&productId='+${sysUser.productId}}">
+								<button class="butbag">
+									<img class="butimg" src="/zxqy/images/content_06.png" th:src="@{/zxqy/images/content_06.png}"/>
+									<img src="/zxqy/images/content_061.png" th:src="@{/zxqy/images/content_061.png}"/>
+									<span>申请服务</span>
+								</button>
+							</a>
+							<a  th:href="@{'/complaints'}">
+							 <button>
+                                <img src="/zxqy/images/content_091.png" th:src="@{/zxqy/images/content_091.png}"/>
+                                <img class="butimg" src="/zxqy/images/content_09.png" th:src="@{/zxqy/images/content_09.png}"/>
+                                <span>投诉意见</span>
+                            </button>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="service-content-msg col-sm-12">
+					<div class="row">
+						<ul class="list-inline">
+							<li class="fontes">服务产品介绍<i></i></li>
+							<li>公司简介<i></i></li>
+							<li>资质展示<i></i></li>
+							<li>服务评价</li>
+						</ul>
+						<div class="service-content-content">
+							<div>
+								服务产品介绍:<br>
+								<div th:utext ="${sysUser.introduce}"></div>
+							</div>
+							<div>
+								公司简介:<br>
+								<div th:utext ="${sysUser.synopsis}"></div>
+							</div>
+							<div>
+								资质展示:<br>
+								<img src="" th:src="@{${sysUser.qualificationDisplay}}" alt="">
+
+							</div>
+							<div >
+								<span th:each="plComment,numStat :  ${plComments}"><strong>[[${numStat.index+1}]].[[${plComment.comment}]]</strong><hr /></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="footbut">
+	<a href="javascript:void(0);">
+		<img src="/zxqy/images/index-seventh_14.png" th:src="@{/zxqy/images/index-seventh_14.png}" alt="">
+	</a>
+</div>
+<div class="foot"></div>
+
+<div class="index-left">
+	<a href="">
+		<img class="wx" src="/zxqy/images/index-first_22.png" th:src="@{/zxqy/images/index-first_22.png}" alt="">
+	</a>
+	<div class="wximg">
+		<img src="/zxqy/images/index-first_20.png" th:src="@{/zxqy/images/index-first_20.png}" alt="">
+	</div>
+</div>
+<div class="index-right index-rights">
+	<div class="index-back">返回首页</div>
+</div>
+
+<script>
+	$(function() {
+		$(".head").load("zxqy/head.html");
+		$(".foot").load("zxqy/foot.html");
+		wx();
+		buttosMove();
+		serviceMove();
+		footDis();
+		footMove();
+		// 列表页返回
+		$(".index-rights>div").click(function () {
+			window.location = "/";
+		});
+	})
+</script>
+</body>
+
+</html>

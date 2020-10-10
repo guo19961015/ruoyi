@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PlBankMapper">
+    
+    <resultMap type="PlBank" id="PlBankResult">
+        <result property="id"    column="id"    />
+        <result property="bankName"    column="bank_name"    />
+        <result property="bankImageUrl"    column="bank_image_url"    />
+        <result property="loanLimit"    column="loan_limit"    />
+        <result property="loanTerm"    column="Loan_term"    />
+        <result property="guaranteeMethod"    column="guarantee_method"    />
+        <result property="bankInterestRate"    column="bank_interest_rate"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="applicableUsers"    column="applicable_users"    />
+        <result property="applicationConditions"    column="application_conditions"    />
+        <result property="applicationMaterials"    column="application_materials"    />
+        <result property="guaranteeId"    column="guarantee_id"    />
+    </resultMap>
+
+    <sql id="selectPlBankVo">
+        select id, bank_name, bank_image_url, loan_limit, Loan_term, guarantee_method, bank_interest_rate, create_by, create_time, update_by, update_time, applicable_users, application_conditions, application_materials,guarantee_id from pl_bank
+    </sql>
+
+    <select id="selectPlBankList" parameterType="PlBank" resultMap="PlBankResult">
+        <include refid="selectPlBankVo"/>
+        <where>  
+            <if test="bankName != null  and bankName != ''"> and bank_name like concat('%', #{bankName}, '%')</if>
+            <if test="bankImageUrl != null  and bankImageUrl != ''"> and bank_image_url = #{bankImageUrl}</if>
+            <if test="loanLimit != null  and loanLimit != ''"> and loan_limit = #{loanLimit}</if>
+            <if test="loanTerm != null  and loanTerm != ''"> and Loan_term = #{loanTerm}</if>
+            <if test="guaranteeMethod != null  and guaranteeMethod != ''"> and guarantee_method = #{guaranteeMethod}</if>
+            <if test="bankInterestRate != null "> and bank_interest_rate = #{bankInterestRate}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+            <if test="updateTime != null "> and update_time = #{updateTime}</if>
+            <if test="applicableUsers != null  and applicableUsers != ''"> and applicable_users = #{applicableUsers}</if>
+            <if test="applicationConditions != null  and applicationConditions != ''"> and application_conditions = #{applicationConditions}</if>
+            <if test="applicationMaterials != null  and applicationMaterials != ''"> and application_materials = #{applicationMaterials}</if>
+            <if test="guaranteeId != null  and guaranteeId != ''"> and guarantee_id = #{guaranteeId}</if>
+
+        </where>
+    </select>
+    
+    <select id="selectPlBankById" parameterType="Long" resultMap="PlBankResult">
+        <include refid="selectPlBankVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPlBank" parameterType="PlBank" useGeneratedKeys="true" keyProperty="id">
+        insert into pl_bank
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bankName != null  and bankName != ''">bank_name,</if>
+            <if test="bankImageUrl != null  and bankImageUrl != ''">bank_image_url,</if>
+            <if test="loanLimit != null  and loanLimit != ''">loan_limit,</if>
+            <if test="loanTerm != null  and loanTerm != ''">Loan_term,</if>
+            <if test="guaranteeMethod != null  and guaranteeMethod != ''">guarantee_method,</if>
+            <if test="bankInterestRate != null ">bank_interest_rate,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="applicableUsers != null  and applicableUsers != ''">applicable_users,</if>
+            <if test="applicationConditions != null  and applicationConditions != ''">application_conditions,</if>
+            <if test="applicationMaterials != null  and applicationMaterials != ''">application_materials,</if>
+            <if test="guaranteeId != null  and guaranteeId != ''">guarantee_id,</if>
+
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bankName != null  and bankName != ''">#{bankName},</if>
+            <if test="bankImageUrl != null  and bankImageUrl != ''">#{bankImageUrl},</if>
+            <if test="loanLimit != null  and loanLimit != ''">#{loanLimit},</if>
+            <if test="loanTerm != null  and loanTerm != ''">#{loanTerm},</if>
+            <if test="guaranteeMethod != null  and guaranteeMethod != ''">#{guaranteeMethod},</if>
+            <if test="bankInterestRate != null ">#{bankInterestRate},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="applicableUsers != null  and applicableUsers != ''">#{applicableUsers},</if>
+            <if test="applicationConditions != null  and applicationConditions != ''">#{applicationConditions},</if>
+            <if test="applicationMaterials != null  and applicationMaterials != ''">#{applicationMaterials},</if>
+            <if test="guaranteeId != null  and guaranteeId != ''">#{guaranteeId},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePlBank" parameterType="PlBank">
+        update pl_bank
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="bankName != null  and bankName != ''">bank_name = #{bankName},</if>
+            <if test="bankImageUrl != null  and bankImageUrl != ''">bank_image_url = #{bankImageUrl},</if>
+            <if test="loanLimit != null  and loanLimit != ''">loan_limit = #{loanLimit},</if>
+            <if test="loanTerm != null  and loanTerm != ''">Loan_term = #{loanTerm},</if>
+            <if test="guaranteeMethod != null  and guaranteeMethod != ''">guarantee_method = #{guaranteeMethod},</if>
+            <if test="bankInterestRate != null ">bank_interest_rate = #{bankInterestRate},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="applicableUsers != null  and applicableUsers != ''">applicable_users = #{applicableUsers},</if>
+            <if test="applicationConditions != null  and applicationConditions != ''">application_conditions = #{applicationConditions},</if>
+            <if test="applicationMaterials != null  and applicationMaterials != ''">application_materials = #{applicationMaterials},</if>
+            <if test="guaranteeId != null  and guaranteeId != ''">guarantee_id = #{guaranteeId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePlBankById" parameterType="Long">
+        delete from pl_bank where id = #{id}
+    </delete>
+
+    <delete id="deletePlBankByIds" parameterType="String">
+        delete from pl_bank where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
