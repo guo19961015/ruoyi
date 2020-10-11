@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## 平台简介
 
 >  闲鹿工作流是一款基于 RuoYi 4.x + Activiti 6.x + Spring Boot 2.x + Thymeleaf 3.x 的开源工作流管理系统~
