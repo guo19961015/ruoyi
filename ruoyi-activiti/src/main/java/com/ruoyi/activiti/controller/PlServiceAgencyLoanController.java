@@ -49,7 +49,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * 7大板款信息Controller
- * 
+ *
  * @author ruoyi
  * @date 2020-09-21
  */
@@ -116,23 +116,24 @@ public class PlServiceAgencyLoanController extends BaseController
     }
 
     /**
-     * 新增7大板款信息
+     * 新增8大板款信息
      */
     @GetMapping("/add")
     public String add(HttpServletRequest request, ModelMap mmap)
     {
         PlServiceAgencyLoan plServiceAgencyLoan = new PlServiceAgencyLoan();
-        List<SysDictData> dict = new ArrayList<SysDictData>();
+        SysDictData sysDictData = new SysDictData();
+        sysDictData.setDictType("plate");
+        List<SysDictData> dict  = iSysDictDataService.selectDictDataList(sysDictData);
         /*获取产品id*/
         HttpSession session = request.getSession();
-        String productId = (String)session.getAttribute("productId");
+        Long productId = (Long)session.getAttribute("productIdFlage");
+        Long userId = (Long)session.getAttribute("userIdFlage");
         if (productId != null) {
             // 获取服务类型
             RyProduct ryProduct = iRyProductService.selectRyProductById(Long.valueOf(productId));
 
-            SysDictData sysDictData = new SysDictData();
-            sysDictData.setDictType("plate");
-            dict = iSysDictDataService.selectDictDataList(sysDictData);
+
             if (dict != null) {
                 if (ryProduct != null) {
                     for (SysDictData dictData : dict) {
@@ -167,10 +168,10 @@ public class PlServiceAgencyLoanController extends BaseController
     }
 
     /**
-     * 新增保存7大板款信息
+     * 新增保存8大板款信息
      */
     @RequiresPermissions("system:loan:add")
-    @Log(title = "7大板块信息", businessType = BusinessType.INSERT)
+    @Log(title = "8大板块信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(PlServiceAgencyLoanVo plServiceAgencyLoan, HttpServletRequest request)
@@ -199,7 +200,7 @@ public class PlServiceAgencyLoanController extends BaseController
      * 修改保存7大板款信息
      */
     @RequiresPermissions("system:loan:edit")
-    @Log(title = "7大板块信息", businessType = BusinessType.UPDATE)
+    @Log(title = "8大板块信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(PlServiceAgencyLoan plServiceAgencyLoan)
@@ -208,10 +209,10 @@ public class PlServiceAgencyLoanController extends BaseController
     }
 
     /**
-     * 删除7大板款信息
+     * 删除8大板款信息
      */
     @RequiresPermissions("system:loan:remove")
-    @Log(title = "7大板块信息", businessType = BusinessType.DELETE)
+    @Log(title = "8大板块信息", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
     public AjaxResult remove(String ids)
@@ -351,15 +352,21 @@ public class PlServiceAgencyLoanController extends BaseController
     }
     @PostMapping("/service")
     @ResponseBody
-    public ArrayList<SysUser> service(String serviceId,ModelMap map)
+    public ArrayList<SysUser> service(String serviceId,ModelMap map,HttpServletRequest request)
     {
         ArrayList<SysUser> usersList = new ArrayList<>();
+        HttpSession session = request.getSession();
+        Long userId = (Long)session.getAttribute("userIdFlage");
         List<SysUserRole> sysUserRoles = sysUserRoleMapper.selectUserRoleByRoleId(Long.valueOf(serviceId));
         if (sysUserRoles != null) {
             for (SysUserRole sysUserRole : sysUserRoles) {
                 SysUser sysUser = iSysUserService.selectUserRoleProductsById(sysUserRole.getUserId(), sysUserRole.getRoleId());
                 if (sysUser != null) {
                     usersList.add(sysUser);
+                if(userId != null && sysUser.getUserId().equals(userId)){
+                        sysUser.setSelectedFlage("true");
+                    }
+
                 }
             }
         }

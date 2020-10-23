@@ -4,7 +4,7 @@ $(document).ready(function () {
     });
     $("input[name='organizationPicture']").click(function () {
         $("input[name='url1']").click();
-    })
+    });
 });
 function uploadFile(filePath) {
     var prefix = ctx + "system/loan";
@@ -30,4 +30,10 @@ function uploadFile(filePath) {
             $.modal.closeLoading(); 	//遮罩结束
         }
     });
+}
+
+/*用户管理-修改log*/
+function avatar() {
+    var url = ctx + 'system/user/profile/avatarRegisterEdite';
+    $.modal.open("修改log", url);
 }

@@ -1,15 +1,13 @@
 package com.ruoyi.web.controller.system;
 
+import com.alibaba.druid.support.json.JSONUtils;
+import com.ruoyi.common.core.text.Convert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.config.Global;
@@ -25,7 +23,7 @@ import com.ruoyi.system.service.ISysUserService;
 
 /**
  * 个人信息 业务处理
- * 
+ *
  * @author ruoyi
  */
 @Controller
@@ -38,7 +36,7 @@ public class SysProfileController extends BaseController
 
     @Autowired
     private ISysUserService userService;
-    
+
     @Autowired
     private SysPasswordService passwordService;
 
@@ -53,6 +51,78 @@ public class SysProfileController extends BaseController
         mmap.put("roleGroup", userService.selectUserRoleGroup(user.getUserId()));
         mmap.put("postGroup", userService.selectUserPostGroup(user.getUserId()));
         return prefix + "/profile";
+    }
+    @GetMapping("/serviceUser")
+    public String serviceUser()
+    {
+        return  prefix + "/serviceUser";
+    }
+
+    @GetMapping("/profileEdite/{userId}")
+    public String profileEdite(@PathVariable("userId") Long userId,ModelMap mmap, String[] split)
+    {
+        SysUser sysUser = userService.selectUserById(userId);
+        // 其它资质上传String转list
+        String other = sysUser.getOther();
+        if (other != null) {
+            mmap.put("other", other);
+        }
+
+        mmap.put("user", sysUser);
+
+        mmap.put("roleGroup", userService.selectUserRoleGroup(sysUser.getUserId()));
+        mmap.put("postGroup", userService.selectUserPostGroup(sysUser.getUserId()));
+        return prefix + "/profileEdite";
+    }
+    /**
+     * 注册时企业log
+     */
+    @GetMapping("/avatarRegisterEdite")
+    public String avatarRegisterEdite(ModelMap mmap)
+    {
+
+        return prefix + "/avatarRegisterEdite";
+    }
+    /**
+     * 修改企业log
+     */
+    @GetMapping("/avatarEdite/{userId}")
+    public String avatarEdite(@PathVariable("userId") Long userId,ModelMap mmap)
+    {
+        mmap.put("user", userService.selectUserById(userId));
+        mmap.put("userId", userId);
+        return prefix + "/avatarEdite";
+    }
+
+    /**
+     * 保存头像
+     */
+    @Log(title = "个人信息", businessType = BusinessType.UPDATE)
+    @PostMapping("/updateAvatarEdite")
+    @ResponseBody
+    public AjaxResult updateAvatarEdite(@RequestParam("avatarfile") MultipartFile file,@RequestParam("userId") Long userId)
+    {
+        SysUser currentUser = new SysUser();
+        currentUser.setUserId(userId);
+        try
+        {
+            if (!file.isEmpty())
+            {
+                String avatar = FileUploadUtils.upload(Global.getAvatarPath(), file);
+                currentUser.setOrganizationPicture(avatar);
+                if (userService.updateUserInfo(currentUser) > 0)
+                {
+                    /*ShiroUtils.setSysUser(userService.selectUserById(currentUser.getUserId()));*/
+                    return success();
+                }
+            }
+            return error();
+        }
+        catch (Exception e)
+        {
+            log.error("修改头像失败！", e);
+            return error(e.getMessage());
+        }
     }
 
     @GetMapping("/checkPassword")

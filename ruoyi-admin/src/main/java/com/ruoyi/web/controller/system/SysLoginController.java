@@ -27,7 +27,7 @@ import com.ruoyi.common.utils.StringUtils;
 public class SysLoginController extends BaseController
 {
     @GetMapping("/login")
-    public String login(HttpServletRequest request, HttpServletResponse response,String bankId,Long productId, ModelMap map)
+    public String login(HttpServletRequest request, HttpServletResponse response,String bankId, ModelMap map)
     {
         // 如果是Ajax请求，返回Json字符串。
         if (ServletUtils.isAjaxRequest(request))
@@ -37,10 +37,8 @@ public class SysLoginController extends BaseController
 
         if (bankId != null) {
             map.put("bankId",bankId);
-            map.put("productId",productId);
         }else{
             map.put("bankId","0");
-            map.put("productId","0");
         }
 
         return "login";
@@ -48,7 +46,7 @@ public class SysLoginController extends BaseController
 
     @PostMapping("/login")
     @ResponseBody
-    public AjaxResult ajaxLogin(String username, String password,String bankId,Long productId, Boolean rememberMe)
+    public AjaxResult ajaxLogin(String username, String password, Boolean rememberMe)
     {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
         Subject subject = SecurityUtils.getSubject();

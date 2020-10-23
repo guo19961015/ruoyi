@@ -18,8 +18,8 @@ server:
   # 服务器的HTTP端口，默认为80
   port: 8003
   servlet:
-    # 应用的访问路径
-    context-path: /
+    # 应用的访问路径/system/user/profile/avatar
+    context-path: /ry
   tomcat:
     # tomcat的URI编码
     uri-encoding: UTF-8

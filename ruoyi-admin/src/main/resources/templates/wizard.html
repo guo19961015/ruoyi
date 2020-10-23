@@ -184,14 +184,13 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>服务机构log *</label>
-                                        <input  name="url1"  style="display:none"  onchange="uploadFile('url1')" class="form-control" type="file" />
-                                        <input id="organizationPicture" name="organizationPicture" type="text" placeholder="点击上传服务机构log" readonly="readonly" class="form-control required">
+                                        <label>服务机构log *(点击图片修改或上传)</label>
+                                        <p><a href="javascript:avatar()"><img id="organizationPicture" name="organizationPicture"  alt="点击上传服务机构log"  width="265px" height="111px"></a></p>
                                     </div>
                                     <div class="form-group">
                                         <label>资质展示(营业执照) *</label>
                                         <input  name="url"  style="display:none"  onchange="uploadFile('url')" class="form-control" type="file" />
-                                        <input id="qualificationDisplay" name="qualificationDisplay" placeholder="点击上传资质展示" type="text" readonly="readonly" class="form-control required">
+                                        <input id="qualificationDisplay" name="qualificationDisplay" placeholder="点击上传资质展示" type="text"  readonly="readonly" class="form-control required">
                                     </div>
                                     <div class="form-group">
                                         <label class="font-noraml">其它资质上传</label>
@@ -208,11 +207,7 @@
                                             <button  class="btn btn-primary  btn-xs save2"  type="button">保存</button>
                                         </div>
                                         <div class="ibox-content eg2"  style="height:  452px;overflow-y: scroll;">
-
-                                            <div class="click2edit2 wrapper" >
-
-                                            </div>
-
+                                            <div class="click2edit2 wrapper"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -263,6 +258,37 @@
                     $(".body:eq(" + newIndex + ") .error", form).removeClass("error")
                 }
                 form.validate().settings.ignore = ":disabled,:hidden";
+
+
+                if(currentIndex == 1){
+                    var j = 0;
+                    $('.ryProductList').each(function (i) {
+                        var sHTMLValVals = $(this).summernote('isEmpty');
+                        if(sHTMLValVals){
+                           j++;
+                        }
+                    });
+                    if(j != 0){
+                        $.modal.alertWarning("请完善产品介绍！！")
+                        return false
+                    }
+
+                }
+                if(currentIndex == 2){
+                    var src = $('#organizationPicture')[0].src;
+                    if(src == undefined || src == "" || src == null){
+                        $.modal.alertWarning("请上传服务机构log！！")
+                        return false
+
+                    }
+                  var click2edit2 =  $('.click2edit2').summernote('isEmpty');
+                    if(click2edit2){
+                        $.modal.alertWarning("请完善企业简介！！")
+                        return false
+                    }
+                }
+
+
                 return form.valid()
             }, onStepChanged: function (event, currentIndex, priorIndex) {
                 if (currentIndex === 2 && Number($("#age").val()) >= 18) {
@@ -325,7 +351,7 @@
         var serviceProducts = $.common.trim(($("input[name='serviceProductsList']").val()));
         var synopsis = $('.click2edit2').summernote('code');
         var qualificationDisplay = $.common.trim($("input[name='qualificationDisplay']").val());
-        var organizationPicture = $.common.trim($("input[name='organizationPicture']").val());
+        var organizationPicture = $.common.trim( $('#organizationPicture')[0].src);
         var flage = $.common.trim($("input[name='flage']").val());
 
         var loginName = $.common.trim($("input[name='loginName']").val());
@@ -338,6 +364,7 @@
             var sHTML = $('.click2editContent'+i).summernote('code');
             ryProductList.push(String(sHTML));
         });
+
 
         if(bankId == "" || bankId == undefined){
             bankId = "0";
@@ -366,7 +393,7 @@
             "other": other
         };
         var url = ctx + "mechanismRegister";
-
+        debugger;
         $.ajax({
             type: "post",
             url: url,
@@ -396,7 +423,7 @@
     function validateRule() {
         var prefix = ctx + "system/user";
         var icon = "<i class='fa fa-times-circle'></i> ";
-        $("#registerForm").validate({
+        $("#form").validate({
             rules: {
                 userName: {
                     required: true,
@@ -405,6 +432,9 @@
                 password: {
                     required: true,
                     minlength: 5
+                },
+                organizationPicture: {
+                    required: true
                 },
                 confirmPassword: {
                     required: true,
@@ -419,6 +449,9 @@
                 password: {
                     required: icon + "请输入您的密码",
                     minlength: icon + "密码不能小于5个字符",
+                },
+                organizationPicture: {
+                    required: icon + "请上传服务机构log"
                 },
                 confirmPassword: {
                     required: icon + "请再次输入您的密码",
@@ -486,7 +519,7 @@
                 return filename.replace('(', '_').replace(']', '_');
             }
         }).on("fileuploaded", function(event, data, previewId, index) {
-            var url = data.response.url;
+            var url = data.response.fileName;
             imageData.push(url);
             $('#other').val(imageData);
         });
@@ -511,7 +544,14 @@
 
                     str = str + " <li class=\"\"><a data-toggle=\"tab\" href=\"#tab-"+i+"\" aria-expanded=\"false\"> "+$(this).data("value") +"</a>\n</li>";
                 }
-                strContent = strContent + "<div id=\"tab-"+i+"\" class=\"tab-pane active\">\n" +
+                var art ="";
+                if(i == 0){
+                    art = "<div  id=\"tab-"+i+"\"  class=\"tab-pane active\">";
+                }else{
+
+                    art = "<div  id=\"tab-"+i+"\"  class=\"tab-pane\">";
+                }
+                strContent = strContent + art +
                     "                                                    <div class=\"panel-body\">\n" +
                     "                                                        <div class=\"ibox float-e-margins\">\n" +
                     "                                                            <div class=\"ibox-title\">\n" +
@@ -521,16 +561,14 @@
                     "                                                            </div>\n" +
                     "                                                            <div class=\"ibox-content egContent"+i+"\"  style=\"height: 452px;overflow-y: scroll;\">\n" +
                     "\n" +
-                    "                                                                <div class=\"click2editContent"+i+ " wrapper ryProductList\" >\n" +
-                    "\n" +
-                    "                                                                </div>\n" +
+                    "                                                                <div class=\"click2editContent"+i+ " wrapper ryProductList\" ></div>\n" +
                     "\n" +
                     "                                                            </div>\n" +
                     "                                                        </div>\n" +
                     "                                                    </div>\n" +
                     "                                                </div>";
             });
-            console.log(list);
+
             $('#serviceProductsList').val(list);
             $('.nav-tabs').html(str);
             $('.tab-content').html(strContent);
@@ -538,7 +576,7 @@
                 /*富文本编辑器初始化*/
                 $('.click2editContent'+j).summernote({
                     lang: 'zh-CN',
-                    focus: true,
+                    focus: false,
                     height:'300px',
                     callbacks: {
                         onImageUpload: function (files) {

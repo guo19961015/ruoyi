@@ -58,8 +58,6 @@
         </div>
         <div class="col-sm-5">
             <form id="signupForm">
-                <input id="bankId" name="bankId" type="hidden" th:value="${bankId}"   />
-                <input id="productId" name="productId" type="hidden" th:value="${productId}"   />
                 <h4 class="no-margins">登录：</h4>
                 <p class="m-t-md"><!--你若不离不弃，我必生死相依--></p>
                 <input type="text"     name="username" class="form-control uname"     placeholder="用户名"     />
@@ -125,9 +123,7 @@
         var username = $.common.trim($("input[name='username']").val());
         var password = $.common.trim($("input[name='password']").val());
         var validateCode = $("input[name='validateCode']").val();
-        var bankId = $('#bankId').val();
-        var productId = $('#productId').val();
-        console.log(bankId+"---"+productId);
+        var bankId = '[[${bankId}]]';
         var rememberMe = $("input[name='rememberme']").is(':checked');
         $.ajax({
             type: "post",
@@ -136,13 +132,12 @@
                 "username": username,
                 "password": password,
                 "bankId" :bankId,
-                "productId" :productId,
                 "validateCode": validateCode,
                 "rememberMe": rememberMe
             },
             success: function(r) {
                 if (r.code == 0) {
-                    location.href = ctx + 'index?bankId='+bankId+'&productId='+productId;
+                    location.href = ctx + 'index?bankId='+bankId;
                 } else {
                     $.modal.closeLoading();
                     $('.imgcode').click();

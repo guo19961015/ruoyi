@@ -135,7 +135,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label is-required">服务机构log：</label>
                         <div class="col-sm-8">
-                            <img  th:src="*{organizationPicture}" width="93%" alt="">
+                            <img  th:src="@{${user.organizationPicture}}" width="93%" alt="">
                         </div>
                     </div>
                 </div>
@@ -145,7 +145,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label is-required">资质展示(营业执照)：</label>
                         <div class="col-sm-8">
-                            <img  th:src="*{qualificationDisplay}" width="93%" height="168px" alt="">
+                            <img  th:src="@{${user.qualificationDisplay}}" width="93%" height="168px" alt="">
                         </div>
                     </div>
                 </div>
@@ -156,8 +156,8 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label is-required">其它资质上传：</label>
                         <div class="col-sm-6">
-                            <th:block th:each="image : ${#strings.listSplit(user.other, ',')}">
-                                <img  th:src="${image}" alt="" width="128%">
+                            <th:block th:each="image :${#strings.listSplit(user.other, ',')}">
+                                <img  th:src="@{${image}}" alt="" width="128%">
                             </th:block>
                         </div>
                     </div>
@@ -168,7 +168,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label is-required">企业简介：</label>
                         <div class="col-sm-8">
-                            <img  th:utext="*{synopsis}" alt="" width="548px">
+                            <img  th:utext="@{${user.synopsis}}" alt="" width="548px">
                         </div>
                     </div>
                 </div>
@@ -296,9 +296,8 @@
                     async: false,//改为同步方式
                     type: "POST",
                     data: { "userId": $('#userId').val(), "status": 0 },
-                    success: function (data) {
-                        $.modal.alert('服务机构审批成功!');
-                        parent.location.reload();
+                    success: function (result) {
+                        $.operate.saveSuccess(result);
                     }
                 });
 

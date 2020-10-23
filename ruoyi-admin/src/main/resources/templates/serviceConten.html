@@ -36,20 +36,20 @@
 							<p>服务时间：<i>[[${sysUser.serviceTime}]]</i></p>
 						</div>
 						<div class="service-button col-sm-2">
-							<a  th:href="@{'/register?userId='+${sysUser.userId}+'&productId='+${sysUser.productId}}">
+							<a  th:href="@{'/register'}">
 								<button class="butbag">
 									<img class="butimg" src="/zxqy/images/content_06.png" th:src="@{/zxqy/images/content_06.png}"/>
 									<img src="/zxqy/images/content_061.png" th:src="@{/zxqy/images/content_061.png}"/>
 									<span>申请服务</span>
 								</button>
 							</a>
-							<a  th:href="@{'/complaints'}">
+							<!--<a  th:href="@{'/complaints'}">
 							 <button>
                                 <img src="/zxqy/images/content_091.png" th:src="@{/zxqy/images/content_091.png}"/>
                                 <img class="butimg" src="/zxqy/images/content_09.png" th:src="@{/zxqy/images/content_09.png}"/>
                                 <span>投诉意见</span>
                             </button>
-							</a>
+							</a>-->
 						</div>
 					</div>
 				</div>
@@ -73,9 +73,8 @@
 							<div>
 								资质展示:<br>
 								<img src="" th:src="@{${sysUser.qualificationDisplay}}" alt="">
-
 							</div>
-							<div >
+							<div>
 								<span th:each="plComment,numStat :  ${plComments}"><strong>[[${numStat.index+1}]].[[${plComment.comment}]]</strong><hr /></span>
 							</div>
 						</div>

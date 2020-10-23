@@ -33,7 +33,7 @@ public class SysIndexController extends BaseController
 
     // 系统首页
     @GetMapping("/index")
-    public String index(ModelMap mmap,String bankId,String productId,HttpServletRequest request)
+    public String index(ModelMap mmap,String bankId,HttpServletRequest request)
     {
         // 取身份信息
         SysUser user = ShiroUtils.getSysUser();
@@ -49,9 +49,7 @@ public class SysIndexController extends BaseController
         if (bankId != null) {
             session.setAttribute("bankId",bankId);
         }
-        if (bankId != null) {
-            session.setAttribute("productId",productId);
-        }
+
         return "index";
     }
 

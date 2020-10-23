@@ -34,7 +34,7 @@ import com.ruoyi.system.domain.SysUserRole;
 
 /**
  * 用户信息
- * 
+ *
  * @author ruoyi
  */
 @Controller
@@ -95,6 +95,21 @@ public class SysUserController extends BaseController
     {
         startPage();
         user.setStatus("4");
+        List<SysUser> list = userService.selectUserList(user);
+        return getDataTable(list);
+    }
+    // 服务机构列表
+    /*@RequiresPermissions("system:user:list")*/
+    @PostMapping("/serviceUserIdList")
+    @ResponseBody
+    public TableDataInfo serviceUserIdList(SysUser user)
+    {
+        String loginName =  ShiroUtils.getSysUser().getLoginName();
+        startPage();
+        if(!loginName.equals("system") && !loginName.equals("admin")){
+            user.setUserId(ShiroUtils.getUserId());
+        }
+        user.setFlage("1");
         List<SysUser> list = userService.selectUserList(user);
         return getDataTable(list);
     }
@@ -362,7 +377,13 @@ public class SysUserController extends BaseController
     public AjaxResult changeStatus(SysUser user)
     {
         userService.checkUserAllowed(user);
-        return toAjax(userService.changeStatus(user));
+        int i = userService.changeStatus(user);
+        if(i > 0){
+            return success();
+        }else {
+            return error();
+        }
+
     }
 
 }

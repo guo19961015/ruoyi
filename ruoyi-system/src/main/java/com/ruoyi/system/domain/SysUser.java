@@ -134,6 +134,8 @@ public class SysUser extends BaseEntity
     private String other;
     private String introduce;
     private Long productId;
+    private String selectedFlage = "false";
+
     public SysUser()
     {
 
@@ -526,6 +528,14 @@ public class SysUser extends BaseEntity
         this.productId = productId;
     }
 
+    public String getSelectedFlage() {
+        return selectedFlage;
+    }
+
+    public void setSelectedFlage(String selectedFlage) {
+        this.selectedFlage = selectedFlage;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -571,6 +581,7 @@ public class SysUser extends BaseEntity
             .append("other",getOther())
             .append("introduce",getIntroduce())
             .append("productId",getProductId())
+            .append("selectedFlage",getSelectedFlage())
             .toString();
     }
 }

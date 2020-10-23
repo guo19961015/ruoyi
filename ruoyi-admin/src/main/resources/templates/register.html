@@ -59,7 +59,7 @@
                         <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Thymeleaf</li>
                         <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Bootstrap</li>
                     </ul>-->
-                    <strong>已经注册过? <a th:href="@{'/login?bankId='+${bankId == null ? '0' : bankId}+'&productId='+${productId == null ? '0' : productId}}"><span style="color: red;">直接登录&raquo;</span></a></strong><br>
+                    <strong>已经注册过? <a th:href="@{'/login?bankId='+${bankId == null ? '0' : bankId}}"><span style="color: red;">直接登录&raquo;</span></a></strong><br>
                     <strong><a th:href="@{'/wizard'}"><span style="color: red;">服务机构注册&raquo;</span></a></strong>
                 </div>
             </div>
@@ -157,7 +157,6 @@
         var password = $.common.trim($("input[name='password']").val());
         var validateCode = $("input[name='validateCode']").val();
         var bankId = $('#bankId').val();
-        debugger;
         if(bankId == ""){
             bankId = "0";
         }

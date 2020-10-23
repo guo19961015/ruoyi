@@ -30,7 +30,6 @@
                         dh = parseInt(size[1]),
                         sh = parseInt(this.image.height),
                         sw = parseInt(this.image.width);
-
                     canvas.width = width;
                     canvas.height = height;
                     var context = canvas.getContext("2d");
@@ -67,7 +66,6 @@
 
                 var pw = (el.width() - w) / 2;
                 var ph = (el.height() - h) / 2;
-
                 el.css({
                     'background-image': 'url(' + obj.image.src + ')',
                     'background-size': w +'px ' + h + 'px',

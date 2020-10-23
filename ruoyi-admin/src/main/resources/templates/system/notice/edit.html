@@ -8,7 +8,7 @@
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-notice-edit" th:object="${notice}">
             <input id="noticeId" name="noticeId" th:field="*{noticeId}"  type="hidden">
-            <div class="form-group">	
+            <div class="form-group">
                 <label class="col-sm-2 control-label is-required">公告标题：</label>
                 <div class="col-sm-10">
                     <input id="noticeTitle" name="noticeTitle" th:field="*{noticeTitle}" class="form-control" type="text" required>
@@ -22,7 +22,7 @@
 	                </select>
 				</div>
 			</div>
-            <div class="form-group">	
+            <div class="form-group">
                 <label class="col-sm-2 control-label">公告内容：</label>
                 <div class="col-sm-10">
                     <input id="noticeContent" name="noticeContent" th:field="*{noticeContent}" type="hidden">
@@ -44,7 +44,7 @@
     <th:block th:include="include :: summernote-js" />
     <script type="text/javascript">
         var prefix = ctx + "system/notice";
-    
+
 	    $(function() {
 		    $('.summernote').summernote({
 		    	placeholder: '请输入公告内容',
@@ -60,7 +60,7 @@
 			var content = $("#noticeContent").val();
 		    $('#editor').summernote('code', content);
 	    });
-	    
+
 	    // 上传文件
 	    function sendFile(file, obj) {
 	        var data = new FormData();
@@ -85,16 +85,15 @@
 	            }
 	        });
 	    }
-	    
+
 		$("#form-notice-edit").validate({
 			focusCleanup: true
 		});
-		
+
 		function submitHandler() {
 	        if ($.validate.form()) {
 	        	var sHTML = $('.summernote').summernote('code');
 				$("#noticeContent").val(sHTML);
-				debugger;
 				$.operate.save(prefix + "/edit", $('#form-notice-edit').serialize());
 	        }
 	    }

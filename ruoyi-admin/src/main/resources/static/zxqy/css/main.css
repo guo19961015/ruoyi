@@ -163,7 +163,6 @@ a:active {
 html {
 	width: 100%;
 	height: 100vh;
-	overflow: hidden;
 }
 
 .index-body>div {
@@ -1502,7 +1501,6 @@ html {
 }
 
 .service-content {
-	height: 70vh;
 	overflow: hidden;
 }
 
@@ -1605,8 +1603,10 @@ html {
 
 .service-content-content>div {
 	display: none;
-	overflow-y: scroll;
-	height: 35vh;
+}
+
+.service-content-content>div img {
+    width: 100%;
 }
 
 .fontes {
@@ -2176,9 +2176,6 @@ html {
 	}
 	.service-content-content {
 		margin-top: 10px;
-	}
-	.service-content-content>div {
-		height: 27.5vh;
 	}
 	.service-button button {
 		padding: 10px 10px;

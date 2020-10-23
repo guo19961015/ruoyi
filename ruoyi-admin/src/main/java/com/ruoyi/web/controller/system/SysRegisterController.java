@@ -24,6 +24,8 @@ import com.ruoyi.framework.shiro.service.SysRegisterService;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -64,10 +66,10 @@ public class SysRegisterController extends BaseController
     private IPlServiceAgencyLoanService plServiceAgencyLoanService;
 
     @GetMapping("/register")
-    public String register(String bankId,Long productId, ModelMap mmap)
+    public String register(String bankId, ModelMap mmap)
     {
         mmap.put("bankId",bankId);
-        mmap.put("productId",productId);
+
         return "register";
     }
     @GetMapping("/clause")
@@ -167,6 +169,27 @@ public class SysRegisterController extends BaseController
     @GetMapping("/service")
     public String service(String serviceId,ModelMap map)
     {
+
+        ArrayList<SysUser> usersList = new ArrayList<>();
+        List<SysUserRole> sysUserRoles = sysUserRoleMapper.selectUserRoleByRoleId(Long.valueOf(serviceId));
+        if (sysUserRoles != null) {
+            for (SysUserRole sysUserRole : sysUserRoles) {
+                SysUser sysUser = iSysUserService.selectUserRoleProductsById(sysUserRole.getUserId(), sysUserRole.getRoleId());
+                if (sysUser != null) {
+                    usersList.add(sysUser);
+                }
+            }
+        }
+        map.put("usersList",usersList);
+        map.put("fontText",iSysRoleService.selectRoleById(Long.valueOf(serviceId)));
+        return "service";
+    }
+
+    @CrossOrigin
+    @PostMapping("/serviceAjax")
+    public String serviceAjax(String serviceId,ModelMap map)
+    {
+
         ArrayList<SysUser> usersList = new ArrayList<>();
         List<SysUserRole> sysUserRoles = sysUserRoleMapper.selectUserRoleByRoleId(Long.valueOf(serviceId));
         if (sysUserRoles != null) {
@@ -192,11 +215,15 @@ public class SysRegisterController extends BaseController
     }*/
     @CrossOrigin
     @GetMapping("/serviceConten")
-    public String serviceConten(Long userId,Long productId,ModelMap map)
+    public String serviceConten(Long userId, Long productId, ModelMap map, HttpServletRequest request)
     {
         SysUser sysUser = new SysUser();
+        HttpSession session = request.getSession();
         if(userId != null && productId != null){
              sysUser = iSysUserService.selectUserRoleProductsId(userId,productId);
+             // 将userId以及产品id传入session，申请服务时需要使用，自动选择用户所选产品
+            session.setAttribute("userIdFlage",userId);
+            session.setAttribute("productIdFlage",productId);
         }
         sysUser.setProductId(productId);
         // 查看评论

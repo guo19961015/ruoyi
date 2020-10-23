@@ -23,15 +23,15 @@
 					<span><a href=""><i>[[${fontText.roleName}]]</i></a></span>
 				</div>
 				<div class="row">
-					<div class="service-list col-sm-12">
+					<div class="service-list col-sm-12" style="height: 63vh;">
 						<ul class="list-inline" th:each="userList : ${usersList}">
 							<li class="col-sm-3">
 								<div class="service-img">
 									<img src="" th:src="@{${userList.organizationPicture}}" alt="">
-									<p>主营业务：[[${userList.reason}]]</p>
+									<p style="overflow: hidden;white-space:nowrap;text-overflow:ellipsis;">主营业务：[[${userList.reason}]]</p>
 								</div>
 								<div class="service-type">
-									<span>[[${userList.userName}]]</span>
+									<span style="overflow: hidden;text-overflow:ellipsis;white-space:nowrap;display: inline-block;width: 235px;">[[${userList.userName}]]</span>
 									<a class="time" th:href="@{'/serviceConten?userId='+${userList.userId}+'&productId='+${userList.productId}}" target="_blank">查看申请</a>
 								</div>
 							</li>
@@ -49,17 +49,17 @@
 				</div>
 				<div class="service-right col-sm-12">
 					<div>
-						<span id="great">80</span>
+						<span id="great">0</span>
 						<p>成功对接事项</p>
 						<i></i>
 					</div>
 					<div>
-						<span id="serviceNum">122</span>
+						<span id="serviceNum">0</span>
 						<p>入驻服务机构数量</p>
 						<i></i>
 					</div>
 					<div>
-						<span id="orgNum">400</span>
+						<span id="orgNum">0</span>
 						<p>入驻企业数量</p>
 					</div>
 				</div>

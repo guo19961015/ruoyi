@@ -260,6 +260,7 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/static/ajax/**", "anon");
         filterChainDefinitionMap.put("/ruoyi/**", "anon");
         filterChainDefinitionMap.put("/profile/upload/**", "anon");
+        filterChainDefinitionMap.put("/profile/avatar/**", "anon");
         filterChainDefinitionMap.put("/captcha/captchaImage**", "anon");
         filterChainDefinitionMap.put("/clause", "anon");
         // 退出 logout地址，shiro去清除session
@@ -281,6 +282,7 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/mechanismRegister", "anon,captchaValidate");
         filterChainDefinitionMap.put("/system/loan/uploadFile", "anon");
         filterChainDefinitionMap.put("/wizard/**", "anon");
+        filterChainDefinitionMap.put("/system/user/profile/avatarRegisterEdite", "anon");
         filterChainDefinitionMap.put("/register/common/upload/**", "user");
         filterChainDefinitionMap.put("/register/common/upload/**", "anon");
 
