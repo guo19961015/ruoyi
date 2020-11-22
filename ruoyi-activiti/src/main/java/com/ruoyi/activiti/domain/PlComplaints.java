@@ -1,4 +1,4 @@
-package com.ruoyi.system.domain;
+package com.ruoyi.activiti.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -45,6 +45,10 @@ public class PlComplaints extends BaseEntity
     /** 产品id */
     @Excel(name = "产品id")
     private String productId;
+
+    /** null */
+    @Excel(name = "null")
+    private String userId;
 
     public void setId(Long id)
     {
@@ -118,6 +122,15 @@ public class PlComplaints extends BaseEntity
     {
         return productId;
     }
+    public void setUserId(String userId)
+    {
+        this.userId = userId;
+    }
+
+    public String getUserId()
+    {
+        return userId;
+    }
 
     @Override
     public String toString() {
@@ -130,6 +143,11 @@ public class PlComplaints extends BaseEntity
                 .append("serviceId", getServiceId())
                 .append("loanId", getLoanId())
                 .append("productId", getProductId())
+                .append("userId", getUserId())
+                .append("createBy", getCreateBy())
+                .append("createTime", getCreateTime())
+                .append("updateBy", getUpdateBy())
+                .append("updateTime", getUpdateTime())
                 .toString();
     }
 }

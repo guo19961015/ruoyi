@@ -1,7 +1,9 @@
 package com.ruoyi.activiti.service;
 
+import com.ruoyi.activiti.domain.PlComplaints;
+
 import java.util.List;
-import com.ruoyi.system.domain.PlComplaints;
+
 
 /**
  * 投诉意见Service接口

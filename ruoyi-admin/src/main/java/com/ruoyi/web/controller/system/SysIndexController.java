@@ -3,11 +3,16 @@ package com.ruoyi.web.controller.system;
 import java.util.Enumeration;
 import java.util.List;
 
+import com.ruoyi.activiti.domain.PlComplaints;
+import com.ruoyi.activiti.domain.PlServiceAgencyLoan;
+import com.ruoyi.activiti.domain.RyProduct;
+import com.ruoyi.activiti.mapper.PlServiceAgencyLoanMapper;
 import com.ruoyi.activiti.service.IPlComplaintsService;
+import com.ruoyi.activiti.service.IPlServiceAgencyLoanService;
+import com.ruoyi.activiti.service.IRyProductService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.system.domain.PlComplaints;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,6 +47,10 @@ public class SysIndexController extends BaseController
     private ISysConfigService configService;
     @Autowired
     private IPlComplaintsService plComplaintsService;
+    @Autowired
+    private IPlServiceAgencyLoanService iPlServiceAgencyLoanService;
+    @Autowired
+    private PlServiceAgencyLoanMapper plServiceAgencyLoanMapper;
 
     // 系统首页
     @GetMapping("/index")
@@ -97,6 +106,36 @@ public class SysIndexController extends BaseController
     public AjaxResult complaintsSave(PlComplaints plComplaints, HttpServletRequest request)
     {
         return AjaxResult.success(plComplaintsService.insertPlComplaints(plComplaints));
+    }
+    // 查询当前用户是否有该业务
+    @GetMapping("/selectComplaints")
+    @ResponseBody
+    public AjaxResult selectComplaints(ModelMap mmap,HttpServletRequest request)
+    {
+        AjaxResult ajaxResult = new AjaxResult();
+        HttpSession session = request.getSession();
+        // 判断当前用户是否登录
+        SysUser sysUser = ShiroUtils.getSysUser();
+        if (sysUser == null) {
+            ajaxResult.put("success","login");
+        }else {
+            Long productId =  (Long)session.getAttribute("productIdFlage");
+            PlServiceAgencyLoan plServiceAgencyLoan = new PlServiceAgencyLoan();
+            if (productId != null) {
+                plServiceAgencyLoan.setUserId(sysUser.getUserId());
+                plServiceAgencyLoan.setProductId(String.valueOf(productId));
+            }
+            //单表查询pl_service_agency_loan
+            List<PlServiceAgencyLoan> plServiceAgencyLoans = plServiceAgencyLoanMapper.selectPlServiceAgencyLoanListDouble(plServiceAgencyLoan);
+            if (plServiceAgencyLoans != null && plServiceAgencyLoans.size()>0) {
+                ajaxResult.put("success","true");
+            }else {
+                ajaxResult.put("success","false");
+            }
+        }
+
+
+        return ajaxResult;
     }
 
 }

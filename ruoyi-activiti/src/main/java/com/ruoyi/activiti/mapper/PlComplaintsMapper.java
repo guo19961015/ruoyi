@@ -1,7 +1,8 @@
 package com.ruoyi.activiti.mapper;
 
+import com.ruoyi.activiti.domain.PlComplaints;
+
 import java.util.List;
-import com.ruoyi.system.domain.PlComplaints;
 
 /**
  * 投诉意见Mapper接口

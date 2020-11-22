@@ -278,6 +278,7 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/zxqy/**", "anon");
 
         filterChainDefinitionMap.put("/serviceConten", "anon");
+        filterChainDefinitionMap.put("/selectComplaints", "anon");
         filterChainDefinitionMap.put("/selectDeptTree1/**", "anon");
         filterChainDefinitionMap.put("/treeData", "anon");
         filterChainDefinitionMap.put("/homeAjax", "anon");

@@ -2,7 +2,7 @@ package com.ruoyi.activiti.controller;
 
 import java.util.List;
 
-import com.ruoyi.system.domain.PlComplaints;
+import com.ruoyi.activiti.domain.PlComplaints;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +30,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 @RequestMapping("/activiti/complaints")
 public class PlComplaintsController extends BaseController
 {
-    private String prefix = "activiti/complaints";
+    private String prefix = "complaints";
 
     @Autowired
     private IPlComplaintsService plComplaintsService;

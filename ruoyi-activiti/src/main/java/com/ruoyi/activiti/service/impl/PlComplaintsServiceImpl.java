@@ -2,9 +2,9 @@ package com.ruoyi.activiti.service.impl;
 
 import java.util.List;
 
+import com.ruoyi.activiti.domain.PlComplaints;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.system.domain.PlComplaints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.activiti.mapper.PlComplaintsMapper;
@@ -58,6 +58,7 @@ public class PlComplaintsServiceImpl implements IPlComplaintsService
     {
         plComplaints.setCreateBy(ShiroUtils.getLoginName());
         plComplaints.setCreateTime(DateUtils.getNowDate());
+        plComplaints.setUserId(String.valueOf(ShiroUtils.getUserId()));
         return plComplaintsMapper.insertPlComplaints(plComplaints);
     }
 

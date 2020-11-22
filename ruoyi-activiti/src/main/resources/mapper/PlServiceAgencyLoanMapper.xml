@@ -98,7 +98,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactsNumber != null  and contactsNumber != ''"> and psal.contacts_number = #{contactsNumber}</if>
             <if test="plateType != null  and plateType != ''"> and psal.plate_type = #{plateType}</if>
             <if test="userId != null  and userId != ''"> and psal.user_id = #{userId}</if>
-
+            <if test="productId != null  and productId != ''"> and psal.product_id = #{productId}</if>
         </where>
     </select>
 

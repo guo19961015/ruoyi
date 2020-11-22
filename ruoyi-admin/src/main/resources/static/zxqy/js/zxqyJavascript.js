@@ -1,6 +1,6 @@
 function load() {
-  $(".head").load("/zxqy/head.html");
-  $(".foot").load("/zxqy/foot.html");
+  $(".head").load("zxqy/head.html");
+  $(".foot").load("zxqy/foot.html");
 }
 
 // 微信显示

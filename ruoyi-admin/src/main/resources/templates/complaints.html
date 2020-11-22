@@ -7,7 +7,6 @@
     <link th:src="@{zxqy/bootstrap/css/bootstrap.css}" rel="stylesheet" href="zxqy/bootstrap/css/bootstrap.css" />
     <link th:src="@{zxqy/css/chromagallery.min.css}" rel="stylesheet" href="zxqy/css/chromagallery.min.css" />
     <link th:src="@{zxqy/css/main.css}" rel="stylesheet" href="zxqy/css/main.css"/>
-    <script th:href="@{zxqy/js/jquery-1.11.0.min.js}" src="zxqy/js/jquery-1.11.0.min.js" ></script>
     <script th:href="@{zxqy/js/zxqyJavascript.js}" src="zxqy/js/zxqyJavascript.js" ></script>
     <style type="text/css">
         input {
@@ -94,7 +93,7 @@
                 </div>
                 <div class="row">
                     <div class="list-ul col-sm-12">
-                        <form th:action="@{/complaintsSave}" class="form-horizontal m" id="form-complaints-add">
+                        <form class="form-horizontal m" id="form-complaints-add">
                             <input type="hidden" name="serviceId" th:value="${serviceId}">
                             <input type="hidden" name="productId" th:value="${productId}">
                             <div class="first-inpt">
@@ -168,40 +167,63 @@
     <div class="index-back index">返回首页</div>
 </div>
 <script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+<th:block th:include="include :: footer" />
 <script>
     $(function() {
-        $(".head").load("zxqy/head.html");
-        $(".foot").load("zxqy/foot.html");
+        /*load();*/
         wx();
         buttosMove();
         serviceMove();
         footDis();
         footMove();
-        // 列表页返回
-        $(".index").click(function () {
-            window.location = "/";
-        });
-        $(".goBack").click(function () {
-            window.history.back();
-        });
-
 
     })
+
+</script>
+
+<script>
+    $("#form-complaints-add").validate({
+        focusCleanup: true
+    });
+    function save() {
+        if ($.validate.form()) {
+           /* $.operate.save(ctx+"/complaintsSave", $('#form-complaints-add').serialize(),function (data) {
+                /!*$.operate.successCallback(data);*!/
+                window.location = "/";
+            });*/
+            $.ajax({
+                url: ctx+"complaintsSave",
+                type: 'post',
+                data:$('#form-complaints-add').serialize(),
+                contentType: false,
+                dataType: "json",
+                success: function (result) {
+
+                    function ok(){
+                        $.modal.msgReload("保存成功,正在刷新数据请稍后……", modal_status.SUCCESS);
+                        window.history.back();
+                    }
+                    window.setTimeout(ok(),3000);
+
+                }
+            });
+        }
+    }
+    // 列表页返回
+    $(".index").click(function () {
+        window.location = "/";
+    });
+    $(".goBack").click(function () {
+        window.history.back();
+    });
     function clearInput(){
         $('#username').val("");
         $('#telephone').val("");
         $('#theme').val("");
         $('#comment').val("");
     }
-    function save() {
-            $.operate.save(ctx+"/complaintsSave", $('#form-complaints-add').serialize(),function () {
-                window.setTimeout(function(){
-                    window.history.back();
-                }, 1000);
-            });
-    }
+
 </script>
-<th:block th:include="include :: footer" />
 </body>
 
 </html>

@@ -43,13 +43,13 @@
 									<span>申请服务</span>
 								</button>
 							</a>
-							<a  th:href="@{'/complaints'}">
-							 <button>
+							<!--<a  th:href="@{'/complaints'}">-->
+							 <button onclick="complaints()">
                                 <img src="/zxqy/images/content_091.png" th:src="@{/zxqy/images/content_091.png}"/>
                                 <img class="butimg" src="/zxqy/images/content_09.png" th:src="@{/zxqy/images/content_09.png}"/>
                                 <span>投诉意见</span>
                             </button>
-							</a>
+							<!--</a>-->
 						</div>
 					</div>
 				</div>
@@ -103,7 +103,7 @@
     <div class="index-back goBack" >上一页</div>
 	<div class="index-back index">返回首页</div>
 </div>
-
+<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
 <script>
 	$(function() {
 		$(".head").load("zxqy/head.html");
@@ -121,6 +121,28 @@
             window.history.back();
         });
 	})
+	function complaints() {
+
+		/*th:href="@{'/complaints'}">*/
+
+		$.ajax({
+			url: ctx+"selectComplaints",
+			type: 'get',
+			contentType: false,
+			dataType: "json",
+			success: function (result) {
+				let success = result.success;
+				if(success == "login"){
+					location.href=ctx+'/login';
+				}else if(success == "false"){
+					alert("改用户未申请该服务产品！");
+				}else if(success == "true"){
+					location.href=ctx+'complaints';
+				}
+			}
+		});
+
+	}
 </script>
 <!--用户状态获取-->
 <script th:href="@{zxqy/js/userInfomation}" src="zxqy/js/userInfomation.js"></script>

@@ -13,10 +13,15 @@
         <result property="serviceId"    column="service_id"    />
         <result property="loanId"    column="loan_id"    />
         <result property="productId"    column="product_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
     </resultMap>
 
     <sql id="selectPlComplaintsVo">
-        select id, userName, telephone, theme, comment, service_id, loan_id, product_id from pl_complaints
+        select id, userName, telephone, theme, comment, service_id, loan_id, product_id, user_id, create_by, create_time, update_by, update_time from pl_complaints
     </sql>
 
     <select id="selectPlComplaintsList" parameterType="PlComplaints" resultMap="PlComplaintsResult">
@@ -29,6 +34,7 @@
             <if test="serviceId != null  and serviceId != ''"> and service_id = #{serviceId}</if>
             <if test="loanId != null  and loanId != ''"> and loan_id = #{loanId}</if>
             <if test="productId != null  and productId != ''"> and product_id = #{productId}</if>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
         </where>
     </select>
 
@@ -47,6 +53,7 @@
             <if test="serviceId != null  and serviceId != ''">service_id,</if>
             <if test="loanId != null  and loanId != ''">loan_id,</if>
             <if test="productId != null  and productId != ''">product_id,</if>
+            <if test="userId != null  and userId != ''">user_id,</if>
             <if test="createBy != null  and createBy != ''">create_by,</if>
             <if test="createTime != null ">create_time,</if>
             <if test="updateBy != null  and updateBy != ''">update_by,</if>
@@ -60,6 +67,7 @@
             <if test="serviceId != null  and serviceId != ''">#{serviceId},</if>
             <if test="loanId != null  and loanId != ''">#{loanId},</if>
             <if test="productId != null  and productId != ''">#{productId},</if>
+            <if test="userId != null  and userId != ''">#{userId},</if>
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
@@ -77,6 +85,7 @@
             <if test="serviceId != null  and serviceId != ''">service_id = #{serviceId},</if>
             <if test="loanId != null  and loanId != ''">loan_id = #{loanId},</if>
             <if test="productId != null  and productId != ''">product_id = #{productId},</if>
+            <if test="userId != null  and userId != ''">user_id = #{userId},</if>
             <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
