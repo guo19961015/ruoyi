@@ -36,20 +36,20 @@
 							<p>服务时间：<i>[[${sysUser.serviceTime}]]</i></p>
 						</div>
 						<div class="service-button col-sm-2">
-							<a  th:href="@{'/register'}">
+							<a  th:href="@{'/index'}">
 								<button class="butbag">
 									<img class="butimg" src="/zxqy/images/content_06.png" th:src="@{/zxqy/images/content_06.png}"/>
 									<img src="/zxqy/images/content_061.png" th:src="@{/zxqy/images/content_061.png}"/>
 									<span>申请服务</span>
 								</button>
 							</a>
-							<!--<a  th:href="@{'/complaints'}">
+							<a  th:href="@{'/complaints'}">
 							 <button>
                                 <img src="/zxqy/images/content_091.png" th:src="@{/zxqy/images/content_091.png}"/>
                                 <img class="butimg" src="/zxqy/images/content_09.png" th:src="@{/zxqy/images/content_09.png}"/>
                                 <span>投诉意见</span>
                             </button>
-							</a>-->
+							</a>
 						</div>
 					</div>
 				</div>
@@ -100,7 +100,8 @@
 	</div>
 </div>
 <div class="index-right index-rights">
-	<div class="index-back">返回首页</div>
+    <div class="index-back goBack" >上一页</div>
+	<div class="index-back index">返回首页</div>
 </div>
 
 <script>
@@ -112,12 +113,17 @@
 		serviceMove();
 		footDis();
 		footMove();
-		// 列表页返回
-		$(".index-rights>div").click(function () {
-			window.location = "/";
-		});
+        // 列表页返回
+        $(".index").click(function () {
+            window.location = "/";
+        });
+        $(".goBack").click(function () {
+            window.history.back();
+        });
 	})
 </script>
+<!--用户状态获取-->
+<script th:href="@{zxqy/js/userInfomation}" src="zxqy/js/userInfomation.js"></script>
 </body>
 
 </html>

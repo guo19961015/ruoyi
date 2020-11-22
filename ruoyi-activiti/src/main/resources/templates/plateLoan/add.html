@@ -201,7 +201,11 @@
                         success : function(data) {
                             var str = "<option></option>";
                             for(var i = 0;i<data.length;i++){
-                                str = str + " <option selected=\""+data[i].selectedFlage+"\" value=\""+data[i].productId+"\">" + data[i].userName + "</option>";
+                                var sele = "";
+                                if(data[i].selectedFlage == "true"){
+                                    sele = "selected";
+                                }
+                                str = str + " <option "+ sele +"  value=\""+data[i].productId+"\">" + data[i].userName + "</option>";
                             }
                             $("#productId").html(str);
                         }

@@ -7,10 +7,37 @@
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
 
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h2>已注册企业数</h2>
+                        <h1 class="no-margins" >[[${groupFourList.numFive}]]</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h2>服务机构入驻数量</h2>
+                        <h1 class="no-margins" >[[${groupFourList.numSeven}]]</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h2>服务机构已完成申请事项数</h2>
+                        <h1 class="no-margins" >[[${groupFourList.numEight}]]</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
             <div class="col-sm-3">
                 <div class="ibox">
                     <div class="ibox-content">
-                        <h2>申请企业数</h2>
+                        <h2>助保贷申请企业数</h2>
                         <h1 class="no-margins" >[[${groupFourList.numOne}]]</h1>
                     </div>
                 </div>
@@ -18,7 +45,7 @@
             <div class="col-sm-3">
                 <div class="ibox">
                     <div class="ibox-content">
-                        <h2>放款企业数</h2>
+                        <h2>助保贷放款企业数</h2>
                         <h1 class="no-margins">[[${groupFourList.numTwo}]]</h1>
                     </div>
                 </div>
@@ -26,8 +53,8 @@
             <div class="col-sm-3">
                 <div class="ibox">
                     <div class="ibox-content">
-                        <h2>放款总金额</h2>
-                        <h1 class="no-margins">[[${groupFourList.numThree}]](万元)</h1>
+                        <h2>助保贷放款总金额</h2>
+                        <h1 class="no-margins">[[${groupFourList.numThree}]](元)</h1>
                     </div>
                 </div>
             </div>
@@ -41,63 +68,64 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>服务机构申请事项完成数量</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="echarts" id="echarts-pie-chart8"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>各旗区企业注册数量</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="echarts" id="echarts-pie-chart9"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>八大板块入驻服务机构数量统计</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="echarts" id="echarts-pie-chart10"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>各银行助保贷数量</h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
-                                <i class="fa fa-wrench"></i>
-                            </a>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
+
                     </div>
                     <div class="ibox-content">
                         <div class="echarts" id="echarts-pie-chart1"></div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>各旗区助保贷数量</h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
-                                <i class="fa fa-wrench"></i>
-                            </a>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
+                        <h5>助保贷用户注册时间统计</h5>
+
                     </div>
                     <div class="ibox-content">
                         <div class="echarts" id="echarts-pie-chart2"></div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>各旗区保贷数量</h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
-                                <i class="fa fa-wrench"></i>
-                            </a>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
                     </div>
                     <div class="ibox-content">
                         <div class="echarts" id="echarts-pie-chart3"></div>
@@ -113,6 +141,12 @@
     <input type="hidden" th:value="${dateYearList}" id="dateYearList">
     <input type="hidden" th:value="${deptNameList}" id="deptNameList">
     <input type="hidden" th:value="${deptNumberList}" id="deptNumberList">
+    <input type="hidden" th:value="${platesEghtNameList}" id="platesEghtNameList">
+    <input type="hidden" th:value="${platesEghtMapList}" id="platesEghtMapList">
+    <input type="hidden" th:value="${enterpriseNameList}" id="enterpriseNameList">
+    <input type="hidden" th:value="${enterpriseNumberList}" id="enterpriseNumberList">
+    <input type="hidden" th:value="${mechanismNameList}" id="mechanismNameList">
+    <input type="hidden" th:value="${mechanismNumberList}" id="mechanismNumberList">
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: peity-js" />
     <th:block th:include="include :: sparkline-js" />
@@ -273,8 +307,142 @@
             pieChart3.setOption(option1);
             $(window).resize(pieChart3.resize);
         });
+            /*八大板块饼图*/
+        var platesEghtNameList = JSON.parse($('#platesEghtNameList').val());
+        var platesEghtMapList = JSON.parse($('#platesEghtMapList').val());
+
+        var pieChart8 = echarts.init(document.getElementById("echarts-pie-chart8"));
+        var option8 = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 10,
+                data: platesEghtNameList
+            },
+            series: [
+                {
+                    name: '服务机构申请事项完成统计 ',
+                    type: 'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: platesEghtMapList
+                }
+            ]
+        };
+
+        pieChart8.setOption(option8);
+        $(window).resize(pieChart8.resize);
+        /*各旗区企业注册数量*/
+        var enterpriseNameList = JSON.parse($('#enterpriseNameList').val());
+        var enterpriseNumberList = JSON.parse($('#enterpriseNumberList').val());
+        var pieChart9 = echarts.init(document.getElementById("echarts-pie-chart9"));
+        var option9  = {
+            color: ['#3398DB'],
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: enterpriseNameList,
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '各旗区企业注册数量',
+                    type: 'bar',
+                    barWidth: '60%',
+                    data: enterpriseNumberList
+                }
+            ]
+        };
+
+        pieChart9.setOption(option9);
+        $(window).resize(pieChart9.resize);
+
+        // 八大板块入驻服务机构数量统计
+        var mechanismNameList = JSON.parse($('#mechanismNameList').val());
+        var enterpriseNumberList = JSON.parse($('#mechanismNumberList').val());
+        var pieChart10 = echarts.init(document.getElementById("echarts-pie-chart10"));
+        var option10  = {
+            color: ['#db2652'],
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: mechanismNameList,
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                    axisLabel: {
+                        interval:0,
+                        rotate:40
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '入驻服务机构数',
+                    type: 'bar',
+                    barWidth: '60%',
+                    data: enterpriseNumberList
+                }
+            ]
+        };
 
 
+        pieChart10.setOption(option10);
+        $(window).resize(pieChart10.resize);
     </script>
 
 </body>

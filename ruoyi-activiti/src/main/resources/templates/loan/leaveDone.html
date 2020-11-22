@@ -69,14 +69,6 @@
                     title : '主键ID',
                     visible: false
                 },
-                {
-                    field : 'type',
-                    title : '请假类型',
-                    align : 'center',
-                    formatter: function(value, row, index) {
-                        return $.table.selectDictLabel(datas, value);
-                    }
-                },
                     {
                         field: 'applyUserName',
                         title: '<span style="color: red;">申请人</span>',
@@ -215,18 +207,19 @@
                     title: '任务ID',
                     visible: false
                 },
-                {
-                    field: 'taskName',
-                    title: '已办任务名称',
-                    align: 'center',
-                    formatter: function(value, row, index) {
-                        return '<span class="badge badge-primary">' + value + '</span>';
-                    }
-                },
+
                 {
                     field: 'doneTime',
                     title: '办理时间'
                 },*/
+                    {
+                        field: 'taskName',
+                        title: '已办任务名称',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            return '<span class="badge badge-primary">' + value + '</span>';
+                        }
+                    },
                 {
                     title: '操作',
                     align: 'center',

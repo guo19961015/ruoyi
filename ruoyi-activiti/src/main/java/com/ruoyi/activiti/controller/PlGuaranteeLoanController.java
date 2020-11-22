@@ -23,12 +23,8 @@ import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.framework.web.service.DictService;
-import com.ruoyi.system.domain.PlBank;
-import com.ruoyi.system.domain.SysDictData;
-import com.ruoyi.system.domain.SysUser;
-import com.ruoyi.system.service.IPlBankService;
-import com.ruoyi.system.service.ISysPostService;
-import com.ruoyi.system.service.ISysUserService;
+import com.ruoyi.system.domain.*;
+import com.ruoyi.system.service.*;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -97,6 +93,10 @@ public class PlGuaranteeLoanController extends BaseController
     private RepositoryService repositoryService;
     @Autowired
     private ServerConfig serverConfig;
+    @Autowired
+    private ISysDeptService deptService;
+    @Autowired
+    private ISysRoleService iSysRoleService;
 
     @RequiresPermissions("pl:loan:view")
     @GetMapping()
@@ -336,6 +336,9 @@ public class PlGuaranteeLoanController extends BaseController
                 if (bzhdb != null && !bzhdb.equals("")) {
                     plGuaranteeLoanVo.setGuarantee(bzhdb);
                 }
+
+                plGuaranteeLoanVo.setDeptName(deptService.selectDeptById(Long.valueOf(plGuaranteeLoanVo.getDeptId())).getDeptName());
+
             }
 
         }
@@ -524,12 +527,53 @@ public class PlGuaranteeLoanController extends BaseController
         // 申请企业数、放款企业数、放款总金额、已合作银行
         List<PlGuaranteeLoan> groupFourList = plGuaranteeLoanService.selectPlGuaranteeLoanListGroupFour(plGuaranteeLoan);
 
+        //八大板块对应处理数
+        ArrayList<String> platesEghtNameList = new ArrayList<>();
+        ArrayList<LinkedHashMap<String, String>> platesEghtMapList = new ArrayList<>();
+        List<SysDictData> dictList = plGuaranteeLoanService.selectplatesEght();
+        if (dictList != null) {
+            for (SysDictData sysDictData : dictList) {
+                platesEghtNameList.add(sysDictData.getDictLabel());
+                LinkedHashMap<String, String> stringStringLinkedHashMap = new LinkedHashMap<>();
+                stringStringLinkedHashMap.put("value",sysDictData.getNumber());
+                stringStringLinkedHashMap.put("name",sysDictData.getDictLabel());
+                platesEghtMapList.add(stringStringLinkedHashMap);
+            }
+        }
+        //各旗区企业注册数量
+        ArrayList<String> enterpriseNameList = new ArrayList<>();
+        ArrayList<String> enterpriseNumberList = new ArrayList<>();
+        List<SysDept> enterpriseDept = deptService.selectEnterprise();
+
+        if (enterpriseDept != null) {
+            for (SysDept sysDept : enterpriseDept) {
+                enterpriseNameList.add(sysDept.getDeptName());
+                enterpriseNumberList.add(sysDept.getNumber());
+            }
+        }
+        // 八大板块入驻服务机构数量统计
+        ArrayList<String> mechanismNameList = new ArrayList<>();
+        ArrayList<String> mechanismNumberList = new ArrayList<>();
+       List<SysRole> mechanismLists = iSysRoleService.selectMechanism();
+        if (mechanismLists != null) {
+            for (SysRole sysRole : mechanismLists) {
+                mechanismNameList.add(sysRole.getRoleName());
+                mechanismNumberList.add(sysRole.getNumber());
+            }
+        }
+
         map.put("bankList",JSONUtils.toJSONString(bankList));
         map.put("jsonBankList",JSONUtils.toJSONString(mapList));
         map.put("dateYearList",JSONUtils.toJSONString(dateYearList));
         map.put("dateNumberList",JSONUtils.toJSONString(dateNumberList));
         map.put("deptNameList",JSONUtils.toJSONString(deptNameList));
         map.put("deptNumberList",JSONUtils.toJSONString(deptNumberList));
+        map.put("platesEghtNameList",JSONUtils.toJSONString(platesEghtNameList));
+        map.put("platesEghtMapList",JSONUtils.toJSONString(platesEghtMapList));
+        map.put("enterpriseNameList",JSONUtils.toJSONString(enterpriseNameList));
+        map.put("enterpriseNumberList",JSONUtils.toJSONString(enterpriseNumberList));
+        map.put("mechanismNameList",JSONUtils.toJSONString(mechanismNameList));
+        map.put("mechanismNumberList",JSONUtils.toJSONString(mechanismNumberList));
 
         map.put("groupFourList",groupFourList.get(0));
         return prefix + "/metrics";

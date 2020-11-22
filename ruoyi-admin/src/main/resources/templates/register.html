@@ -43,35 +43,45 @@
     </script>
 </head>
 <body class="signin">
-    <div class="signinpanel">
-        <div class="row">
-            <div class="col-sm-7">
-                <div class="signin-info">
-                    <div class="logopanel m-b">
-                        <h1><!--<img alt="[ 若依 ]" src="../static/ruoyi.png" th:src="@{/ruoyi.png}">--></h1>
-                    </div>
-                    <div class="m-b"></div>
-                    <h1>欢迎使用 <br><strong><span style="text-align: center;font-size: 42px;">鄂尔多斯市</br>中小企业公共服务平台</span></strong></h1>
-                   <!-- <ul class="m-b">
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> SpringBoot</li>
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Mybatis</li>
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Shiro</li>
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Thymeleaf</li>
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Bootstrap</li>
-                    </ul>-->
-                    <strong>已经注册过? <a th:href="@{'/login?bankId='+${bankId == null ? '0' : bankId}}"><span style="color: red;">直接登录&raquo;</span></a></strong><br>
-                    <strong><a th:href="@{'/wizard'}"><span style="color: red;">服务机构注册&raquo;</span></a></strong>
+<div class="signinpanel">
+    <div class="row">
+        <div class="logos col-sm-12">
+            <img alt="[ 鄂尔多斯市中小企业公共服务平台 ]" src="../static/img/logo.png" th:src="@{/img/logo.png}">
+        </div>
+        <div class="col-sm-7">
+            <div class="signin-info">
+                <div class="logopanel m-b">
+                    <h1><!--<img alt="[ 若依 ]" src="../static/ruoyi.png" th:src="@{/ruoyi.png}">--></h1>
                 </div>
+                <div class="m-b"></div>
+                <div class="introduce introducere">
+                    鄂尔多斯市中小企业公共服务平台遵循社会化、专业化、市场化原则，引导和带动社会各类服务资源在政策解读、管理咨询、融资担保、信用评价、创业辅导、人才培训、财税咨询、品牌战略、质量创新、法律维权、评估认证、电子商务、研发设计、信息咨询、市场开拓等方面主动为中小企业提供指导、帮助和服务。</br>
+                    鄂尔多斯市中小企业公共服务平台充分对接和挖掘中小企业公共服务需求，加大特色化、个性化服务产品供给，不断创新服务模式，补齐服务短板，推动“互联网+”中小企业服务的深度融合，优化创业创新服务环境，为全市中小微企业提供及时、便利、精准的服务。
+                </div>
+                <!--                    <h1>欢迎使用 <br><strong><span style="text-align: center;font-size: 42px;">鄂尔多斯市</br>中小企业公共服务平台</span></strong></h1>-->
+                <!-- <ul class="m-b">
+                     <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> SpringBoot</li>
+                     <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Mybatis</li>
+                     <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Shiro</li>
+                     <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Thymeleaf</li>
+                     <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Bootstrap</li>
+                 </ul>-->
+
+
+                <strong style="color: #004ba9;">已经注册过? <a th:href="@{'/login?bankId='+${bankId == null ? '0' : bankId}}"><span style="color: red;">直接登录&raquo;</span></a></strong><br><br>
+                <strong><a th:href="@{'/wizard'}"><span style="color: red;">服务机构注册&raquo;</span></a></strong>
             </div>
-            <div class="col-sm-5">
+        </div>
+        <div class="col-sm-4 pull-right">
+            <div class="box-s">
                 <form id="registerForm" autocomplete="off">
                     <input id="treeId" name="parentId" type="hidden" value=""   />
-                    <h4 class="no-margins">注册：</h4>
+                    <h4 class="no-margins">普通企业注册：</h4>
                     <input name="userName" placeholder="请输入企业名称" class="form-control " style="color: #1a1a1a" type="text" maxlength="30" required>
                     <input name="reason" placeholder="请输入主营业务" class="form-control" style="color: #1a1a1a" type="text" maxlength="30" required>
-<!--
-                    <input name="synopsis" placeholder="请输入企业简介" class="form-control" style="color: #1a1a1a" type="text" maxlength="30" required>
--->
+                    <!--
+                                        <input name="synopsis" placeholder="请输入企业简介" class="form-control" style="color: #1a1a1a" type="text" maxlength="30" required>
+                    -->
                     <input name="creditaCode" placeholder="统一社会信用代码" class="form-control" style="color: #1a1a1a" type="text" maxlength="30" required>
                     <input name="legal" placeholder="请输入企业法人" class="form-control" style="color: #1a1a1a" type="text" maxlength="30" required>
                     <input name="legalNumber" placeholder="请输入企业法人联系电话" class="form-control" style="color: #1a1a1a" type="text" maxlength="30" required>
@@ -82,34 +92,36 @@
                     <input type="text"     name="loginName" class="form-control uname required"         placeholder="登录用户名"   maxlength="20" />
                     <input type="password" name="password" class="form-control pword"         placeholder="密码"     maxlength="20" />
                     <input type="password" name="confirmPassword" class="form-control pword"  placeholder="确认密码" maxlength="20" />
-					<div class="row m-t" th:if="${captchaEnabled==true}">
-						<div class="col-xs-6">
-						    <input type="text" name="validateCode" class="form-control code"  placeholder="验证码"   maxlength="5" >
-						</div>
-						<div class="col-xs-6">
-							<a href="javascript:void(0);" title="点击更换验证码">
-								<img th:src="@{captcha/captchaImage(type=${captchaType})}" class="imgcode" width="85%"/>
-							</a>
-						</div>
-					</div>
+                    <div class="row m-t" th:if="${captchaEnabled==true}">
+                        <div class="col-xs-6">
+                            <input type="text" name="validateCode" class="form-control code"  placeholder="验证码"   maxlength="5" >
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="javascript:void(0);" title="点击更换验证码">
+                                <img th:src="@{captcha/captchaImage(type=${captchaType})}" class="imgcode" width="85%"/>
+                            </a>
+                        </div>
+                    </div>
                     <div class="checkbox-custom" th:classappend="${captchaEnabled==false} ? 'm-t'">
-				        <input type="checkbox" id="acceptTerm" name="acceptTerm" required> <label for="acceptTerm">我已阅读并同意</label>
-				        <a th:href="@{'/clause'}"  target="_blank"><span style="color: red;">使用条款</span></a>
-				    </div>
+                        <input type="checkbox" id="acceptTerm" name="acceptTerm" required> <label for="acceptTerm">我已阅读并同意</label>
+                        <a th:href="@{'/clause'}"  target="_blank"><span style="color: red;">使用条款</span></a>
+                    </div>
                     <button class="btn btn-success btn-block" id="btnSubmit" data-loading="正在验证注册，请稍后...">注册</button>
                 </form>
             </div>
-        </div>
-        <div class="signup-footer">
-            <div class="pull-left">
-<!--
-                &copy; 2019 All Rights Reserved. RuoYi <br>
--->
-                <input type="hidden" id="bankId" th:value="${bankId}">
-                <input type="hidden" id="productId" th:value="${productId}">
-            </div>
+
         </div>
     </div>
+    <div class="signup-footer">
+        <div class="pull-left">
+            <!--
+                            &copy; 2019 All Rights Reserved. RuoYi <br>
+            -->
+            <input type="hidden" id="bankId" th:value="${bankId}">
+            <input type="hidden" id="productId" th:value="${productId}">
+        </div>
+    </div>
+</div>
 <script th:inline="javascript"> var ctx = [[@{/}]]; var captchaType = [[${captchaType}]]; </script>
 <!-- 全局js -->
 <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
@@ -144,9 +156,9 @@
         $.modal.loading($("#btnSubmit").data("loading"));
         var userName = $.common.trim($("input[name='userName']").val());
         var reason = $.common.trim($("input[name='reason']").val());
-/*
-        var synopsis = $.common.trim($("input[name='synopsis']").val());
-*/
+        /*
+                var synopsis = $.common.trim($("input[name='synopsis']").val());
+        */
         var creditaCode = $.common.trim($("input[name='creditaCode']").val());
         var legal = $.common.trim($("input[name='legal']").val());
         var legalNumber = $.common.trim($("input[name='legalNumber']").val());
@@ -165,9 +177,9 @@
         var  data = {
             "userName": userName,
             "reason" : reason,
-/*
-            "synopsis" : synopsis,
-*/
+            /*
+                        "synopsis" : synopsis,
+            */
             "creditaCode" : creditaCode,
             "legal" : legal,
             "legalNumber" : legalNumber,

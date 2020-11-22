@@ -35,5 +35,5 @@ function uploadFile(filePath) {
 /*用户管理-修改log*/
 function avatar() {
     var url = ctx + 'system/user/profile/avatarRegisterEdite';
-    $.modal.open("修改log", url);
+    $.modal.open("修改logo", url);
 }

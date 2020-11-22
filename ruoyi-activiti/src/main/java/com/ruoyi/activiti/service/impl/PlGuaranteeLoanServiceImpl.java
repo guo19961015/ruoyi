@@ -16,6 +16,7 @@ import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.PermissionUtils;
 import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.system.domain.SysDictData;
 import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.mapper.SysUserMapper;
@@ -391,17 +392,19 @@ public class PlGuaranteeLoanServiceImpl implements IPlGuaranteeLoanService
             plGuaranteeLoan.setId(Long.valueOf(businessKey));
             PlGuaranteeLoanVo leave2 = plGuaranteeLoanMapper.selectBizLeaveById(plGuaranteeLoan);
             PlGuaranteeLoanVo newLeave = new PlGuaranteeLoanVo();
-            BeanUtils.copyProperties(leave2, newLeave);
-            // 条件过滤 2
-            if (StringUtils.isNotBlank(bizLeave.getType()) && !bizLeave.getType().equals(leave2.getType())) {
-                continue;
+            if (leave2 != null) {
+                BeanUtils.copyProperties(leave2, newLeave);
+                // 条件过滤 2
+                if (StringUtils.isNotBlank(bizLeave.getType()) && !bizLeave.getType().equals(leave2.getType())) {
+                    continue;
+                }
+                newLeave.setTaskId(instance.getId());
+                newLeave.setTaskName(instance.getName());
+                newLeave.setDoneTime(instance.getEndTime());
+                SysUser sysUser = userMapper.selectUserByLoginName(leave2.getApplyUser());
+                newLeave.setApplyUserName(sysUser.getUserName());
+                results.add(newLeave);
             }
-            newLeave.setTaskId(instance.getId());
-            newLeave.setTaskName(instance.getName());
-            newLeave.setDoneTime(instance.getEndTime());
-            SysUser sysUser = userMapper.selectUserByLoginName(leave2.getApplyUser());
-            newLeave.setApplyUserName(sysUser.getUserName());
-            results.add(newLeave);
         }
 
         List<PlGuaranteeLoanVo> tempList;
@@ -418,6 +421,12 @@ public class PlGuaranteeLoanServiceImpl implements IPlGuaranteeLoanService
         list.addAll(tempList);
 
         return list;
+    }
+
+    @Override
+    public List<SysDictData> selectplatesEght(){
+
+        return plGuaranteeLoanMapper.selectplatesEght();
     }
 
 }

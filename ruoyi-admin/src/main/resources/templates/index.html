@@ -183,7 +183,8 @@
                 <ul class="nav navbar-top-links navbar-right welcome-message">
                     <!--<li><a title="视频教程" href="http://doc.ruoyi.vip/ruoyi/document/spjc.html" target="_blank"><i class="fa fa-video-camera"></i> 视频教程</a></li>
                     <li><a title="开发文档" href="http://doc.ruoyi.vip" target="_blank"><i class="fa fa-question-circle"></i> 开发文档</a></li>-->
-									<li><a class="menuItem" title="我的待办" th:href="@{/todoitem/todoListView}" id="todoList"><i class="fa fa-tasks"></i> 首页待办</a></li>
+									<!--<li><a class="menuItem" title="我的待办" th:href="@{/todoitem/todoListView}" id="todoList"><i class="fa fa-tasks"></i> 首页待办</a></li>-->
+                    <li><a class="" title="返回首页" th:href="@{/home}" id="todoList"><i class="fa fa-tasks"></i> 返回首页</a></li>
 	                <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏显示</a></li>
                     <li class="dropdown user-menu">
 						<a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
@@ -205,7 +206,7 @@
 							</li>
 							<li class="divider"></li>
 							<li>
-								<a th:href="@{logout}">
+								<a th:href="@{logout}" >
 								<i class="fa fa-sign-out"></i> 退出登录</a>
 							</li>
 						</ul>

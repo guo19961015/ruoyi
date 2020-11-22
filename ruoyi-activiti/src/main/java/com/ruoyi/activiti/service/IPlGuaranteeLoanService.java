@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.ruoyi.activiti.domain.PlGuaranteeLoan;
 import com.ruoyi.activiti.domain.PlGuaranteeLoanVo;
+import com.ruoyi.system.domain.SysDictData;
 import org.activiti.engine.runtime.ProcessInstance;
 
 /**
@@ -86,4 +87,6 @@ public interface IPlGuaranteeLoanService
     List<PlGuaranteeLoanVo> findTodoTasks(PlGuaranteeLoanVo bizLeave, String loginName);
 
     List<PlGuaranteeLoanVo> findDoneTasks(PlGuaranteeLoanVo bizLeave, String loginName);
+
+    List<SysDictData> selectplatesEght();
 }

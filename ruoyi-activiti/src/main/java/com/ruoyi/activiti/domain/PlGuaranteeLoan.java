@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 
 /**
  * 助保贷信息对象 pl_guarantee_loan
- * 
+ *
  * @author ruoyi
  * @date 2020-08-23
  */
@@ -196,6 +196,9 @@ public class PlGuaranteeLoan extends BaseEntity
     private String numTwo;
     private String numThree;
     private String numFour;
+    private String numFive;
+    private String numSeven;
+    private String numEight;
     public String getApplyUserName() {
         return applyUserName;
     }
@@ -209,151 +212,151 @@ public class PlGuaranteeLoan extends BaseEntity
         this.id = id;
     }
 
-    public Long getId() 
+    public Long getId()
     {
         return id;
     }
-    public void setType(String type) 
+    public void setType(String type)
     {
         this.type = type;
     }
 
-    public String getType() 
+    public String getType()
     {
         return type;
     }
-    public void setStartTime(Date startTime) 
+    public void setStartTime(Date startTime)
     {
         this.startTime = startTime;
     }
 
-    public Date getStartTime() 
+    public Date getStartTime()
     {
         return startTime;
     }
-    public void setEndTime(Date endTime) 
+    public void setEndTime(Date endTime)
     {
         this.endTime = endTime;
     }
 
-    public Date getEndTime() 
+    public Date getEndTime()
     {
         return endTime;
     }
-    public void setTotalTime(Long totalTime) 
+    public void setTotalTime(Long totalTime)
     {
         this.totalTime = totalTime;
     }
 
-    public Long getTotalTime() 
+    public Long getTotalTime()
     {
         return totalTime;
     }
-    public void setInstanceId(String instanceId) 
+    public void setInstanceId(String instanceId)
     {
         this.instanceId = instanceId;
     }
 
-    public String getInstanceId() 
+    public String getInstanceId()
     {
         return instanceId;
     }
-    public void setApplyUser(String applyUser) 
+    public void setApplyUser(String applyUser)
     {
         this.applyUser = applyUser;
     }
 
-    public String getApplyUser() 
+    public String getApplyUser()
     {
         return applyUser;
     }
-    public void setApplyTime(Date applyTime) 
+    public void setApplyTime(Date applyTime)
     {
         this.applyTime = applyTime;
     }
 
-    public Date getApplyTime() 
+    public Date getApplyTime()
     {
         return applyTime;
     }
-    public void setRealityStartTime(Date realityStartTime) 
+    public void setRealityStartTime(Date realityStartTime)
     {
         this.realityStartTime = realityStartTime;
     }
 
-    public Date getRealityStartTime() 
+    public Date getRealityStartTime()
     {
         return realityStartTime;
     }
-    public void setRealityEndTime(Date realityEndTime) 
+    public void setRealityEndTime(Date realityEndTime)
     {
         this.realityEndTime = realityEndTime;
     }
 
-    public Date getRealityEndTime() 
+    public Date getRealityEndTime()
     {
         return realityEndTime;
     }
-    public void setTitle(String title) 
+    public void setTitle(String title)
     {
         this.title = title;
     }
 
-    public String getTitle() 
+    public String getTitle()
     {
         return title;
     }
-    public void setReason(String reason) 
+    public void setReason(String reason)
     {
         this.reason = reason;
     }
 
-    public String getReason() 
+    public String getReason()
     {
         return reason;
     }
-    public void setLegal(String legal) 
+    public void setLegal(String legal)
     {
         this.legal = legal;
     }
 
-    public String getLegal() 
+    public String getLegal()
     {
         return legal;
     }
-    public void setLegalNumber(String legalNumber) 
+    public void setLegalNumber(String legalNumber)
     {
         this.legalNumber = legalNumber;
     }
 
-    public String getLegalNumber() 
+    public String getLegalNumber()
     {
         return legalNumber;
     }
-    public void setContacts(String contacts) 
+    public void setContacts(String contacts)
     {
         this.contacts = contacts;
     }
 
-    public String getContacts() 
+    public String getContacts()
     {
         return contacts;
     }
-    public void setContactsNumber(String contactsNumber) 
+    public void setContactsNumber(String contactsNumber)
     {
         this.contactsNumber = contactsNumber;
     }
 
-    public String getContactsNumber() 
+    public String getContactsNumber()
     {
         return contactsNumber;
     }
-    public void setSynopsis(String synopsis) 
+    public void setSynopsis(String synopsis)
     {
         this.synopsis = synopsis;
     }
 
-    public String getSynopsis() 
+    public String getSynopsis()
     {
         return synopsis;
     }
@@ -443,57 +446,57 @@ public class PlGuaranteeLoan extends BaseEntity
         this.relatedCompanies = relatedCompanies;
     }
 
-    public String getRelatedCompanies() 
+    public String getRelatedCompanies()
     {
         return relatedCompanies;
     }
-    public void setLendingBank(String lendingBank) 
+    public void setLendingBank(String lendingBank)
     {
         this.lendingBank = lendingBank;
     }
 
-    public String getLendingBank() 
+    public String getLendingBank()
     {
         return lendingBank;
     }
-    public void setShortLoanOverdueRecords(String shortLoanOverdueRecords) 
+    public void setShortLoanOverdueRecords(String shortLoanOverdueRecords)
     {
         this.shortLoanOverdueRecords = shortLoanOverdueRecords;
     }
 
-    public String getShortLoanOverdueRecords() 
+    public String getShortLoanOverdueRecords()
     {
         return shortLoanOverdueRecords;
     }
-    public void setLongInLoanOverdueRecords(String longInLoanOverdueRecords) 
+    public void setLongInLoanOverdueRecords(String longInLoanOverdueRecords)
     {
         this.longInLoanOverdueRecords = longInLoanOverdueRecords;
     }
 
-    public String getLongInLoanOverdueRecords() 
+    public String getLongInLoanOverdueRecords()
     {
         return longInLoanOverdueRecords;
     }
 
-    public void setUseOfFunds(String useOfFunds) 
+    public void setUseOfFunds(String useOfFunds)
     {
         this.useOfFunds = useOfFunds;
     }
 
-    public String getUseOfFunds() 
+    public String getUseOfFunds()
     {
         return useOfFunds;
     }
-    public void setMortgageOfOwnAssets(String mortgageOfOwnAssets) 
+    public void setMortgageOfOwnAssets(String mortgageOfOwnAssets)
     {
         this.mortgageOfOwnAssets = mortgageOfOwnAssets;
     }
 
-    public String getMortgageOfOwnAssets() 
+    public String getMortgageOfOwnAssets()
     {
         return mortgageOfOwnAssets;
     }
-    public void setThirdPartyAssetMortgage(String thirdPartyAssetMortgage) 
+    public void setThirdPartyAssetMortgage(String thirdPartyAssetMortgage)
     {
         this.thirdPartyAssetMortgage = thirdPartyAssetMortgage;
     }
@@ -510,21 +513,21 @@ public class PlGuaranteeLoan extends BaseEntity
     {
         return thirdPartyAssetMortgage;
     }
-    public void setGuarantee(String guarantee) 
+    public void setGuarantee(String guarantee)
     {
         this.guarantee = guarantee;
     }
 
-    public String getGuarantee() 
+    public String getGuarantee()
     {
         return guarantee;
     }
-    public void setProposedBank(String proposedBank) 
+    public void setProposedBank(String proposedBank)
     {
         this.proposedBank = proposedBank;
     }
 
-    public String getProposedBank() 
+    public String getProposedBank()
     {
         return proposedBank;
     }
@@ -671,6 +674,30 @@ public class PlGuaranteeLoan extends BaseEntity
 
     public void setNumFour(String numFour) {
         this.numFour = numFour;
+    }
+
+    public String getNumFive() {
+        return numFive;
+    }
+
+    public void setNumFive(String numFive) {
+        this.numFive = numFive;
+    }
+
+    public String getNumSeven() {
+        return numSeven;
+    }
+
+    public void setNumSeven(String numSeven) {
+        this.numSeven = numSeven;
+    }
+
+    public String getNumEight() {
+        return numEight;
+    }
+
+    public void setNumEight(String numEight) {
+        this.numEight = numEight;
     }
 
     @Override

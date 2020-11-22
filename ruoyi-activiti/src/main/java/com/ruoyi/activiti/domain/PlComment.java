@@ -8,8 +8,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import java.util.Date;
 
 /**
- * 7大板款信息对象 pl_service_agency_loan
- * 
+ * 评论表
+ *
  * @author ruoyi
  * @date 2020-09-21
  */

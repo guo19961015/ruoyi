@@ -15,7 +15,7 @@ import com.ruoyi.common.core.text.Convert;
 
 /**
  * 银行信息Service业务层处理
- * 
+ *
  * @author ruoyi
  * @date 2020-08-29
  */
@@ -28,7 +28,7 @@ public class PlBankServiceImpl implements IPlBankService
     private SysUserMapper sysUserMapper;
     /**
      * 查询银行信息
-     * 
+     *
      * @param id 银行信息ID
      * @return 银行信息
      */
@@ -40,7 +40,7 @@ public class PlBankServiceImpl implements IPlBankService
 
     /**
      * 查询银行信息列表
-     * 
+     *
      * @param plBank 银行信息
      * @return 银行信息
      */
@@ -112,7 +112,7 @@ public class PlBankServiceImpl implements IPlBankService
 
     /**
      * 新增银行信息
-     * 
+     *
      * @param plBank 银行信息
      * @return 结果
      */
@@ -125,7 +125,7 @@ public class PlBankServiceImpl implements IPlBankService
 
     /**
      * 修改银行信息
-     * 
+     *
      * @param plBank 银行信息
      * @return 结果
      */
@@ -138,7 +138,7 @@ public class PlBankServiceImpl implements IPlBankService
 
     /**
      * 删除银行信息对象
-     * 
+     *
      * @param ids 需要删除的数据ID
      * @return 结果
      */
@@ -150,7 +150,7 @@ public class PlBankServiceImpl implements IPlBankService
 
     /**
      * 删除银行信息信息
-     * 
+     *
      * @param id 银行信息ID
      * @return 结果
      */
@@ -158,5 +158,11 @@ public class PlBankServiceImpl implements IPlBankService
     public int deletePlBankById(Long id)
     {
         return plBankMapper.deletePlBankById(id);
+    }
+
+    @Override
+    public int changeStatus(PlBank plBank)
+    {
+        return plBankMapper.updatePlBank(plBank);
     }
 }

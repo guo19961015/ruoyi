@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 银行信息Controller
- * 
+ *
  * @author ruoyi
  * @date 2020-08-29
  */
@@ -180,5 +180,22 @@ public class PlBankController extends BaseController
     public AjaxResult remove(String ids)
     {
         return toAjax(plBankService.deletePlBankByIds(ids));
+    }
+
+    /**
+     * 银行状态修改
+     */
+    @Log(title = "银行信息管理", businessType = BusinessType.UPDATE)
+    @PostMapping("/changeStatus")
+    @ResponseBody
+    public AjaxResult changeStatus(PlBank plBank)
+    {
+        int i = plBankService.changeStatus(plBank);
+        if(i > 0){
+            return success();
+        }else {
+            return error();
+        }
+
     }
 }

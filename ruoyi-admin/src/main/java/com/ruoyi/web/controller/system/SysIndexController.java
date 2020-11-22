@@ -2,6 +2,13 @@ package com.ruoyi.web.controller.system;
 
 import java.util.Enumeration;
 import java.util.List;
+
+import com.ruoyi.activiti.service.IPlComplaintsService;
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.system.domain.PlComplaints;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,6 +20,9 @@ import com.ruoyi.system.domain.SysMenu;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysMenuService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,6 +40,8 @@ public class SysIndexController extends BaseController
 
     @Autowired
     private ISysConfigService configService;
+    @Autowired
+    private IPlComplaintsService plComplaintsService;
 
     // 系统首页
     @GetMapping("/index")
@@ -68,4 +80,23 @@ public class SysIndexController extends BaseController
 //        return "main";
         return "main_v2";
     }
+
+    // 投诉意见
+    @GetMapping("/complaints")
+    public String complaints(ModelMap mmap,HttpServletRequest request)
+    {
+        HttpSession session = request.getSession();
+        Long productId =  (Long)session.getAttribute("productIdFlage");
+        mmap.put("productId", productId);
+        return "complaints";
+    }
+    // 投诉意见保存
+    @Log(title = "投诉意见", businessType = BusinessType.INSERT)
+    @PostMapping("/complaintsSave")
+    @ResponseBody
+    public AjaxResult complaintsSave(PlComplaints plComplaints, HttpServletRequest request)
+    {
+        return AjaxResult.success(plComplaintsService.insertPlComplaints(plComplaints));
+    }
+
 }

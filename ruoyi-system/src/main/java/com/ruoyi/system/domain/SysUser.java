@@ -134,7 +134,7 @@ public class SysUser extends BaseEntity
     private String other;
     private String introduce;
     private Long productId;
-    private String selectedFlage = "false";
+    private String selectedFlage = "";
 
     public SysUser()
     {

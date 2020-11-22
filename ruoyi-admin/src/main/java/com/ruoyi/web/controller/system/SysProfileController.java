@@ -1,9 +1,11 @@
 package com.ruoyi.web.controller.system;
 
 import com.alibaba.druid.support.json.JSONUtils;
+import com.ruoyi.common.config.ServerConfig;
 import com.ruoyi.common.core.text.Convert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +22,9 @@ import com.ruoyi.framework.shiro.service.SysPasswordService;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysUserService;
+
+import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * 个人信息 业务处理
@@ -39,7 +44,8 @@ public class SysProfileController extends BaseController
 
     @Autowired
     private SysPasswordService passwordService;
-
+    @Autowired
+    private ServerConfig serverConfig;
     /**
      * 个人信息
      */
@@ -64,10 +70,19 @@ public class SysProfileController extends BaseController
         SysUser sysUser = userService.selectUserById(userId);
         // 其它资质上传String转list
         String other = sysUser.getOther();
+        LinkedList<HashMap<String, String>> hashMaps = new LinkedList<>();
         if (other != null) {
             mmap.put("other", other);
+            String[] split1 = other.split(",");
+            HashMap<String, String> map = new HashMap<String, String>();
+            for (int i = 0; i< split1.length ;i++) {
+                map.put("caption", split1[i].substring(split1[i] .lastIndexOf("/")+1));
+                map.put("url",split1[i]);
+                hashMaps.add(map);
+            }
         }
 
+        mmap.put("hashMaps", hashMaps);
         mmap.put("user", sysUser);
 
         mmap.put("roleGroup", userService.selectUserRoleGroup(sysUser.getUserId()));

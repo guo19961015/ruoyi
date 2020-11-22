@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.activiti.mapper.PlComplaintsMapper">
+
+    <resultMap type="PlComplaints" id="PlComplaintsResult">
+        <result property="id"    column="id"    />
+        <result property="username"    column="userName"    />
+        <result property="telephone"    column="telephone"    />
+        <result property="theme"    column="theme"    />
+        <result property="comment"    column="comment"    />
+        <result property="serviceId"    column="service_id"    />
+        <result property="loanId"    column="loan_id"    />
+        <result property="productId"    column="product_id"    />
+    </resultMap>
+
+    <sql id="selectPlComplaintsVo">
+        select id, userName, telephone, theme, comment, service_id, loan_id, product_id from pl_complaints
+    </sql>
+
+    <select id="selectPlComplaintsList" parameterType="PlComplaints" resultMap="PlComplaintsResult">
+        <include refid="selectPlComplaintsVo"/>
+        <where>
+            <if test="username != null  and username != ''"> and userName like concat('%', #{username}, '%')</if>
+            <if test="telephone != null  and telephone != ''"> and telephone = #{telephone}</if>
+            <if test="theme != null  and theme != ''"> and theme = #{theme}</if>
+            <if test="comment != null  and comment != ''"> and comment = #{comment}</if>
+            <if test="serviceId != null  and serviceId != ''"> and service_id = #{serviceId}</if>
+            <if test="loanId != null  and loanId != ''"> and loan_id = #{loanId}</if>
+            <if test="productId != null  and productId != ''"> and product_id = #{productId}</if>
+        </where>
+    </select>
+
+    <select id="selectPlComplaintsById" parameterType="Long" resultMap="PlComplaintsResult">
+        <include refid="selectPlComplaintsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPlComplaints" parameterType="PlComplaints" useGeneratedKeys="true" keyProperty="id">
+        insert into pl_complaints
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null  and username != ''">userName,</if>
+            <if test="telephone != null  and telephone != ''">telephone,</if>
+            <if test="theme != null  and theme != ''">theme,</if>
+            <if test="comment != null  and comment != ''">comment,</if>
+            <if test="serviceId != null  and serviceId != ''">service_id,</if>
+            <if test="loanId != null  and loanId != ''">loan_id,</if>
+            <if test="productId != null  and productId != ''">product_id,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null  and username != ''">#{username},</if>
+            <if test="telephone != null  and telephone != ''">#{telephone},</if>
+            <if test="theme != null  and theme != ''">#{theme},</if>
+            <if test="comment != null  and comment != ''">#{comment},</if>
+            <if test="serviceId != null  and serviceId != ''">#{serviceId},</if>
+            <if test="loanId != null  and loanId != ''">#{loanId},</if>
+            <if test="productId != null  and productId != ''">#{productId},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updatePlComplaints" parameterType="PlComplaints">
+        update pl_complaints
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="username != null  and username != ''">userName = #{username},</if>
+            <if test="telephone != null  and telephone != ''">telephone = #{telephone},</if>
+            <if test="theme != null  and theme != ''">theme = #{theme},</if>
+            <if test="comment != null  and comment != ''">comment = #{comment},</if>
+            <if test="serviceId != null  and serviceId != ''">service_id = #{serviceId},</if>
+            <if test="loanId != null  and loanId != ''">loan_id = #{loanId},</if>
+            <if test="productId != null  and productId != ''">product_id = #{productId},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePlComplaintsById" parameterType="Long">
+        delete from pl_complaints where id = #{id}
+    </delete>
+
+    <delete id="deletePlComplaintsByIds" parameterType="String">
+        delete from pl_complaints where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

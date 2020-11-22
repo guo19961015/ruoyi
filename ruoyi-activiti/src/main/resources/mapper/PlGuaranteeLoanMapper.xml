@@ -317,10 +317,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             (SELECT COUNT(*) from  (SELECT COUNT(pl1.create_by)  FROM pl_guarantee_loan pl1 WHERE pl1.instance_id  IS NOT NULL GROUP BY pl1.create_by) nums) numOne,
             (SELECT COUNT(*) FROM pl_todo_item pti WHERE pti.task_name ='taskBankLoan') numTwo,
             (select SUM(pl2.actual_loan_amount) from pl_guarantee_loan pl2) numThree,
-            (select COUNT(*) from pl_bank ) numFour
+            (select COUNT(*) from pl_bank ) numFour,
+            (SELECT count(*) from sys_user where flage != '1' or flage IS NULL ) numFive,
+            (SELECT COUNT(*) from sys_user where flage = '1') numSeven,
+            (SELECT COUNT(*) from pl_service_agency_loan where application is not NULL) numEight
         FROM
             pl_guarantee_loan pl
         WHERE
             pl.instance_id IS NOT NULL
     </select>
+    <select id="selectplatesEght"  resultType="SysDictData">
+        SELECT
+            sdd.dict_value dictValue,
+            sdd.dict_label dictLabel,
+            COUNT(IF (psal.plate_type IS NULL,NULL,IF (psal.application IS NULL,NULL,psal.plate_type))) number
+        FROM
+            sys_dict_data sdd
+        LEFT JOIN pl_service_agency_loan psal ON sdd.dict_value = psal.plate_type
+        WHERE
+            sdd.dict_type = 'plate'
+        GROUP BY
+            sdd.dict_value
+        ORDER BY
+            sdd.dict_sort
+    </select>
+
 </mapper>

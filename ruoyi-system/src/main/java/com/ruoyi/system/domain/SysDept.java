@@ -7,7 +7,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 部门表 sys_dept
- * 
+ *
  * @author ruoyi
  */
 public class SysDept extends BaseEntity
@@ -46,7 +46,8 @@ public class SysDept extends BaseEntity
 
     /** 父部门名称 */
     private String parentName;
-
+    //统计使用
+    private String number;
     public Long getDeptId()
     {
         return deptId;
@@ -161,6 +162,14 @@ public class SysDept extends BaseEntity
     public void setParentName(String parentName)
     {
         this.parentName = parentName;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     @Override

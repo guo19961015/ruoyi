@@ -1,5 +1,7 @@
 package com.ruoyi.web.controller.system;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ruoyi.activiti.domain.PlComment;
 import com.ruoyi.activiti.domain.RyProduct;
 import com.ruoyi.activiti.service.IPlServiceAgencyLoanService;
@@ -7,11 +9,16 @@ import com.ruoyi.activiti.service.IRyProductService;
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.config.ServerConfig;
 import com.ruoyi.common.core.domain.Ztree;
+import com.ruoyi.common.core.page.PageDomain;
+import com.ruoyi.common.core.page.TableSupport;
 import com.ruoyi.common.utils.file.FileUploadUtils;
+import com.ruoyi.common.utils.sql.SqlUtil;
+import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.framework.web.service.DictService;
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.mapper.SysUserRoleMapper;
 import com.ruoyi.system.service.*;
+import com.ruoyi.system.utils.PageInfoUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -120,8 +127,9 @@ public class SysRegisterController extends BaseController
     @ResponseBody
     public List<PlBank>  homeAjax(ModelMap mmap)
     {
-
-        return plBankService.selectPlBankList(new PlBank());
+        PlBank plBank = new PlBank();
+        plBank.setStatus("0");
+        return plBankService.selectPlBankList(plBank);
     }
     @CrossOrigin
     @GetMapping("/details")
@@ -170,26 +178,15 @@ public class SysRegisterController extends BaseController
     public String service(String serviceId,ModelMap map)
     {
 
-        ArrayList<SysUser> usersList = new ArrayList<>();
-        List<SysUserRole> sysUserRoles = sysUserRoleMapper.selectUserRoleByRoleId(Long.valueOf(serviceId));
-        if (sysUserRoles != null) {
-            for (SysUserRole sysUserRole : sysUserRoles) {
-                SysUser sysUser = iSysUserService.selectUserRoleProductsById(sysUserRole.getUserId(), sysUserRole.getRoleId());
-                if (sysUser != null) {
-                    usersList.add(sysUser);
-                }
-            }
-        }
-        map.put("usersList",usersList);
+        map.put("serviceId",serviceId);
         map.put("fontText",iSysRoleService.selectRoleById(Long.valueOf(serviceId)));
         return "service";
     }
 
-    @CrossOrigin
     @PostMapping("/serviceAjax")
-    public String serviceAjax(String serviceId,ModelMap map)
+    @ResponseBody
+    public  AjaxResult serviceAjax(String serviceId,ModelMap map,Integer pageNum, Integer pageSize)
     {
-
         ArrayList<SysUser> usersList = new ArrayList<>();
         List<SysUserRole> sysUserRoles = sysUserRoleMapper.selectUserRoleByRoleId(Long.valueOf(serviceId));
         if (sysUserRoles != null) {
@@ -200,22 +197,18 @@ public class SysRegisterController extends BaseController
                 }
             }
         }
-        map.put("usersList",usersList);
-        map.put("fontText",iSysRoleService.selectRoleById(Long.valueOf(serviceId)));
-        return "service";
+        pageNum = pageNum == null ? 1: pageNum;
+        PageInfo<SysUser> pageInfo = PageInfoUtils.listPageInfo(usersList, pageNum, 8);
+        // 手动清理分页缓存，不然会出现页面数据时好时坏
+        PageHelper.clearPage();
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("pageInfo",pageInfo);
+        ajax.put("serviceId",serviceId);
+        return ajax;
     }
-    /*@CrossOrigin
-    @GetMapping("/serviceAjax")
-    @ResponseBody
-    public  List<SysDictData> serviceAjax(ModelMap mmap)
-    {
-        List<SysDictData> plate = dictService.getType("plate");
-        mmap.put("plate",plate);
-        return plate;
-    }*/
     @CrossOrigin
     @GetMapping("/serviceConten")
-    public String serviceConten(Long userId, Long productId, ModelMap map, HttpServletRequest request)
+    public String serviceConten(Long userId, Long productId,Long serviceId, ModelMap map, HttpServletRequest request)
     {
         SysUser sysUser = new SysUser();
         HttpSession session = request.getSession();
@@ -224,6 +217,7 @@ public class SysRegisterController extends BaseController
              // 将userId以及产品id传入session，申请服务时需要使用，自动选择用户所选产品
             session.setAttribute("userIdFlage",userId);
             session.setAttribute("productIdFlage",productId);
+            session.setAttribute("serviceIdFlage",serviceId);
         }
         sysUser.setProductId(productId);
         // 查看评论
@@ -232,7 +226,20 @@ public class SysRegisterController extends BaseController
         map.put("plComments",plComments);
         return "serviceConten";
     }
-
+    /*跨域获取当前用户登录信息*/
+    @CrossOrigin
+    @GetMapping("/userInformation")
+    @ResponseBody
+    public AjaxResult userInformation()
+    {
+        // 获取当前的用户信息
+        SysUser currentUser = ShiroUtils.getSysUser();
+        AjaxResult ajax = AjaxResult.success();
+        if (currentUser != null) {
+            ajax.put("currentUser",currentUser);
+        }
+        return ajax;
+    }
     @GetMapping("/wizard")
     public String wizard(ModelMap mmap)
     {

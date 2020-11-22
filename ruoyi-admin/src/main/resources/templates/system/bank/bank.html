@@ -60,61 +60,68 @@
                     checkbox: true
                 },
                 {
-                    field: 'id', 
+                    field: 'id',
                     title: '主键',
                     visible: false
                 },
                 {
-                    field: 'bankName', 
+                    field: 'bankName',
                     title: '银行名称'
                 },
                 {
-                    field: 'bankImageUrl', 
+                    field: 'bankImageUrl',
                     title: '图片路径'
                 },
                 {
-                    field: 'loanLimit', 
+                    field: 'loanLimit',
                     title: '贷款额度'
                 },
                 {
-                    field: 'loanTerm', 
+                    field: 'loanTerm',
                     title: '贷款期限'
                 },
                 {
-                    field: 'guaranteeMethod', 
+                    field: 'guaranteeMethod',
                     title: '担保方式'
                 },
                 {
-                    field: 'bankInterestRate', 
+                    field: 'bankInterestRate',
                     title: '参考利率'
                 },
                 {
-                    field: 'createBy', 
+                    field: 'createBy',
                     title: '创建者'
                 },
                 {
-                    field: 'createTime', 
+                    field: 'createTime',
                     title: '创建时间'
                 },
                 {
-                    field: 'updateBy', 
+                    field: 'updateBy',
                     title: '更新者'
                 },
                 {
-                    field: 'updateTime', 
+                    field: 'updateTime',
                     title: '更新时间'
                 },
                 {
-                    field: 'applicableUsers', 
+                    field: 'applicableUsers',
                     title: '适用客户'
                 },
                 {
-                    field: 'applicationConditions', 
+                    field: 'applicationConditions',
                     title: '申请条件'
                 },
                 {
-                    field: 'applicationMaterials', 
+                    field: 'applicationMaterials',
                     title: '申请材料'
+                },
+                {
+                    title: '用户状态',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return statusTools(row);
+                    }
                 },
                 {
                     title: '操作',
@@ -129,6 +136,28 @@
             };
             $.table.init(options);
         });
+
+        /* 用户状态显示 */
+        function statusTools(row) {
+            if (row.status == 1) {
+                return '<i class=\"fa fa-toggle-off text-info fa-2x\" onclick="enable(\'' + row.id + '\')"></i> ';
+            } else {
+                return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="disable(\'' + row.id + '\')"></i> ';
+            }
+        }
+        /* 用户管理-停用 */
+        function disable(id) {
+            $.modal.confirm("确认停用银行吗？", function() {
+                $.operate.post(prefix + "/changeStatus", { "id": id, "status": 1 });
+            })
+        }
+
+        /* 用户管理启用 */
+        function enable(id) {
+            $.modal.confirm("确认停用银行吗？", function() {
+                $.operate.post(prefix + "/changeStatus", { "id": id, "status": 0 });
+            })
+        }
     </script>
 </body>
 </html>

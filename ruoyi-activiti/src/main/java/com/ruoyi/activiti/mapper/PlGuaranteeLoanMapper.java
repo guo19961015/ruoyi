@@ -6,6 +6,7 @@ import com.ruoyi.activiti.domain.BizLeaveVo;
 import com.ruoyi.activiti.domain.PlGuaranteeLoan;
 import com.ruoyi.activiti.domain.PlGuaranteeLoanVo;
 import com.ruoyi.common.annotation.DataScope;
+import com.ruoyi.system.domain.SysDictData;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -76,5 +77,7 @@ public interface PlGuaranteeLoanMapper
     List<PlGuaranteeLoan> selectPlGuaranteeLoanListGroupDate(PlGuaranteeLoanVo plGuaranteeLoan);
     List<PlGuaranteeLoan> selectPlGuaranteeLoanListGroupDept(PlGuaranteeLoanVo plGuaranteeLoan);
     List<PlGuaranteeLoan> selectPlGuaranteeLoanListGroupFour(PlGuaranteeLoanVo plGuaranteeLoan);
+
+    List<SysDictData> selectplatesEght();
 
 }

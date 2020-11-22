@@ -40,21 +40,7 @@
 			</div>
 			<div class="search col-sm-3">
 				<div class="login">
-            <span>
-              <a href="">
-                <img th:src="@{/images/index-first_05.png}" src="../static/images/index-first_05.png" alt=""><i>登录</i>
-              </a>
-            </span>
-					<span>
-              <a href="">
-                <img th:src="@{/images/index-first_07.png}" src="../static/images/index-first_07.png" alt=""><i>注册</i>
-              </a>
-            </span>
-					<span>
-              <a href="">
-                <img th:src="@{/images/index-first_09.png}" src="../static/images/index-first_09.png" alt=""><i>热线</i>
-              </a>
-            </span>
+
 				</div>
 				<div class="searchs pull-right">
 					<form>
@@ -84,7 +70,7 @@
 						<img th:src="${item.bankImageUrl}" alt="logo">
 					</div>
 					<div class="content-top-left1 col-sm-1 pull-right">
-						<a th:href="@{'/register?bankId='+${item.id}}"><button>立即申请</button></a>
+						<a th:href="@{'/index?bankId='+${item.id}}"><button>立即申请</button></a>
 					</div>
 					<div class="content-top-right col-sm-8 pull-right">
 						<div class="content-lefts">
@@ -170,6 +156,8 @@
 			});
 	})
 </script>
+<!--用户状态获取-->
+<script th:href="@{zxqy/js/userInfomation}" src="zxqy/js/userInfomation.js"></script>
 </body>
 
 </html>

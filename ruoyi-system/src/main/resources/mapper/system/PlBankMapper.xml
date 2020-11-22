@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.PlBankMapper">
-    
+
     <resultMap type="PlBank" id="PlBankResult">
         <result property="id"    column="id"    />
         <result property="bankName"    column="bank_name"    />
@@ -20,15 +20,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="applicationConditions"    column="application_conditions"    />
         <result property="applicationMaterials"    column="application_materials"    />
         <result property="guaranteeId"    column="guarantee_id"    />
+        <result property="status"    column="status"    />
     </resultMap>
 
     <sql id="selectPlBankVo">
-        select id, bank_name, bank_image_url, loan_limit, Loan_term, guarantee_method, bank_interest_rate, create_by, create_time, update_by, update_time, applicable_users, application_conditions, application_materials,guarantee_id from pl_bank
+        select id, bank_name, bank_image_url, loan_limit, Loan_term, guarantee_method, bank_interest_rate, create_by, create_time, update_by, update_time, applicable_users, application_conditions, application_materials,guarantee_id,status from pl_bank
     </sql>
 
     <select id="selectPlBankList" parameterType="PlBank" resultMap="PlBankResult">
         <include refid="selectPlBankVo"/>
-        <where>  
+        <where>
             <if test="bankName != null  and bankName != ''"> and bank_name like concat('%', #{bankName}, '%')</if>
             <if test="bankImageUrl != null  and bankImageUrl != ''"> and bank_image_url = #{bankImageUrl}</if>
             <if test="loanLimit != null  and loanLimit != ''"> and loan_limit = #{loanLimit}</if>
@@ -43,15 +44,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="applicationConditions != null  and applicationConditions != ''"> and application_conditions = #{applicationConditions}</if>
             <if test="applicationMaterials != null  and applicationMaterials != ''"> and application_materials = #{applicationMaterials}</if>
             <if test="guaranteeId != null  and guaranteeId != ''"> and guarantee_id = #{guaranteeId}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
 
         </where>
     </select>
-    
+
     <select id="selectPlBankById" parameterType="Long" resultMap="PlBankResult">
         <include refid="selectPlBankVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertPlBank" parameterType="PlBank" useGeneratedKeys="true" keyProperty="id">
         insert into pl_bank
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -106,6 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="applicationConditions != null  and applicationConditions != ''">application_conditions = #{applicationConditions},</if>
             <if test="applicationMaterials != null  and applicationMaterials != ''">application_materials = #{applicationMaterials},</if>
             <if test="guaranteeId != null  and guaranteeId != ''">guarantee_id = #{guaranteeId},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
         </trim>
         where id = #{id}
     </update>
@@ -115,10 +118,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deletePlBankByIds" parameterType="String">
-        delete from pl_bank where id in 
+        delete from pl_bank where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-    
+
 </mapper>

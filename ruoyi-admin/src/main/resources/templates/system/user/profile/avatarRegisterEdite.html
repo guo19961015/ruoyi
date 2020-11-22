@@ -81,7 +81,7 @@ function submitHandler() {
         dataType: 'json',
         success: function(result) {
          var parens =    window.parent.document;
-            parens.getElementById("organizationPicture").src = "/ry" + result.fileName;
+            parens.getElementById("organizationPicture").src =  "/ry" + result.fileName;
             $.modal.close();
         }
     })

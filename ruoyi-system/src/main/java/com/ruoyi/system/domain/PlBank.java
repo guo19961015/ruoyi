@@ -7,7 +7,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 银行信息对象 pl_bank
- * 
+ *
  * @author ruoyi
  * @date 2020-08-29
  */
@@ -59,93 +59,97 @@ public class PlBank extends BaseEntity
     private String userId;
 
     private String guaranteeId;
-    public void setId(Long id) 
+    /** 帐号状态（0正常 1停用） */
+    @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
+    private String status;
+
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public Long getId()
     {
         return id;
     }
-    public void setBankName(String bankName) 
+    public void setBankName(String bankName)
     {
         this.bankName = bankName;
     }
 
-    public String getBankName() 
+    public String getBankName()
     {
         return bankName;
     }
-    public void setBankImageUrl(String bankImageUrl) 
+    public void setBankImageUrl(String bankImageUrl)
     {
         this.bankImageUrl = bankImageUrl;
     }
 
-    public String getBankImageUrl() 
+    public String getBankImageUrl()
     {
         return bankImageUrl;
     }
-    public void setLoanLimit(String loanLimit) 
+    public void setLoanLimit(String loanLimit)
     {
         this.loanLimit = loanLimit;
     }
 
-    public String getLoanLimit() 
+    public String getLoanLimit()
     {
         return loanLimit;
     }
-    public void setLoanTerm(String loanTerm) 
+    public void setLoanTerm(String loanTerm)
     {
         this.loanTerm = loanTerm;
     }
 
-    public String getLoanTerm() 
+    public String getLoanTerm()
     {
         return loanTerm;
     }
-    public void setGuaranteeMethod(String guaranteeMethod) 
+    public void setGuaranteeMethod(String guaranteeMethod)
     {
         this.guaranteeMethod = guaranteeMethod;
     }
 
-    public String getGuaranteeMethod() 
+    public String getGuaranteeMethod()
     {
         return guaranteeMethod;
     }
-    public void setBankInterestRate(Double bankInterestRate) 
+    public void setBankInterestRate(Double bankInterestRate)
     {
         this.bankInterestRate = bankInterestRate;
     }
 
-    public Double getBankInterestRate() 
+    public Double getBankInterestRate()
     {
         return bankInterestRate;
     }
-    public void setApplicableUsers(String applicableUsers) 
+    public void setApplicableUsers(String applicableUsers)
     {
         this.applicableUsers = applicableUsers;
     }
 
-    public String getApplicableUsers() 
+    public String getApplicableUsers()
     {
         return applicableUsers;
     }
-    public void setApplicationConditions(String applicationConditions) 
+    public void setApplicationConditions(String applicationConditions)
     {
         this.applicationConditions = applicationConditions;
     }
 
-    public String getApplicationConditions() 
+    public String getApplicationConditions()
     {
         return applicationConditions;
     }
-    public void setApplicationMaterials(String applicationMaterials) 
+    public void setApplicationMaterials(String applicationMaterials)
     {
         this.applicationMaterials = applicationMaterials;
     }
 
-    public String getApplicationMaterials() 
+    public String getApplicationMaterials()
     {
         return applicationMaterials;
     }
@@ -175,6 +179,14 @@ public class PlBank extends BaseEntity
         this.guaranteeId = guaranteeId;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -193,6 +205,7 @@ public class PlBank extends BaseEntity
             .append("applicationConditions", getApplicationConditions())
             .append("applicationMaterials", getApplicationMaterials())
             .append("guaranteeId", getGuaranteeId())
+            .append("status", getStatus())
             .toString();
     }
 }

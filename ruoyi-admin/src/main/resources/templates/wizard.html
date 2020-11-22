@@ -62,8 +62,8 @@
 
                     <form id="form" action="" class="wizard-big">
                         <h1>基本信息</h1>
-                        <fieldset style="overflow-y: scroll">
-                            <h2>基本信息</h2>
+                        <fieldset style="overflow-y: scroll;color: #333333;">
+                            <h2 style="color: #333333;">基本信息</h2>
                             <div class="row">
                                 <div class="col-sm-2">
                                     <div class="form-group">
@@ -110,12 +110,12 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label>主营业务 *</label>
-                                        <textarea id="reason" name="reason" type="text" class="form-control required"></textarea>
+                                        <label>主营业务(字数限制200) *</label>
+                                        <textarea id="reason" name="reason"  type="text" maxlength="200" class="form-control required"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>法人电话 *</label>
-                                        <input id="legalNumber" name="legalNumber" type="text" class="form-control required">
+                                        <input id="legalNumber" name="legalNumber"  type="text" class="form-control required">
                                     </div>
                                     <div class="form-group">
                                         <label>联系人电话 *</label>
@@ -127,7 +127,7 @@
                             </div>
                             <div class="row">
 
-                                <div class="form-group" style="font-size: 18px;">
+                                <div class="form-group" style="font-size: 18px;color: #333333;">
                                     <label>服务机构产品: *</label>
                                     <input type="hidden" name="serviceProductsList" id="serviceProductsList" value="">
                                     <input name="serviceProducts"  th:each="dict:${@dict.getType('plate')}" class="required serviceProducts" type="checkbox" th:value="${dict.dictValue}" th:attr="data-value=${dict.dictLabel}"  th:text="${dict.dictLabel}" th:disabled="${dict.status == '1'}">
@@ -184,13 +184,13 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>服务机构log *(点击图片修改或上传)</label>
-                                        <p><a href="javascript:avatar()"><img id="organizationPicture" name="organizationPicture"  alt="点击上传服务机构log"  width="265px" height="111px"></a></p>
+                                        <label>服务机构logo *(点击图片修改或上传)</label>
+                                        <p><a href="javascript:avatar()"><img id="organizationPicture" name="organizationPicture"   alt="点击上传服务机构logo"  width="265px" height="111px"></a></p>
                                     </div>
                                     <div class="form-group">
                                         <label>资质展示(营业执照) *</label>
-                                        <input  name="url"  style="display:none"  onchange="uploadFile('url')" class="form-control" type="file" />
-                                        <input id="qualificationDisplay" name="qualificationDisplay" placeholder="点击上传资质展示" type="text"  readonly="readonly" class="form-control required">
+                                        <input  name="url"  style="display:none"  onchange="uploadFile('url')" class="form-control" type="file" accept="image/jpeg,image/png,image/gif" />
+                                        <input id="qualificationDisplay" name="qualificationDisplay" placeholder="点击上传资质展示" type="text"  readonly="readonly" class="form-control required"  >
                                     </div>
                                     <div class="form-group">
                                         <label class="font-noraml">其它资质上传</label>
@@ -351,7 +351,7 @@
         var serviceProducts = $.common.trim(($("input[name='serviceProductsList']").val()));
         var synopsis = $('.click2edit2').summernote('code');
         var qualificationDisplay = $.common.trim($("input[name='qualificationDisplay']").val());
-        var organizationPicture = $.common.trim( $('#organizationPicture')[0].src);
+        var organizationPicture = $.common.trim($('#organizationPicture').attr("src").split("/ry")[1]);
         var flage = $.common.trim($("input[name='flage']").val());
 
         var loginName = $.common.trim($("input[name='loginName']").val());
@@ -393,7 +393,6 @@
             "other": other
         };
         var url = ctx + "mechanismRegister";
-        debugger;
         $.ajax({
             type: "post",
             url: url,

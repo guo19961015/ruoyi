@@ -28,62 +28,68 @@
 
 <div class="signinpanel">
     <div class="row">
+        <div class="logos col-sm-12">
+            <img alt="[ 鄂尔多斯市中小企业公共服务平台 ]" src="../static/img/logo.png" th:src="@{/img/logo.png}">
+        </div>
         <div class="col-sm-7">
             <div class="signin-info">
                 <div class="logopanel m-b">
                     <h1><!--<img alt="[ 鄂尔多斯市中小企业公共服务平台 ]" src="../static/ruoyi.png" th:src="@{/ruoyi.png}">--></h1>
                 </div>
                 <div class="m-b"></div>
-                <h1 style="text-align: center;font-size: 42px;">鄂尔多斯市</br>中小企业公共服务平台</h1>
+                <!--                <h1 style="text-align: center;font-size: 42px;">鄂尔多斯市</br>中小企业公共服务平台</h1>-->
                 <!--<ul class="m-b">
                     <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> &lt;!&ndash;Activiti 6.x&ndash;&gt;</li>
                     <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> &lt;!&ndash;SpringBoot 2.x&ndash;&gt;</li>
                     <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> &lt;!&ndash;Thymeleaf 3.x&ndash;&gt;</li>
                     <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> &lt;!&ndash;Bootstrap 3.x&ndash;&gt;</li>
                 </ul>-->
-               <!-- <div style="color: black;">
-                    <h4>流程用户和用户组 (密码均为账户名)：</h4>
-                    <ol>
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>普通企业用户：test11</li>
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>旗区审批用户：test12</li>
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>担保审批用户：test13</li>
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>银行审批用户：test14</li>
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>市级决策委员会用户：test15</li>
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>银行放款用户：test16</li>
+                <div>
+                    <div class="introduce">
+                        鄂尔多斯市中小企业公共服务平台遵循社会化、专业化、市场化原则，引导和带动社会各类服务资源在政策解读、管理咨询、融资担保、信用评价、创业辅导、人才培训、财税咨询、品牌战略、质量创新、法律维权、评估认证、电子商务、研发设计、信息咨询、市场开拓等方面主动为中小企业提供指导、帮助和服务。
+                        </br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;鄂尔多斯市中小企业公共服务平台充分对接和挖掘中小企业公共服务需求，加大特色化、个性化服务产品供给，不断创新服务模式，补齐服务短板，推动“互联网+”中小企业服务的深度融合，优化创业创新服务环境，为全市中小微企业提供及时、便利、精准的服务。
+                    </div>
+                    <!--                    <h4>流程用户和用户组 (密码均为账户名)：</h4>-->
+                    <!--                    <ol>-->
+                    <!--                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>普通企业用户：test11</li>-->
+                    <!--                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>旗区审批用户：test12</li>-->
+                    <!--                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>担保审批用户：test13</li>-->
+                    <!--                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>银行审批用户：test14</li>-->
+                    <!--                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>市级决策委员会用户：test15</li>-->
+                    <!--                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>银行放款用户：test16</li>-->
 
-                    </ol>
-                    <h4>p.s. 流程管理请使用 admin 账号维护</h4>
-                </div>-->
+                    <!--                    </ol>-->
+                    <!--                    <h4>p.s. 流程管理请使用 admin 账号维护</h4>-->
+                </div>
             </div>
         </div>
-        <div class="col-sm-5">
-            <form id="signupForm">
-                <h4 class="no-margins">登录：</h4>
-                <p class="m-t-md"><!--你若不离不弃，我必生死相依--></p>
-                <input type="text"     name="username" class="form-control uname"     placeholder="用户名"     />
-                <input type="password" name="password" class="form-control pword"     placeholder="密码"  />
-                <div class="row m-t" th:if="${captchaEnabled==true}">
-                    <div class="col-xs-6">
-                        <input type="text" name="validateCode" class="form-control code" placeholder="验证码" maxlength="5" autocomplete="off">
+        <div class="col-sm-4 pull-right">
+            <div class="box-s">
+                <form id="signupForm">
+                    <h4 class="no-margins">登录：</h4>
+                    <p class="m-t-md"><!--你若不离不弃，我必生死相依--></p>
+                    <input type="text"     name="username" class="form-control uname"     placeholder="用户名"     />
+                    <input type="password" name="password" class="form-control pword"     placeholder="密码"  />
+                    <div class="row m-t" th:if="${captchaEnabled==true}">
+                        <div class="col-xs-6">
+                            <input type="text" name="validateCode" class="form-control code" placeholder="验证码" maxlength="5" autocomplete="off">
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="javascript:void(0);" title="点击更换验证码">
+                                <img th:src="@{captcha/captchaImage(type=${captchaType})}" class="imgcode" width="85%"/>
+                            </a>
+                        </div>
                     </div>
-                    <div class="col-xs-6">
-                        <a href="javascript:void(0);" title="点击更换验证码">
-                            <img th:src="@{captcha/captchaImage(type=${captchaType})}" class="imgcode" width="85%"/>
-                        </a>
+                    <div class="checkbox-custom" th:classappend="${captchaEnabled==false} ? 'm-t'" style="color: #004ba9;">
+                        <input type="checkbox" id="rememberme" name="rememberme"> <label for="rememberme">记住我</label>
                     </div>
-                </div>
-                <div class="checkbox-custom" th:classappend="${captchaEnabled==false} ? 'm-t'">
-                    <input type="checkbox" id="rememberme" name="rememberme"> <label for="rememberme">记住我</label>
-                </div>
-                <div class="left" >
-                    <a th:href="@{/register}"><span style="color: red;">立即注册</span></a>
-
-                </div>
-                <!--<div class="right" >
-                    <a th:href="@{/register}"><span style="color: red;">服务机构注册</span></a>
-                </div>-->
-                <button class="btn btn-success btn-block" id="btnSubmit" data-loading="正在验证登录，请稍后...">登录</button>
-            </form>
+                    <div class="left" >
+                        <a th:href="@{/register}"><span style="color: red;float: left;">企业注册</span></a>
+                        <a th:href="@{/wizard}"><span style="color: red;float: right;">服务机构注册</span></a>
+                    </div>
+                    <button class="btn btn-success btn-block" id="btnSubmit" data-loading="正在验证登录，请稍后...">登录</button>
+                </form>
+            </div>
         </div>
     </div>
     <!--<div class="signup-footer">
@@ -137,7 +143,7 @@
             },
             success: function(r) {
                 if (r.code == 0) {
-                    location.href = ctx + 'index?bankId='+bankId;
+                    location.href = ctx + 'home?bankId='+bankId;
                 } else {
                     $.modal.closeLoading();
                     $('.imgcode').click();

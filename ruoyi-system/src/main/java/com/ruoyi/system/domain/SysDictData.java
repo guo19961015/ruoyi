@@ -10,7 +10,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 字典数据表 sys_dict_data
- * 
+ *
  * @author ruoyi
  */
 public class SysDictData extends BaseEntity
@@ -53,6 +53,9 @@ public class SysDictData extends BaseEntity
     private String status;
 
     private String flage ="false";
+
+    //数据统计分析需要字段
+    private String number;
 
     public Long getDictCode()
     {
@@ -162,6 +165,14 @@ public class SysDictData extends BaseEntity
 
     public void setFlage(String flage) {
         this.flage = flage;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     @Override
