@@ -165,7 +165,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 font-noraml">其它资质上传</label>
                                         <div class="col-sm-10">
-                                            <input id="fileinput-demo-1" th:type="file" name="file"  multiple>
+                                            <input id="fileinput-demo-1" th:type="file" name="other"  multiple>
                                         </div>
                                     </div>
                                    <!-- <div class="row">
@@ -255,12 +255,15 @@
             for(var i = 0;i<images.length;i++){
                 images[i] = ctx +images[i];
                 var array_element = images[i];
+                var imageName = array_element.substring(array_element .lastIndexOf("/")+1);
                 var tjson = {
-                    caption: array_element.substring(array_element .lastIndexOf("/")+1), // 展示的文件名
+                    caption: imageName, // 展示的文件名
                     width: '120px',
-                    url: array_element, // 删除url
-                    key: "1" // 删除是Ajax向后台传递的参数
+                    url: ctx+'system/user/profile/otherDelete', // 删除url
+                    key: "1" ,// 删除是Ajax向后台传递的参数
+                    extra: {userId: '[[${user.userId}]]',other: imageName} //调用删除路径所传参数
                 };
+                console.log(tjson);
                 preConfigList[i] = tjson;
             }
 
@@ -285,9 +288,11 @@
             }).on("fileuploaded", function(event, data, previewId, index) {
                 var url = data.response.url;
                 imageData.push(url);
+                debugger;
+                console.log(imageData);
                 $('#other').val(imageData);
             });
-            $('#input-id').on('filesuccessremove', function(event, id) {
+            $('#fileinput-demo-1').on('filesuccessremove', function(event, id) {
                 if (some_processing_function(id)) {
                     console.log('Uploaded thumbnail successfully removed');
                 } else {
@@ -309,7 +314,6 @@
                     contentType: false,
                     dataType: "json",
                     success: function (result) {
-                        debugger;
                         $('.qualificationDisplayImg').attr("src","");
                         $('.qualificationDisplayImg').attr("src",ctx + result.fileName);
                         $.modal.closeLoading(); 	//遮罩结束

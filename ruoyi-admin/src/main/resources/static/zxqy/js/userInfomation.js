@@ -2,7 +2,7 @@ $(document).ready(function () {
     /*url: "https://www.ordoszxqy.org.cn/ry/userInformation",*/
     $.ajax({
         type: "get",
-        url: "https://www.ordoszxqy.org.cn/ry/userInformation",
+        url: "userInformation",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (data) {

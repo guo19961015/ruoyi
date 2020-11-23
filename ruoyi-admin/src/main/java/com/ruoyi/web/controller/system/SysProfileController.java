@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.system;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.ruoyi.common.config.ServerConfig;
 import com.ruoyi.common.core.text.Convert;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -22,9 +23,10 @@ import com.ruoyi.framework.shiro.service.SysPasswordService;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysUserService;
+import oshi.util.StringUtil;
 
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * 个人信息 业务处理
@@ -193,7 +195,32 @@ public class SysProfileController extends BaseController
         mmap.put("user", userService.selectUserById(user.getUserId()));
         return prefix + "/edit";
     }
-
+    /**
+     * 其它资质删除指定的图片
+     */
+    @RequiresPermissions({"otherDelete"})
+    @PostMapping("/otherDelete")
+    @ResponseBody
+    public String otherDelete(@RequestParam("key") String key,@RequestParam("userId") Long userId,@RequestParam("other") String other,ModelMap mmap)
+    {
+        SysUser sysUser = userService.selectUserById(userId);
+        String otherValues = "";
+        ArrayList lists = new ArrayList();
+        if (sysUser != null) {
+            String otherList = sysUser.getOther();
+            if (otherList != null) {
+                lists = new ArrayList(Arrays.asList(otherList.split(",")));
+                for (int i = 0; i < lists.size(); i++) {
+                    boolean b = lists.get(i).toString().contains(other);
+                    if(b){
+                        lists.remove(i);
+                    }
+                }
+            }
+        }
+        System.out.println(111);
+        return prefix + "/profileEdite";
+    }
     /**
      * 修改头像
      */

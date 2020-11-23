@@ -104,6 +104,7 @@
 	<div class="index-back index">返回首页</div>
 </div>
 <script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+<th:block th:include="include :: footer" />
 <script>
 	$(function() {
 		$(".head").load("zxqy/head.html");
@@ -131,11 +132,11 @@
 			contentType: false,
 			dataType: "json",
 			success: function (result) {
-				let success = result.success;
+				var success = result.success;
 				if(success == "login"){
 					location.href=ctx+'/login';
 				}else if(success == "false"){
-					alert("改用户未申请该服务产品！");
+                    $.modal.alertError("该用户未申请该服务产品！");
 				}else if(success == "true"){
 					location.href=ctx+'complaints';
 				}

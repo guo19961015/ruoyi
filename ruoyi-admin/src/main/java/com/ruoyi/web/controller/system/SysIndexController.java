@@ -105,7 +105,20 @@ public class SysIndexController extends BaseController
     @ResponseBody
     public AjaxResult complaintsSave(PlComplaints plComplaints, HttpServletRequest request)
     {
-        return AjaxResult.success(plComplaintsService.insertPlComplaints(plComplaints));
+        AjaxResult ajaxResult = new AjaxResult();
+        // 判断当前用户是否已经评论过
+        PlComplaints plComplaints2 = new PlComplaints();
+        plComplaints2.setUserId(String.valueOf(ShiroUtils.getUserId()));
+        plComplaints2.setProductId(plComplaints.getProductId());
+        List<PlComplaints> plComplaints1 = plComplaintsService.selectPlComplaintsList(plComplaints2);
+        if (plComplaints1 != null) {
+            if(plComplaints1.size()>0){
+                ajaxResult.put("error","该用户已经提交投诉意见，不可重复提交！");
+            }else {
+                ajaxResult.put("success",plComplaintsService.insertPlComplaints(plComplaints));
+            }
+        }
+        return ajaxResult;
     }
     // 查询当前用户是否有该业务
     @GetMapping("/selectComplaints")
