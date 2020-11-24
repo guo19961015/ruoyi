@@ -7,7 +7,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 产品对象 ry_product
- * 
+ *
  * @author xiaoguo
  * @date 2020-09-25
  */
@@ -25,33 +25,34 @@ public class RyProduct extends BaseEntity
     /** 服务机构（用户的一种）id */
     @Excel(name = "服务机构", readConverterExp = "用=户的一种")
     private String userId;
-
+    private String userName;
     private String serviceProductsId;
+    private String dataScope;
 
-    public void setId(Long id) 
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public Long getId()
     {
         return id;
     }
-    public void setIntroduce(String introduce) 
+    public void setIntroduce(String introduce)
     {
         this.introduce = introduce;
     }
 
-    public String getIntroduce() 
+    public String getIntroduce()
     {
         return introduce;
     }
-    public void setUserId(String userId) 
+    public void setUserId(String userId)
     {
         this.userId = userId;
     }
 
-    public String getUserId() 
+    public String getUserId()
     {
         return userId;
     }
@@ -64,6 +65,22 @@ public class RyProduct extends BaseEntity
         this.serviceProductsId = serviceProductsId;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getDataScope() {
+        return dataScope;
+    }
+
+    public void setDataScope(String dataScope) {
+        this.dataScope = dataScope;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -71,6 +88,7 @@ public class RyProduct extends BaseEntity
             .append("introduce", getIntroduce())
             .append("userId", getUserId())
             .append("serviceProductsId", getServiceProductsId())
+            .append("dataScope", getDataScope())
             .toString();
     }
 }

@@ -18,6 +18,17 @@
     .service-list-left ul li {
         margin-bottom: 30px;
     }
+    .fenge{
+
+        padding:12px 6px 79px 6px;
+
+        margin-left: 6px;
+
+        border-left: 1px solid #dcdcdc;
+
+        font-size: 0;
+
+    }
 </style>
 	<body>
 		<div class="head"></div>
@@ -104,25 +115,75 @@
 						</div>
 					</div>
 					<div class="service-list-right col-sm-3">
-						<div class="index-title col-sm-12">
+						<div class="index-title col-sm-12" style="width: 356px;">
 							<span><a href=""><i>数据</i>统计</a></span>
 						</div>
-						<div class="service-right col-sm-12">
-							<div>
-								<span id="great">80</span>
-								<p>成功对接事项</p>
-								<i></i>
-							</div>
-							<div>
-								<span id="serviceNum">122</span>
-								<p>入驻服务机构数量</p>
-								<i></i>
-							</div>
-							<div>
-								<span id="orgNum">400</span>
-								<p>入驻企业数量</p>
-							</div>
+						<div class="service-right col-sm-11" style="width: 356px;">
+                            <div class="row" style="width: 408px;padding: 12px 23px;">
+                                <div class="col-md-3">
+                                    <span id="great">80</span>
+                                    <p>成功对接事项</p>
+
+                                </div>
+                                <div class="col-md-1"><span class="fenge"></span></div>
+                                <div class="col-md-3">
+                                    <span id="serviceNum">122</span>
+                                    <p>入驻服务机构数量</p>
+                                </div>
+                                <div class="col-md-1"><span class="fenge"></span></div>
+                                <div class="col-md-3">
+                                    <span id="orgNum">400</span>
+                                    <p>入驻企业数量</p>
+                                </div>
+                            </div>
 						</div>
+						<div class="service-right col-sm-11" style="width: 356px;">
+                            <div class="panel panel-default">
+
+                                <div class="panel-heading">
+
+                                    <span class="glyphicon glyphicon-list-alt"></span><b>成功实例</b></div>
+
+                                <div class="panel-body">
+
+                                    <div class="row">
+
+                                        <div class="col-xs-12">
+
+                                            <ul class="demo1">
+
+                                                <li class="news-item">
+
+                                                    <table cellpadding="4">
+
+                                                        <tr>
+
+                                                            <td><img src="images/1.png" width="60" class="img-circle" /></td>
+
+                                                            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in venenatis enim... <a href="#">Read more...</a></td>
+
+                                                        </tr>
+
+                                                    </table>
+                                                </li>
+
+                                            </ul>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="panel-footer">
+
+
+
+                                </div>
+
+                            </div>
+						</div>
+
 					</div>
 				</div>
 			</div>
@@ -257,7 +318,40 @@
                 $('.servicePage').html(pageInfoContent);
             }
 		</script>
+        <script th:href="@{jquery-bootstrup-lunbo/js/jquery.bootstrap.newsbox.min.js}" src="/static/jquery-bootstrup-lunbo/js/jquery.bootstrap.newsbox.min.js"></script>
+        <script type="text/javascript">
 
+            $(function () {
+
+                $(".demo1").bootstrapNews({
+
+                    newsPerPage: 5,
+
+                    autoplay: true,
+
+                    pauseOnHover:true,
+
+                    direction: 'up',
+
+                    newsTickerInterval: 1000,
+
+                    onToDo: function () {
+
+                        //console.log(this);
+
+                    }
+
+                });
+
+
+
+
+
+
+
+            });
+
+        </script>
 	</body>
 
 </html>

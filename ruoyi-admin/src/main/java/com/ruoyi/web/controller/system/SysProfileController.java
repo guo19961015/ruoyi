@@ -66,8 +66,8 @@ public class SysProfileController extends BaseController
         return  prefix + "/serviceUser";
     }
 
-    @GetMapping("/profileEdite/{userId}")
-    public String profileEdite(@PathVariable("userId") Long userId,ModelMap mmap, String[] split)
+    @GetMapping("/profileEdite")
+    public String profileEdite(Long userId,ModelMap mmap, String[] split)
     {
         SysUser sysUser = userService.selectUserById(userId);
         // 其它资质上传String转list
@@ -201,7 +201,7 @@ public class SysProfileController extends BaseController
     @RequiresPermissions({"otherDelete"})
     @PostMapping("/otherDelete")
     @ResponseBody
-    public String otherDelete(@RequestParam("key") String key,@RequestParam("userId") Long userId,@RequestParam("other") String other,ModelMap mmap)
+    public AjaxResult otherDelete(@RequestParam("key") String key,@RequestParam("userId") Long userId,@RequestParam("other") String other,ModelMap mmap)
     {
         SysUser sysUser = userService.selectUserById(userId);
         String otherValues = "";
@@ -218,8 +218,22 @@ public class SysProfileController extends BaseController
                 }
             }
         }
-        System.out.println(111);
-        return prefix + "/profileEdite";
+        String otherString  = "";
+        if (lists != null) {
+            for (int i = 0; i < lists.size(); i++) {
+                if(i == 0){
+                    otherString = otherString  + lists.get(i);
+                }else {
+                    otherString = otherString  + "," + lists.get(i);
+                }
+            }
+        }
+        SysUser sysUser1 = new SysUser();
+        sysUser1.setUserId(userId);
+        sysUser1.setOther(otherString);
+        userService.updateUserInfo(sysUser1);
+
+        return success();
     }
     /**
      * 修改头像
@@ -230,6 +244,15 @@ public class SysProfileController extends BaseController
         SysUser user = ShiroUtils.getSysUser();
         mmap.put("user", userService.selectUserById(user.getUserId()));
         return prefix + "/avatar";
+    } /**
+     * 根据id修改头像
+     */
+    @GetMapping("/avatarUserId")
+    public String avatarUserId(Long userId,ModelMap mmap)
+    {
+
+        mmap.put("user", userService.selectUserById(userId));
+        return prefix + "/avatarDouble";
     }
 
     /**
@@ -252,7 +275,22 @@ public class SysProfileController extends BaseController
         }
         return error();
     }
+    /**
+     * 修改服务机构用户
+     */
+    @Log(title = "个人信息", businessType = BusinessType.UPDATE)
+    @PostMapping("/updateServiceUser")
+    @ResponseBody
+    public AjaxResult updateServiceUser(SysUser user)
+    {
 
+
+        if (userService.updateUserInfo(user) > 0)
+        {
+            return success();
+        }
+        return error();
+    }
     /**
      * 保存头像
      */
@@ -271,6 +309,36 @@ public class SysProfileController extends BaseController
                 if (userService.updateUserInfo(currentUser) > 0)
                 {
                     ShiroUtils.setSysUser(userService.selectUserById(currentUser.getUserId()));
+                    return success();
+                }
+            }
+            return error();
+        }
+        catch (Exception e)
+        {
+            log.error("修改头像失败！", e);
+            return error(e.getMessage());
+        }
+    }
+    /**
+     * 根据id保存头像
+     */
+    @Log(title = "个人信息", businessType = BusinessType.UPDATE)
+    @PostMapping("/updateAvatarDouble")
+    @ResponseBody
+    public AjaxResult updateAvatarDouble(@RequestParam("avatarfile") MultipartFile file,@RequestParam("userId") Long userId)
+    {
+        SysUser sysUser = new SysUser();
+        sysUser.setUserId(userId);
+        try
+        {
+            if (!file.isEmpty())
+            {
+                String avatar = FileUploadUtils.upload(Global.getAvatarPath(), file);
+                sysUser.setAvatar(avatar);
+                if (userService.updateUserInfo(sysUser) > 0)
+                {
+                    ShiroUtils.setSysUser(userService.selectUserById(sysUser.getUserId()));
                     return success();
                 }
             }

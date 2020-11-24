@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.activiti.mapper.RyProductMapper">
-    
+
     <resultMap type="RyProduct" id="RyProductResult">
         <result property="id"    column="id"    />
         <result property="introduce"    column="introduce"    />
@@ -12,23 +12,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectRyProductVo">
-        select id, introduce, user_id,service_products_id from ry_product
+       select rp.id, rp.introduce, rp.user_id,rp.service_products_id from ry_product rp  left join sys_user u on u.user_id = rp.user_id
     </sql>
 
     <select id="selectRyProductList" parameterType="RyProduct" resultMap="RyProductResult">
         <include refid="selectRyProductVo"/>
-        <where>  
-            <if test="introduce != null  and introduce != ''"> and introduce = #{introduce}</if>
-            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
-            <if test="serviceProductsId != null  and serviceProductsId != ''"> and service_products_id = #{serviceProductsId}</if>
+        <where>
+            <if test="introduce != null  and introduce != ''"> and rp.introduce = #{introduce}</if>
+            <if test="userId != null  and userId != ''"> and rp.user_id = #{userId}</if>
+            <if test="serviceProductsId != null  and serviceProductsId != ''"> and rp.service_products_id = #{serviceProductsId}</if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
         </where>
     </select>
-    
+
     <select id="selectRyProductById" parameterType="Long" resultMap="RyProductResult">
         <include refid="selectRyProductVo"/>
-        where id = #{id}
+        where rp.id = #{id}
     </select>
-        
+
     <insert id="insertRyProduct" parameterType="RyProduct">
         insert into ry_product
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -60,10 +62,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteRyProductByIds" parameterType="String">
-        delete from ry_product where id in 
+        delete from ry_product where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-    
+
 </mapper>

@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-sm-9 about">
             <div class="ibox float-e-margins">
                 <div class="ibox-title ibox-title-gray dashboard-header">
@@ -92,84 +92,7 @@
 											</div>
                                         </div>
                                     </div>
-                                   <!-- <div class="form-group" th:style="*{address}?'display: none':''">
-                                        <label class="col-sm-2 control-label">企业地址：</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="address" th:field="*{address}" >
-                                        </div>
-                                    </div>
-                                    <div class="form-group" th:style="*{serviceTime}?'display: none':''">
-                                        <label class="col-sm-2 control-label">服务时间：</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="serviceTime" th:field="*{serviceTime}" >
-                                        </div>
-                                    </div>
-                                    <div class="form-group" th:style="*{creditaCode}?'display: none':''">
-                                        <label class="col-sm-2 control-label">统一社会信用代码：</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="creditaCode" th:field="*{creditaCode}" >
-                                        </div>
-                                    </div>
-                                    <div class="form-group" th:style="*{legal}?'display: none':''">
-                                        <label class="col-sm-2 control-label">企业法人：</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="legal" th:field="*{legal}" >
-                                        </div>
-                                    </div>
-                                    <div class="form-group" th:style="*{contacts}?'display: none':''">
-                                        <label class="col-sm-2 control-label">联系人：</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="contacts" th:field="*{contacts}" >
-                                        </div>
-                                    </div>
-                                    <div class="form-group" th:style="*{reason}?'display: none':''">
-                                        <label class="col-sm-2 control-label">主营业务：</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="reason" th:field="*{reason}" >
-                                        </div>
-                                    </div>
-                                    <div class="form-group" th:style="*{legalNumber}?'display: none':''">
-                                        <label class="col-sm-2 control-label">法人电话：</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="legalNumber" th:field="*{legalNumber}" >
-                                        </div>
-                                    </div>
-                                    <div class="form-group" th:style="*{contactsNumber}?'display: none':''">
-                                        <label class="col-sm-2 control-label">联系人电话：</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="contactsNumber" th:field="*{contactsNumber}" >
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label class="col-xs-2 control-label">服务机构产品: *</label>
-                                                <div class="col-xs-10">
-                                                    <label th:each="dict:${sysDictList}" class="check-box ">
-                                                        <input name="serviceProducts" th:checked="${dict.flage}"   class=" serviceProducts"  type="checkbox" th:value="${dict.dictValue}" th:attr="data-value=${dict.dictLabel}"  th:text="${dict.dictLabel}"  >
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label class="col-xs-2 control-label">产品介绍:</label>
-                                                <div class="col-xs-10">
-                                                    <div class="row">
-                                                        <div class="tabs-container">
-                                                            <ul class="nav nav-tabs">
-                                                            </ul>
-                                                            <div class="tab-content">
 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <button type="button" class="btn btn-sm btn-primary" onclick="submitUserInfo()"><i class="fa fa-check"></i>保 存</button>&nbsp;
@@ -178,7 +101,6 @@
                                     </div>
                                 </form>
                             </div>
-                            -->
                             <!--修改密码-->
                             <div class="tab-pane" id="modify_password">
                                 <form class="form-horizontal" id="form-user-resetPwd">
@@ -215,7 +137,7 @@
         </div>
     </div>
 	</section>
-    
+
     <th:block th:include="include :: footer" />
     <script>
 	    /*用户管理-头像*/
@@ -223,7 +145,7 @@
 	        var url = ctx + 'system/user/profile/avatar';
 	        $.modal.open("修改头像", url);
 	    }
-	    
+
 	    /*用户信息-修改*/
 	    $("#form-user-edit").validate({
 			onkeyup: false,
@@ -287,13 +209,13 @@
 		    },
 		    focusCleanup: true
 		});
-		
+
 		function submitUserInfo() {
 	        if ($.validate.form()) {
 	        	$.operate.saveModal(ctx + "system/user/profile/update", $('#form-user-edit').serialize());
 	        }
 	    }
-	    
+
 	    /*用户管理-修改密码*/
 	    $("#form-user-resetPwd").validate({
 	    	onkeyup: false,
@@ -339,7 +261,7 @@
 	        },
 	        focusCleanup: true
 		});
-		
+
 		function submitChangPassword () {
 	        if ($.validate.form("form-user-resetPwd")) {
 	        	$.operate.saveModal(ctx + "system/user/profile/resetPwd", $('#form-user-resetPwd').serialize());

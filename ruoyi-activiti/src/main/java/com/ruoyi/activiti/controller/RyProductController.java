@@ -1,6 +1,9 @@
 package com.ruoyi.activiti.controller;
 
 import java.util.List;
+
+import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ISysUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,9 +22,11 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
+import javax.validation.constraints.Size;
+
 /**
  * 产品Controller
- * 
+ *
  * @author xiaoguo
  * @date 2020-09-25
  */
@@ -33,6 +38,8 @@ public class RyProductController extends BaseController
 
     @Autowired
     private IRyProductService ryProductService;
+    @Autowired
+    private ISysUserService iSysUserService;
 
     @RequiresPermissions("product:product:view")
     @GetMapping()
@@ -51,6 +58,15 @@ public class RyProductController extends BaseController
     {
         startPage();
         List<RyProduct> list = ryProductService.selectRyProductList(ryProduct);
+        if (list != null) {
+            for (RyProduct product : list) {
+                String userId = product.getUserId();
+                if (userId != null) {
+                    SysUser sysUser = iSysUserService.selectUserById(Long.valueOf(userId));
+                    product.setUserName(sysUser.getUserName());
+                }
+            }
+        }
         return getDataTable(list);
     }
 

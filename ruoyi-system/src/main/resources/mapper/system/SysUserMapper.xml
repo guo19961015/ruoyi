@@ -233,7 +233,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="qualificationDisplay != null and qualificationDisplay != ''">qualification_display = #{qualificationDisplay},</if>
             <if test="organizationPicture != null and organizationPicture != ''">organization_Picture = #{organizationPicture},</if>
 			<if test="flage != null and flage != ''">flage = #{flage},</if>
-			<if test="other != null and other != ''">other = #{other},</if>
+			<if test="other != null ">other = #{other},</if>
 
 			update_time = sysdate()
  		</set>
