@@ -3,7 +3,10 @@ package com.ruoyi.web.controller.system;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.activiti.domain.PlComment;
+import com.ruoyi.activiti.domain.PlGuaranteeLoan;
+import com.ruoyi.activiti.domain.PlGuaranteeLoanVo;
 import com.ruoyi.activiti.domain.RyProduct;
+import com.ruoyi.activiti.service.IPlGuaranteeLoanService;
 import com.ruoyi.activiti.service.IPlServiceAgencyLoanService;
 import com.ruoyi.activiti.service.IRyProductService;
 import com.ruoyi.common.config.Global;
@@ -68,6 +71,8 @@ public class SysRegisterController extends BaseController
     private ServerConfig serverConfig;
     @Autowired
     private IRyProductService ryProductService;
+    @Autowired
+    private IPlGuaranteeLoanService plGuaranteeLoanService;
 
     @Autowired
     private IPlServiceAgencyLoanService plServiceAgencyLoanService;
@@ -120,6 +125,11 @@ public class SysRegisterController extends BaseController
     public String homepage(ModelMap mmap)
     {
         return "home";
+    }
+    @GetMapping("/list")
+    public String list(ModelMap mmap)
+    {
+        return "list";
     }
 
     @CrossOrigin
@@ -180,6 +190,10 @@ public class SysRegisterController extends BaseController
 
         map.put("serviceId",serviceId);
         map.put("fontText",iSysRoleService.selectRoleById(Long.valueOf(serviceId)));
+        // 成功案例
+        PlGuaranteeLoanVo plGuaranteeLoan = new PlGuaranteeLoanVo();
+        plGuaranteeLoan.setStatus("1");
+        List<PlGuaranteeLoanVo> plGuaranteeLoanVos = plGuaranteeLoanService.selectPlGuaranteeLoanList(plGuaranteeLoan);
         return "service";
     }
 
@@ -204,6 +218,22 @@ public class SysRegisterController extends BaseController
         AjaxResult ajax = AjaxResult.success();
         ajax.put("pageInfo",pageInfo);
         ajax.put("serviceId",serviceId);
+        return ajax;
+    }
+
+    @PostMapping("/bankAjax")
+    @ResponseBody
+    public  AjaxResult bankAjax(ModelMap map,Integer pageNum, Integer pageSize)
+    {
+        PlBank plBank = new PlBank();
+        List<PlBank> plBanksList = plBankService.selectPlBankList(plBank);
+
+        pageNum = pageNum == null ? 1: pageNum;
+        PageInfo<PlBank> pageInfo = PageInfoUtils.listPageInfo(plBanksList, pageNum, 8);
+        // 手动清理分页缓存，不然会出现页面数据时好时坏
+        PageHelper.clearPage();
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("pageInfo",pageInfo);
         return ajax;
     }
     @CrossOrigin

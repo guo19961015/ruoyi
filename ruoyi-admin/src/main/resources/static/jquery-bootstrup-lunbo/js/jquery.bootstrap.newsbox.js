@@ -1,6 +1,6 @@
 ﻿/*
  * jQuery Bootstrap News Box v1.0.1
- * 
+ *
  * Copyright 2014, Dragan Mitrovic
  * email: gagi270683@gmail.com
  * Free to use and abuse under the MIT license.
@@ -25,12 +25,12 @@ if (typeof Object.create !== 'function') {
             var self = this;
             self.elem = elem;
             self.$elem = $( elem );
-            
+
             self.newsTagName = self.$elem.find(":first-child").prop('tagName');
             self.newsClassName = self.$elem.find(":first-child").attr('class');
 
             self.timer = null;
-            self.resizeTimer = null; // used with window.resize event 
+            self.resizeTimer = null; // used with window.resize event
             self.animationStarted = false;
             self.isHovered = false;
 
@@ -45,7 +45,7 @@ if (typeof Object.create !== 'function') {
                 //object was passed
                 //extend user options overrides
                 self.options = $.extend( {}, $.fn.bootstrapNews.options, options );
-                
+
                 self.prepareLayout();
 
 
@@ -70,7 +70,7 @@ if (typeof Object.create !== 'function') {
             var self = this;
 
             //checking mouse position
-                
+
             $(self.elem).find('.'+self.newsClassName).on('mouseenter', function(){
                 self.onReset(true);
             });
@@ -93,7 +93,7 @@ if (typeof Object.create !== 'function') {
             if( self.$elem.find(self.newsTagName).length < self.options.newsPerPage ) {
                 self.options.newsPerPage = self.$elem.find(self.newsTagName).length;
             }
-            
+
             //get height of the very first self.options.newsPerPage news
             var height = 0;
 
@@ -117,12 +117,12 @@ if (typeof Object.create !== 'function') {
 
         },
 
-        findPanelObject: function() { 
+        findPanelObject: function() {
             var panel = this.$elem;
 
             while ( panel.parent() !== undefined ) {
                 panel = panel.parent();
-                if ( panel.parent().hasClass('panel') ) { 
+                if ( panel.parent().hasClass('panel') ) {
                     return panel.parent();
                 }
             }
@@ -130,7 +130,7 @@ if (typeof Object.create !== 'function') {
             return undefined;
         },
 
-        buildNavigation: function() { 
+        buildNavigation: function() {
             var panel = this.findPanelObject();
             if( panel ) {
                 var nav = '<ul class="pagination pull-right" style="margin: 0px;">' +
@@ -161,7 +161,7 @@ if (typeof Object.create !== 'function') {
         },
 
         onStop: function() {
-            
+
         },
 
         onPause: function() {
@@ -187,7 +187,7 @@ if (typeof Object.create !== 'function') {
         animate: function() {
             var self = this;
             self.timer = setTimeout(function() {
-                
+
                 if ( !self.options.pauseOnHover ) {
                     self.isHovered = false;
                 }
@@ -198,12 +198,12 @@ if (typeof Object.create !== 'function') {
                      } else {
                         self.onPrev();
                      }
-                } 
+                }
             }, self.options.newsTickerInterval);
         },
 
         onPrev: function() {
-            
+
             var self = this;
 
             if ( self.animationStarted ) {

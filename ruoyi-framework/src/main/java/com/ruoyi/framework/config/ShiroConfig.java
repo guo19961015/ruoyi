@@ -258,6 +258,8 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/zxqy/images/**", "anon");
         filterChainDefinitionMap.put("/static/js/**", "anon");
         filterChainDefinitionMap.put("/static/ajax/**", "anon");
+        filterChainDefinitionMap.put("/jquery-bootstrup-lunbo/js/**", "anon");
+        filterChainDefinitionMap.put("/jquery-bootstrup-lunbo/css/**", "anon");
         filterChainDefinitionMap.put("/ruoyi/**", "anon");
         filterChainDefinitionMap.put("/profile/upload/**", "anon");
         filterChainDefinitionMap.put("/profile/avatar/**", "anon");
@@ -270,9 +272,11 @@ public class ShiroConfig
         // 注册相关
         filterChainDefinitionMap.put("/register", "anon,captchaValidate");
         filterChainDefinitionMap.put("/home", "anon");
+        filterChainDefinitionMap.put("/list", "anon");
         filterChainDefinitionMap.put("/details", "anon");
         filterChainDefinitionMap.put("/service", "anon");
         filterChainDefinitionMap.put("/serviceAjax", "anon");
+        filterChainDefinitionMap.put("/bankAjax", "anon");
         filterChainDefinitionMap.put("/userInformation", "anon");
 
         filterChainDefinitionMap.put("/zxqy/**", "anon");

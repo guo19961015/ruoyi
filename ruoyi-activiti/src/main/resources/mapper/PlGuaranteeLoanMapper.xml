@@ -52,10 +52,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="detailsCollateral"    column="details_collateral"    />
         <result property="actualLoanAmount"    column="actual_loan_amount"    />
         <result property="creditRatingReport"    column="credit_rating_report"    />
+        <result property="status"    column="status"    />
     </resultMap>
 
     <sql id="selectPlGuaranteeLoanVo">
-        select id, type, start_time, end_time, total_time, instance_id, create_by, create_time, update_by, update_time, apply_user, apply_time, reality_start_time, reality_end_time, title, reason,  legal, legal_number, contacts, contacts_number, synopsis, total_assets, sales_volume, total_liabilities, total_profit, net_assets, tax_amount, fixed_assets, one_year_debt_due, loan_balance, other_liabilities, related_companies, lending_bank, short_loan_overdue_records, long_in_loan_overdue_records, application_amount, use_of_funds, mortgage_of_own_assets, third_party_asset_mortgage, guarantee, proposed_bank,   dept_id,bank_id,details_collateral,guarantee_id,credit_rating_report from pl_guarantee_loan
+        select id, type, start_time, end_time, total_time, instance_id, create_by, create_time, update_by, update_time, apply_user, apply_time, reality_start_time, reality_end_time, title, reason,  legal, legal_number, contacts, contacts_number, synopsis, total_assets, sales_volume, total_liabilities, total_profit, net_assets, tax_amount, fixed_assets, one_year_debt_due, loan_balance, other_liabilities, related_companies, lending_bank, short_loan_overdue_records, long_in_loan_overdue_records, application_amount, use_of_funds, mortgage_of_own_assets, third_party_asset_mortgage, guarantee, proposed_bank,   dept_id,bank_id,details_collateral,guarantee_id,credit_rating_report,status from pl_guarantee_loan
     </sql>
 
     <select id="selectPlGuaranteeLoanList" parameterType="PlGuaranteeLoanVo" resultMap="PlGuaranteeLoanResult">
@@ -102,6 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="guaranteeId != null  and guaranteeId != ''">and guarantee_id = #{guaranteeId}</if>
             <if test="detailsCollateral != null  and detailsCollateral != ''">and details_collateral = #{detailsCollateral}</if>
             <if test="creditRatingReport != null  and creditRatingReport != ''">and credit_rating_report = #{creditRatingReport}</if>
+            <if test="status != null  and status != ''">and status = #{status}</if>
         </where>
     </select>
 
@@ -158,6 +160,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="guaranteeId != null  and guaranteeId != ''">guarantee_id,</if>
             <if test="detailsCollateral != null  and detailsCollateral != ''">details_collateral,</if>
             <if test="creditRatingReport != null  and creditRatingReport != ''">credit_rating_report,</if>
+            <if test="status != null  and status != ''">status,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="type != null  and type != ''">#{type},</if>
@@ -205,6 +208,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="guaranteeId != null  and guaranteeId != ''">#{guaranteeId},</if>
             <if test="detailsCollateral != null  and detailsCollateral != ''">#{detailsCollateral},</if>
             <if test="creditRatingReport != null  and creditRatingReport != ''">#{creditRatingReport},</if>
+            <if test="status != null  and status != ''">#{status},</if>
          </trim>
     </insert>
 
@@ -257,6 +261,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="detailsCollateral != null  and detailsCollateral != ''">details_collateral = #{detailsCollateral},</if>
             <if test="actualLoanAmount != null and actualLoanAmount != ''">actual_loan_amount = #{actualLoanAmount},</if>
             <if test="creditRatingReport != null and creditRatingReport != ''">credit_rating_report = #{creditRatingReport},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
         </trim>
         where id = #{id}
     </update>
@@ -283,15 +288,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <select id="selectBizLeaveById" parameterType="PlGuaranteeLoan" resultMap="PlGuaranteeLoanResult">
-        select pl.id, pl.type, pl.start_time, pl.end_time, pl.total_time, pl.instance_id, pl.create_by, pl.create_time, pl.update_by, pl.update_time, pl.apply_user, pl.apply_time, pl.reality_start_time, pl.reality_end_time, pl.title, pl.reason,  pl.legal, pl.legal_number, pl.contacts, pl.contacts_number, pl.synopsis, pl.total_assets, pl.sales_volume, pl.total_liabilities, pl.total_profit, pl.net_assets, pl.tax_amount, pl.fixed_assets, pl.one_year_debt_due, pl.loan_balance, pl.other_liabilities, pl.related_companies, pl.lending_bank, pl.short_loan_overdue_records, pl.long_in_loan_overdue_records, pl.application_amount, pl.use_of_funds, pl.mortgage_of_own_assets, pl.third_party_asset_mortgage, pl.guarantee, pl.proposed_bank, pl.dept_id,pl.bank_id,pl.guarantee_id,pl.details_collateral,pl.actual_loan_amount,credit_rating_report from pl_guarantee_loan pl
+        select pl.id, pl.type, pl.start_time, pl.end_time, pl.total_time, pl.instance_id, pl.create_by, pl.create_time, pl.update_by, pl.update_time, pl.apply_user, pl.apply_time, pl.reality_start_time, pl.reality_end_time, pl.title, pl.reason,  pl.legal, pl.legal_number, pl.contacts, pl.contacts_number, pl.synopsis, pl.total_assets, pl.sales_volume, pl.total_liabilities, pl.total_profit, pl.net_assets, pl.tax_amount, pl.fixed_assets, pl.one_year_debt_due, pl.loan_balance, pl.other_liabilities, pl.related_companies, pl.lending_bank, pl.short_loan_overdue_records, pl.long_in_loan_overdue_records, pl.application_amount, pl.use_of_funds, pl.mortgage_of_own_assets, pl.third_party_asset_mortgage, pl.guarantee, pl.proposed_bank, pl.dept_id,pl.bank_id,pl.guarantee_id,pl.details_collateral,pl.actual_loan_amount,pl.credit_rating_report,pl.status from pl_guarantee_loan pl
         where pl.id = #{id} ${params.dataScope}
     </select>
     <select id="selectBizLeaveByIdBankId"  resultMap="PlGuaranteeLoanResult">
-        select pl.id, pl.type, pl.start_time, pl.end_time, pl.total_time, pl.instance_id, pl.create_by, pl.create_time, pl.update_by, pl.update_time, pl.apply_user, pl.apply_time, pl.reality_start_time, pl.reality_end_time, pl.title, pl.reason,  pl.legal, pl.legal_number, pl.contacts, pl.contacts_number, pl.synopsis, pl.total_assets, pl.sales_volume, pl.total_liabilities, pl.total_profit, pl.net_assets, pl.tax_amount, pl.fixed_assets, pl.one_year_debt_due, pl.loan_balance, pl.other_liabilities, pl.related_companies, pl.lending_bank, pl.short_loan_overdue_records, pl.long_in_loan_overdue_records, pl.application_amount, pl.use_of_funds, pl.mortgage_of_own_assets, pl.third_party_asset_mortgage, pl.guarantee, pl.proposed_bank, pl.dept_id,pl.bank_id,pl.guarantee_id,pl.details_collateral,pl.actual_loan_amount,credit_rating_report from pl_guarantee_loan pl
+        select pl.id, pl.type, pl.start_time, pl.end_time, pl.total_time, pl.instance_id, pl.create_by, pl.create_time, pl.update_by, pl.update_time, pl.apply_user, pl.apply_time, pl.reality_start_time, pl.reality_end_time, pl.title, pl.reason,  pl.legal, pl.legal_number, pl.contacts, pl.contacts_number, pl.synopsis, pl.total_assets, pl.sales_volume, pl.total_liabilities, pl.total_profit, pl.net_assets, pl.tax_amount, pl.fixed_assets, pl.one_year_debt_due, pl.loan_balance, pl.other_liabilities, pl.related_companies, pl.lending_bank, pl.short_loan_overdue_records, pl.long_in_loan_overdue_records, pl.application_amount, pl.use_of_funds, pl.mortgage_of_own_assets, pl.third_party_asset_mortgage, pl.guarantee, pl.proposed_bank, pl.dept_id,pl.bank_id,pl.guarantee_id,pl.details_collateral,pl.actual_loan_amount,pl.credit_rating_report,pl.status from pl_guarantee_loan pl
         where pl.id = #{id} and pl.bank_id =#{bankId} ${params.dataScope}
     </select>
     <select id="selectBizLeaveByIdGuaranteeId"  resultMap="PlGuaranteeLoanResult">
-        select pl.id, pl.type, pl.start_time, pl.end_time, pl.total_time, pl.instance_id, pl.create_by, pl.create_time, pl.update_by, pl.update_time, pl.apply_user, pl.apply_time, pl.reality_start_time, pl.reality_end_time, pl.title, pl.reason,  pl.legal, pl.legal_number, pl.contacts, pl.contacts_number, pl.synopsis, pl.total_assets, pl.sales_volume, pl.total_liabilities, pl.total_profit, pl.net_assets, pl.tax_amount, pl.fixed_assets, pl.one_year_debt_due, pl.loan_balance, pl.other_liabilities, pl.related_companies, pl.lending_bank, pl.short_loan_overdue_records, pl.long_in_loan_overdue_records, pl.application_amount, pl.use_of_funds, pl.mortgage_of_own_assets, pl.third_party_asset_mortgage, pl.guarantee, pl.proposed_bank, pl.dept_id,pl.bank_id,pl.guarantee_id,pl.details_collateral,pl.actual_loan_amount,credit_rating_report from pl_guarantee_loan pl
+        select pl.id, pl.type, pl.start_time, pl.end_time, pl.total_time, pl.instance_id, pl.create_by, pl.create_time, pl.update_by, pl.update_time, pl.apply_user, pl.apply_time, pl.reality_start_time, pl.reality_end_time, pl.title, pl.reason,  pl.legal, pl.legal_number, pl.contacts, pl.contacts_number, pl.synopsis, pl.total_assets, pl.sales_volume, pl.total_liabilities, pl.total_profit, pl.net_assets, pl.tax_amount, pl.fixed_assets, pl.one_year_debt_due, pl.loan_balance, pl.other_liabilities, pl.related_companies, pl.lending_bank, pl.short_loan_overdue_records, pl.long_in_loan_overdue_records, pl.application_amount, pl.use_of_funds, pl.mortgage_of_own_assets, pl.third_party_asset_mortgage, pl.guarantee, pl.proposed_bank, pl.dept_id,pl.bank_id,pl.guarantee_id,pl.details_collateral,pl.actual_loan_amount,pl.credit_rating_report,pl.status from pl_guarantee_loan pl
         where pl.id = #{id} and pl.guarantee_id =#{guaranteeId} ${params.dataScope}
     </select>
     <select id="selectPlGuaranteeLoanListGroupBank"  resultMap="PlGuaranteeLoanResult">

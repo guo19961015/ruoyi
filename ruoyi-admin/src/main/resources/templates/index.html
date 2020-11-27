@@ -295,8 +295,7 @@ function applyPath(url) {
 }
 
 $(function() {
-
-	applyPath("/system/loan");
+    applyPath([[${menus[0].children[0].url}]]);
     if($.common.equals("history", mode)) {
 		var url = storage.get('publicPath');
 	    if ($.common.isNotEmpty(url)) {

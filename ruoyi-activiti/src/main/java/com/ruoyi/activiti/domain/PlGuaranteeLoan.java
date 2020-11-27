@@ -199,6 +199,7 @@ public class PlGuaranteeLoan extends BaseEntity
     private String numFive;
     private String numSeven;
     private String numEight;
+    private String status;
     public String getApplyUserName() {
         return applyUserName;
     }
@@ -700,6 +701,14 @@ public class PlGuaranteeLoan extends BaseEntity
         this.numEight = numEight;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -757,6 +766,7 @@ public class PlGuaranteeLoan extends BaseEntity
             .append("numTwo", getNumTwo())
             .append("numThree", getNumThree())
             .append("numFour", getNumFour())
+            .append("status", getStatus())
             .toString();
     }
 }

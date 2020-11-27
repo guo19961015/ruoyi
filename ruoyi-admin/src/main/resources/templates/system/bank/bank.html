@@ -70,7 +70,10 @@
                 },
                 {
                     field: 'bankImageUrl',
-                    title: '图片路径'
+                    title: '图片路径',
+                    formatter: function(value, row, index) {
+                        return $.table.imageView(value);
+                    }
                 },
                 {
                     field: 'loanLimit',
