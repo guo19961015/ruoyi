@@ -176,6 +176,7 @@ public class PlGuaranteeLoan extends BaseEntity
     private String creditRatingReport;
     /** 旗区所属id */
     private String deptId;
+
     /** 银行所属id */
     private String bankId;
     /** 银行所属id */

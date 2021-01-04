@@ -47,3 +47,5 @@ function showFormDialog(instanceId, module) {
   var url = ctx + module + "/showFormDialog/" + instanceId;
   $.modal.open('申请详情', url, null, null, null, true);
 }
+
+

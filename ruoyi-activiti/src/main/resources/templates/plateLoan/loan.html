@@ -124,6 +124,7 @@
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:loan:edit')}]];
+        var listFlag = [[${@permission.hasPermi('system:loan:list')}]];
         var removeFlag = [[${@permission.hasPermi('system:loan:remove')}]];
         var currentUser = [[${currentUser}]];
         var typeDatas = [[${@dict.getType('plate')}]];
@@ -225,16 +226,17 @@
                 {
                     title: '操作',
                     align: 'center',
+                    visible: listFlag == "" ? true:false,
                     formatter: function(value, row, index) {
                         var actions = [];
                         if (row.instanceId) {
 
-                            actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.id + '\')"><i class="fa fa-eye"></i> 表单数据</a> ');
-                            actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="showHistoryDialog(\'' + row.instanceId + '\')"><i class="fa fa-list"></i> 审批历史</a> ');
-                            actions.push('<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="showProcessImgDialog(\'' + row.instanceId + '\')"><i class="fa fa-image"></i> 进度查看</a> ');
-                            actions.push('<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="showProcessTimeline(\'' + row.instanceId + '\',\''+ row.id + '\')"><i class="fa fa-image"></i> 审理进度查看</a> ');
+                            actions.push('<a class="btn btn-primary btn-xs ' + listFlag + '" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.id + '\')"><i class="fa fa-eye"></i> 表单数据</a> ');
+                            actions.push('<a class="btn btn-warning btn-xs ' + listFlag + '" href="javascript:void(0)" onclick="showHistoryDialog(\'' + row.instanceId + '\')"><i class="fa fa-list"></i> 审批历史</a> ');
+                            actions.push('<a class="btn btn-info btn-xs ' + listFlag + '" href="javascript:void(0)" onclick="showProcessImgDialog(\'' + row.instanceId + '\')"><i class="fa fa-image"></i> 进度查看</a> ');
+                            actions.push('<a class="btn btn-info btn-xs ' + listFlag + '" href="javascript:void(0)" onclick="showProcessTimeline(\'' + row.instanceId + '\',\''+ row.id + '\')"><i class="fa fa-image"></i> 审理进度查看</a> ');
                             if(row.status == 1){
-                                actions.push('<a class="btn btn-danger btn-xs"   data-toggle="modal" data-target="#myModal2"><i class="fa fa-comment"></i> 评论</a> ' +
+                                actions.push('<a class="btn btn-danger btn-xs ' + editFlag + '"   data-toggle="modal" data-target="#myModal2"><i class="fa fa-comment"></i> 评论</a> ' +
                                     '<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">\n' +
                                     '                        <div class="modal-dialog">\n' +
                                     '                            <div class="modal-content animated flipInY">\n' +
@@ -249,7 +251,7 @@
                                     '                                </div>\n' +
                                     '                                <div class="modal-footer">\n' +
                                     '                                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>\n' +
-                                    '                                    <button type="button" onclick="saveComment(\'' + row.id + '\',\''  +row.productId+'\')" class="btn btn-primary">保存</button>\n' +
+                                    '                                    <button type="button" onclick="saveComment(\'' + row.id + '\',\''  +row.productId+'\',\'' + row.createBy + '\')" class="btn btn-primary">保存</button>\n' +
                                     '                                </div>\n' +
                                     '                            </div>\n' +
                                     '                        </div>\n' +
@@ -261,8 +263,8 @@
                                  actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="suspendOrActiveApply(\'' + row.instanceId + '\',\'' + row.createBy + '\',\'' + row.suspendState + '\')"><i class="' + icon + '"></i> ' + suspendOrActive + '</a> ');*/
 
                         } else {
-                            actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="submitApply(\'' + row.id + '\',\'' + row.createBy + '\')"><i class="fa fa-user"></i> 提交申请</a> ');
-                            actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                            actions.push('<a class="btn btn-success btn-xs ' + listFlag + '" href="javascript:void(0)" onclick="submitApply(\'' + row.id + '\',\'' + row.createBy + '\')"><i class="fa fa-user"></i> 提交申请</a> ');
+                            actions.push('<a class="btn btn-success btn-xs ' + listFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                             actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         }
 
@@ -307,18 +309,24 @@
             var url = ctx + 'process/historyList/' + instanceId;
             $.modal.open("查看审批历史", url, null, null, null, true);
         }
-        function saveComment(id,productId) {
-            let comment = $('#comment').val();
-            if(comment != "" ){
-                $.modal.confirm("确认要提交评论信息吗?", function() {
-                    var url = prefix + "/submitComment";
-                    var data = { "id": id,"comment":comment,"productId": productId};
-                    $.operate.submit(url, "post", "json", data);
-                    $.modal.msgReload();
-                });
+        function saveComment(id,productId,createBy) {
+            if (createBy !== currentUser.loginName) {
+                $.modal.alertWarning("不允许非创建人保存评论！");
+                return;
             }else {
-                $.modal.alertWarning("请输入评论信息！" );
+                var comment = $('#comment').val();
+                if(comment != "" ){
+                    $.modal.confirm("确认要提交评论信息吗?", function() {
+                        var url = prefix + "/submitComment";
+                        var data = { "id": id,"comment":comment,"productId": productId};
+                        $.operate.submit(url, "post", "json", data);
+                        $.modal.msgReload();
+                    });
+                }else {
+                    $.modal.alertWarning("请输入评论信息！" );
+                }
             }
+
 
 
         }

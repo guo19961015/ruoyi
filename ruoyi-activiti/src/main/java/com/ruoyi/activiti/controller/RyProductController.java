@@ -2,6 +2,7 @@ package com.ruoyi.activiti.controller;
 
 import java.util.List;
 
+import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -57,6 +58,9 @@ public class RyProductController extends BaseController
     public TableDataInfo list(RyProduct ryProduct)
     {
         startPage();
+        if (!SysUser.isAdmin(ShiroUtils.getUserId()) && !SysUser.isSystem(ShiroUtils.getUserId())) {
+            ryProduct.setUserId(String.valueOf(ShiroUtils.getUserId()));
+        }
         List<RyProduct> list = ryProductService.selectRyProductList(ryProduct);
         if (list != null) {
             for (RyProduct product : list) {

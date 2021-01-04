@@ -10,15 +10,15 @@ import org.activiti.engine.runtime.ProcessInstance;
 
 /**
  * 7大板款信息Service接口
- * 
+ *
  * @author ruoyi
  * @date 2020-09-21
  */
-public interface IPlServiceAgencyLoanService 
+public interface IPlServiceAgencyLoanService
 {
     /**
      * 查询7大板款信息
-     * 
+     *
      * @param id 7大板款信息ID
      * @return 7大板款信息
      */
@@ -26,7 +26,7 @@ public interface IPlServiceAgencyLoanService
 
     /**
      * 查询7大板款信息列表
-     * 
+     *
      * @param plServiceAgencyLoan 7大板款信息
      * @return 7大板款信息集合
      */
@@ -34,7 +34,7 @@ public interface IPlServiceAgencyLoanService
 
     /**
      * 新增7大板款信息
-     * 
+     *
      * @param plServiceAgencyLoan 7大板款信息
      * @return 结果
      */
@@ -42,7 +42,7 @@ public interface IPlServiceAgencyLoanService
 
     /**
      * 修改7大板款信息
-     * 
+     *
      * @param plServiceAgencyLoan 7大板款信息
      * @return 结果
      */
@@ -51,7 +51,7 @@ public interface IPlServiceAgencyLoanService
 
     /**
      * 批量删除7大板款信息
-     * 
+     *
      * @param ids 需要删除的数据ID
      * @return 结果
      */
@@ -59,7 +59,7 @@ public interface IPlServiceAgencyLoanService
 
     /**
      * 删除7大板款信息信息
-     * 
+     *
      * @param id 7大板款信息ID
      * @return 结果
      */
@@ -72,4 +72,8 @@ public interface IPlServiceAgencyLoanService
     List<PlServiceAgencyLoanVo> findDoneTasks(PlServiceAgencyLoanVo bizLeave, String loginName);
 
     List<PlComment> selectComment(Long productId);
+
+    List<PlServiceAgencyLoan> selectApplicitionIsNotNull();
+
+    List<PlServiceAgencyLoan> selectInstanceIdIsNotNull();
 }

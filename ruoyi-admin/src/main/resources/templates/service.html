@@ -22,6 +22,8 @@
         <script th:href="@{zxqy/layer/layer.js}" src="zxqy/layer/layer.js"></script>
         <script th:href="@{zxqy/layer/extend/layer.ext.js}" src="zxqy/layer/extend/layer.ext.js"></script>
         <script th:href="@{zxqy/js/zxqyJavascript.js}" src="zxqy/js/zxqyJavascript.js"></script>
+        <!--用户状态获取-->
+        <script th:href="@{zxqy/js/userInfomation}" src="zxqy/js/userInfomation.js"></script>
 	</head>
 <style>
     .service-list-left ul li {
@@ -42,7 +44,30 @@
 
 </style>
 	<body>
-		<div class="head"></div>
+    <div class="head"><div class="container">
+        <div class="row">
+            <div class="logo col-sm-9">
+                <img class="img-responsive" src="images/index-first_03.png" alt="">
+            </div>
+            <div class="search col-sm-3">
+                <div class="login">
+
+                </div>
+                <div class="searchs pull-right">
+                    <form>
+                        <div class="input-group">
+                            <input type="text" class="form-control">
+                            <span class="input-group-btn">
+              <button class="btn btn-default" type="button">
+                <img src="images/index-first_15.png" alt="">
+              </button>
+            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div></div>
 		<div class="service-body">
 			<div class="container">
 				<div class="row">
@@ -132,18 +157,18 @@
 						<div class="service-right col-sm-11" style="width: 356px;">
                             <div class="row" style="width: 408px;padding: 12px 23px;">
                                 <div class="col-md-3">
-                                    <span id="great">80</span>
-                                    <p>成功对接事项</p>
+                                    <span id="great">[[${size}]]</span>
+                                    <p>对接数量</p>
 
                                 </div>
                                 <div class="col-md-1"><span class="fenge"></span></div>
                                 <div class="col-md-3">
-                                    <span id="serviceNum">122</span>
+                                    <span id="serviceNum">[[${plGuaranteeLoans.numThree}]]</span>
                                     <p>入驻服务机构数量</p>
                                 </div>
                                 <div class="col-md-1"><span class="fenge"></span></div>
                                 <div class="col-md-3">
-                                    <span id="orgNum">400</span>
+                                    <span id="orgNum">[[${plGuaranteeLoans.numOne}]]</span>
                                     <p>入驻企业数量</p>
                                 </div>
                             </div>
@@ -158,31 +183,21 @@
                                         <table class="table table-striped table-bordered" cellpadding="4">
                                                     <thead>
                                                     <tr>
-                                                        <th>名称</th>
-                                                        <th>诉求内容</th>
-                                                        <th>处理状态</th>
-                                                        <th>时间</th>
+                                                        <th style="width: 20%;">名称</th>
+                                                        <th style="width: 32%;">诉求内容</th>
+                                                        <th style="width: 27%;">处理状态</th>
+                                                        <th style="width: 21%">时间</th>
                                                     </tr>
                                                     </thead>
                                                 </table>
-                                        <ul class="demo1">
-                                            <li>
+                                        <ul class="demo1" >
+                                            <li  th:each="list : ${arrayList}">
                                                 <table class="table table-striped table-bordered" cellpadding="4">
                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>2</td>
-                                                        <td>3</td>
-                                                        <td>4</td>
-                                                    </tr>
-                                                </table>
-                                            </li>
-                                            <li>
-                                                <table class="table table-striped table-bordered" cellpadding="4">
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>3</td>
-                                                        <td>4</td>
-                                                        <td>5</td>
+                                                        <td style="width: 20%;" th:title="*{list.nameTitle}">[[*{list.name}]]</td>
+                                                        <td style="width: 32%;" th:title="*{list.contentTitle}">[[*{list.content}]]</td>
+                                                        <td style="width: 16%;">[[*{list.type}]]</td>
+                                                        <td style="width: 32%;">[[*{#dates.format(list.time, 'yyyy-MM-dd ')}]]</td>
                                                     </tr>
                                                 </table>
                                             </li>

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.pagehelper.Page;
+import com.ruoyi.activiti.controller.PlServiceAgencyLoanController;
 import com.ruoyi.activiti.domain.*;
 import com.ruoyi.activiti.mapper.PlLoanRoleMapper;
 import com.ruoyi.activiti.service.IProcessService;
@@ -14,6 +15,7 @@ import com.ruoyi.common.core.page.TableSupport;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.mapper.SysUserMapper;
 import org.activiti.engine.HistoryService;
@@ -28,13 +30,13 @@ import com.ruoyi.activiti.service.IPlServiceAgencyLoanService;
 import com.ruoyi.common.core.text.Convert;
 
 /**
- * 7大板款信息Service业务层处理
- * 
+ * 8大板款信息Service业务层处理
+ *
  * @author ruoyi
  * @date 2020-09-21
  */
 @Service
-public class PlServiceAgencyLoanServiceImpl implements IPlServiceAgencyLoanService 
+public class PlServiceAgencyLoanServiceImpl implements IPlServiceAgencyLoanService
 {
     @Autowired
     private PlServiceAgencyLoanMapper plServiceAgencyLoanMapper;
@@ -48,10 +50,10 @@ public class PlServiceAgencyLoanServiceImpl implements IPlServiceAgencyLoanServi
     private PlLoanRoleMapper plLoanRoleMapper;
 
     /**
-     * 查询7大板款信息
-     * 
-     * @param id 7大板款信息ID
-     * @return 7大板款信息
+     * 查询8大板款信息
+     *
+     * @param id 8大板款信息ID
+     * @return 8大板款信息
      */
     @Override
     public PlServiceAgencyLoanVo selectPlServiceAgencyLoanById(Long id)
@@ -61,31 +63,39 @@ public class PlServiceAgencyLoanServiceImpl implements IPlServiceAgencyLoanServi
     }
 
     /**
-     * 查询7大板款信息列表
-     * 
-     * @param plServiceAgencyLoan 7大板款信息
-     * @return 7大板款信息
+     * 查询8大板款信息列表
+     *
+     * @param plServiceAgencyLoan 8大板款信息
+     * @return 8大板款信息
      */
     @Override
     public List<PlServiceAgencyLoan> selectPlServiceAgencyLoanList(PlServiceAgencyLoan plServiceAgencyLoan)
     {
         List<PlServiceAgencyLoan> plServiceAgencyLoans = new ArrayList<PlServiceAgencyLoan>();
         SysUser sysUser = ShiroUtils.getSysUser();
-        plServiceAgencyLoan.setUserId(sysUser.getUserId());
         // 当普通企业进入时，用户状态为01，其他为00.sql为本人数据，不进入板块分别中，其他用户进入，需要按照当前用户所属角色（板块）进行查询
         if(sysUser.getUserType().equals("01")){
+            plServiceAgencyLoan.setUserId(sysUser.getUserId());
             plServiceAgencyLoans = plServiceAgencyLoanMapper.selectPlServiceAgencyLoanListDouble(plServiceAgencyLoan);
         }else {
-            plServiceAgencyLoans = plServiceAgencyLoanMapper.selectPlServiceAgencyLoanList(plServiceAgencyLoan);
+            Boolean aBoolean = new PlServiceAgencyLoanController().FindRoleUtil(sysUser);
+            if (aBoolean) {
+                plServiceAgencyLoans = plServiceAgencyLoanMapper.selectPlServiceAgencyLoanListDouble(plServiceAgencyLoan);
+            }else {
+                plServiceAgencyLoan.setUserId(sysUser.getUserId());
+                plServiceAgencyLoans = plServiceAgencyLoanMapper.selectPlServiceAgencyLoanList(plServiceAgencyLoan);
+            }
+
         }
         plServiceAgencyLoans.removeAll(Collections.singleton(null));
         return plServiceAgencyLoans;
     }
 
+
     /**
-     * 新增7大板款信息
-     * 
-     * @param plServiceAgencyLoan 7大板款信息
+     * 新增8大板款信息
+     *
+     * @param plServiceAgencyLoan 8大板款信息
      * @return 结果
      */
     @Override
@@ -110,7 +120,7 @@ public class PlServiceAgencyLoanServiceImpl implements IPlServiceAgencyLoanServi
 
     /**
      * 修改7大板款信息
-     * 
+     *
      * @param plServiceAgencyLoan 7大板款信息
      * @return 结果
      */
@@ -140,7 +150,7 @@ public class PlServiceAgencyLoanServiceImpl implements IPlServiceAgencyLoanServi
 
     /**
      * 删除7大板款信息对象
-     * 
+     *
      * @param ids 需要删除的数据ID
      * @return 结果
      */
@@ -153,7 +163,7 @@ public class PlServiceAgencyLoanServiceImpl implements IPlServiceAgencyLoanServi
 
     /**
      * 删除7大板款信息信息
-     * 
+     *
      * @param id 7大板款信息ID
      * @return 结果
      */
@@ -264,4 +274,15 @@ public class PlServiceAgencyLoanServiceImpl implements IPlServiceAgencyLoanServi
         plComment.setProductId(productId);
         return plServiceAgencyLoanMapper.selectComment(plComment);
     }
+    @Override
+    public List<PlServiceAgencyLoan> selectApplicitionIsNotNull (){
+
+        return plServiceAgencyLoanMapper.selectApplicitionIsNotNull();
+    }
+    @Override
+    public List<PlServiceAgencyLoan> selectInstanceIdIsNotNull (){
+
+        return plServiceAgencyLoanMapper.selectInstanceIdIsNotNull();
+    }
+
 }

@@ -2,10 +2,8 @@ package com.ruoyi.web.controller.system;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.ruoyi.activiti.domain.PlComment;
-import com.ruoyi.activiti.domain.PlGuaranteeLoan;
-import com.ruoyi.activiti.domain.PlGuaranteeLoanVo;
-import com.ruoyi.activiti.domain.RyProduct;
+import com.ruoyi.activiti.domain.*;
+import com.ruoyi.activiti.mapper.PlGuaranteeLoanMapper;
 import com.ruoyi.activiti.service.IPlGuaranteeLoanService;
 import com.ruoyi.activiti.service.IPlServiceAgencyLoanService;
 import com.ruoyi.activiti.service.IRyProductService;
@@ -36,9 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * 注册验证
@@ -73,6 +69,9 @@ public class SysRegisterController extends BaseController
     private IRyProductService ryProductService;
     @Autowired
     private IPlGuaranteeLoanService plGuaranteeLoanService;
+    @Autowired
+    private PlGuaranteeLoanMapper plGuaranteeLoanMapper;
+
 
     @Autowired
     private IPlServiceAgencyLoanService plServiceAgencyLoanService;
@@ -135,11 +134,24 @@ public class SysRegisterController extends BaseController
     @CrossOrigin
     @GetMapping("/homeAjax")
     @ResponseBody
-    public List<PlBank>  homeAjax(ModelMap mmap)
+    public Map<String,Object> homeAjax(ModelMap mmap)
     {
+        HashMap<String, Object> map = new HashMap<>();
         PlBank plBank = new PlBank();
         plBank.setStatus("0");
-        return plBankService.selectPlBankList(plBank);
+        List<PlBank> plBanks = plBankService.selectPlBankList(plBank);
+
+        PlGuaranteeLoan plGuaranteeLoans = plGuaranteeLoanService.selectStatistics();
+        HashMap<String, String> hashMap = new LinkedHashMap<>();
+        hashMap.put("已注册企业数",plGuaranteeLoans.getNumOne());
+        hashMap.put("平台活动数量",plGuaranteeLoans.getNumTwo());
+        hashMap.put("已注册服务机构数",plGuaranteeLoans.getNumThree());
+        hashMap.put("助保金贷款总量",plGuaranteeLoans.getNumFour());
+        hashMap.put("服务项目数",plGuaranteeLoans.getNumFive());
+        hashMap.put("企业需求数",plGuaranteeLoans.getNumSeven());
+        map.put("plBanksList",plBanks);
+        map.put("statisticsList",hashMap);
+        return map;
     }
     @CrossOrigin
     @GetMapping("/details")
@@ -191,9 +203,47 @@ public class SysRegisterController extends BaseController
         map.put("serviceId",serviceId);
         map.put("fontText",iSysRoleService.selectRoleById(Long.valueOf(serviceId)));
         // 成功案例
+        // 助保代数据
         PlGuaranteeLoanVo plGuaranteeLoan = new PlGuaranteeLoanVo();
         plGuaranteeLoan.setStatus("1");
-        List<PlGuaranteeLoanVo> plGuaranteeLoanVos = plGuaranteeLoanService.selectPlGuaranteeLoanList(plGuaranteeLoan);
+        ArrayList<HashMap> arrayList = new ArrayList<HashMap>();
+        List<PlGuaranteeLoanVo> plGuaranteeLoanVos = plGuaranteeLoanMapper.selectPlGuaranteeLoanList(plGuaranteeLoan);
+        if (plGuaranteeLoanVos != null) {
+            for (PlGuaranteeLoanVo plGuaranteeLoanVo : plGuaranteeLoanVos) {
+                HashMap<String, Object> maps = new HashMap<>();
+                maps.put("name",plGuaranteeLoanVo.getCreateBy());
+                maps.put("content","助保贷");
+                maps.put("type","已完成");
+                maps.put("time",plGuaranteeLoanVo.getApplyTime());
+                arrayList.add(maps);
+            }
+        }
+        // 八大板块数据
+        List<PlServiceAgencyLoan> plServiceAgencyLoans = plServiceAgencyLoanService.selectApplicitionIsNotNull();
+        if (plServiceAgencyLoans != null) {
+            for (PlServiceAgencyLoan plServiceAgencyLoan : plServiceAgencyLoans) {
+                HashMap<String, Object> maps = new HashMap<>();
+                String name = plServiceAgencyLoan.getTitle();
+                if (name != null) {
+                    maps.put("name",name.length()>4?name.substring(0,4):name);
+                }
+                maps.put("nameTitle",plServiceAgencyLoan.getTitle());
+                String application = plServiceAgencyLoan.getApplication();
+                if (application != null) {
+                    maps.put("content",(application.length() >= 8? application.substring(0,8)+"...": application));
+                    maps.put("contentTitle",application);
+                }
+                maps.put("type","已完成");
+                maps.put("time",plServiceAgencyLoan.getCreateTime());
+                arrayList.add(maps);
+            }
+        }
+        map.put("arrayList",arrayList);
+        // service数据
+        PlGuaranteeLoan plGuaranteeLoans = plGuaranteeLoanService.selectStatistics();
+        map.put("plGuaranteeLoans",plGuaranteeLoans);
+        List<PlServiceAgencyLoan> plServiceAgencyLoansList = plServiceAgencyLoanService.selectInstanceIdIsNotNull();
+        map.put("size",plServiceAgencyLoansList.size());
         return "service";
     }
 
@@ -226,6 +276,7 @@ public class SysRegisterController extends BaseController
     public  AjaxResult bankAjax(ModelMap map,Integer pageNum, Integer pageSize)
     {
         PlBank plBank = new PlBank();
+        plBank.setStatus("0");
         List<PlBank> plBanksList = plBankService.selectPlBankList(plBank);
 
         pageNum = pageNum == null ? 1: pageNum;

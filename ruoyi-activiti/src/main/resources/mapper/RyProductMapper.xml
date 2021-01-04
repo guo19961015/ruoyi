@@ -21,8 +21,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="introduce != null  and introduce != ''"> and rp.introduce = #{introduce}</if>
             <if test="userId != null  and userId != ''"> and rp.user_id = #{userId}</if>
             <if test="serviceProductsId != null  and serviceProductsId != ''"> and rp.service_products_id = #{serviceProductsId}</if>
-            <!-- 数据范围过滤 -->
-            ${params.dataScope}
         </where>
     </select>
 

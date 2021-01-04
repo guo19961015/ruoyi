@@ -80,4 +80,5 @@ public interface PlGuaranteeLoanMapper
 
     List<SysDictData> selectplatesEght();
 
+    PlGuaranteeLoan selectStatistics();
 }

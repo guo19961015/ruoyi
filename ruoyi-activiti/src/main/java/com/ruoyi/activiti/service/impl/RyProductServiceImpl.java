@@ -41,7 +41,6 @@ public class RyProductServiceImpl implements IRyProductService
      * @return 产品
      */
     @Override
-    @DataScope(userAlias  = "u")
     public List<RyProduct> selectRyProductList(RyProduct ryProduct)
     {
         return ryProductMapper.selectRyProductList(ryProduct);

@@ -160,12 +160,18 @@ public class SysUser extends BaseEntity
     {
         return isAdmin(this.userId);
     }
-
+    public boolean isSystem()
+    {
+        return isSystem(this.userId);
+    }
     public static boolean isAdmin(Long userId)
     {
         return userId != null && 1L == userId;
     }
-
+    public static boolean isSystem(Long userId)
+    {
+        return userId != null && 204L == userId;
+    }
     public Long getDeptId()
     {
         return deptId;

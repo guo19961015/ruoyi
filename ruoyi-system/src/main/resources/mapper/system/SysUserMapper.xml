@@ -166,7 +166,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="checkPhoneUnique" parameterType="String" resultMap="SysUserResult">
-		select user_id, phonenumber from sys_user where phonenumber=#{phonenumber}
+		select user_id,legal_number from sys_user where legal_number = #{legalNumber}
 	</select>
 
 	<select id="checkEmailUnique" parameterType="String" resultMap="SysUserResult">

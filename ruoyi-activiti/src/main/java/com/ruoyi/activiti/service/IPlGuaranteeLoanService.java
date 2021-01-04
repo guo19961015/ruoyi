@@ -89,4 +89,6 @@ public interface IPlGuaranteeLoanService
     List<PlGuaranteeLoanVo> findDoneTasks(PlGuaranteeLoanVo bizLeave, String loginName);
 
     List<SysDictData> selectplatesEght();
+
+    PlGuaranteeLoan selectStatistics();
 }

@@ -428,5 +428,10 @@ public class PlGuaranteeLoanServiceImpl implements IPlGuaranteeLoanService
 
         return plGuaranteeLoanMapper.selectplatesEght();
     }
+    @Override
+    public  PlGuaranteeLoan selectStatistics(){
+
+        return plGuaranteeLoanMapper.selectStatistics();
+    }
 
 }

@@ -45,7 +45,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="applicationMaterials != null  and applicationMaterials != ''"> and application_materials = #{applicationMaterials}</if>
             <if test="guaranteeId != null  and guaranteeId != ''"> and guarantee_id = #{guaranteeId}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
-
         </where>
     </select>
 

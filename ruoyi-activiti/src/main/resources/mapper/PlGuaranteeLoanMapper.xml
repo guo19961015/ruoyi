@@ -324,13 +324,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             (select SUM(pl2.actual_loan_amount) from pl_guarantee_loan pl2) numThree,
             (select COUNT(*) from pl_bank ) numFour,
             (SELECT count(*) from sys_user where flage != '1' or flage IS NULL ) numFive,
-            (SELECT COUNT(*) from sys_user where flage = '1') numSeven,
-            (SELECT COUNT(*) from pl_service_agency_loan where application is not NULL) numEight
+            (SELECT COUNT(*) from sys_user where flage = '1' and del_flag = '0') numSeven,
+            (SELECT COUNT(*) from pl_service_agency_loan where application is not NULL and status in ('1','2')) numEight
         FROM
             pl_guarantee_loan pl
         WHERE
             pl.instance_id IS NOT NULL
     </select>
+    <select id="selectStatistics"  resultType="PlGuaranteeLoan">
+        SELECT DISTINCT
+            (SELECT COUNT(*) from sys_user where flage != '1' or flage IS NULL ) numOne,
+            (SELECT COUNT(*) from sys_user where flage != '1' or flage IS NULL ) numTwo,
+            (SELECT COUNT(*) from sys_user where flage = '1' and del_flag = '0') numThree,
+            (SELECT COUNT(*) from  (SELECT COUNT(pl1.create_by)  FROM pl_guarantee_loan pl1 WHERE pl1.instance_id  IS NOT NULL GROUP BY pl1.create_by) nums) numFour,
+            (SELECT COUNT(*) from pl_service_agency_loan where application is not NULL and status in ('1','2')) numFive,
+            (select COUNT(*) from pl_service_agency_loan where apply_user is not NULL) numSeven
+        FROM
+            pl_guarantee_loan pl
+        WHERE
+            pl.instance_id IS NOT NULL
+    </select>
+
     <select id="selectplatesEght"  resultType="SysDictData">
         SELECT
             sdd.dict_value dictValue,

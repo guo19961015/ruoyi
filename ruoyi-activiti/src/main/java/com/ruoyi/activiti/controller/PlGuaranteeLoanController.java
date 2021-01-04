@@ -134,6 +134,12 @@ public class PlGuaranteeLoanController extends BaseController
                 if (bzhdb != null && !bzhdb.equals("")) {
                     plGuaranteeLoanVo.setGuarantee(bzhdb);
                 }
+                // 查询地区名字
+                String deptId = plGuaranteeLoanVo.getDeptId();
+                if (deptId != null) {
+                    plGuaranteeLoanVo.setDeptName(deptService.selectDeptById(Long.valueOf(deptId)).getDeptName());
+                }
+
             }
         }
         return getDataTable(list);
@@ -282,6 +288,14 @@ public class PlGuaranteeLoanController extends BaseController
     @ResponseBody
     public AjaxResult editSave(PlGuaranteeLoan plGuaranteeLoan)
     {
+        Long id = plGuaranteeLoan.getId();
+        if (id != null) {
+            PlGuaranteeLoanVo plGuaranteeLoanVo = plGuaranteeLoanService.selectPlGuaranteeLoanById(id);
+            String instanceId = plGuaranteeLoanVo.getInstanceId();
+            if (instanceId != null && !SysUser.isAdmin(ShiroUtils.getUserId())) {
+                return error("修改失败：不允许对已提交数据进行修改！");
+            }
+        }
         return toAjax(plGuaranteeLoanService.updatePlGuaranteeLoan(plGuaranteeLoan));
     }
 
@@ -294,6 +308,20 @@ public class PlGuaranteeLoanController extends BaseController
     @ResponseBody
     public AjaxResult remove(String ids)
     {
+        if (ids != null) {
+            String[] split = ids.split(",");
+            if (split.length>0) {
+                for (String s : split) {
+                    PlGuaranteeLoanVo plGuaranteeLoanVo = plGuaranteeLoanService.selectPlGuaranteeLoanById(Long.valueOf(s));
+                    if (plGuaranteeLoanVo != null) {
+                        String instanceId = plGuaranteeLoanVo.getInstanceId();
+                        if (instanceId != null && !SysUser.isAdmin(ShiroUtils.getUserId())) {
+                            return error("删除失败：不允许对已提交数据进行删除！");
+                        }
+                    }
+                }
+            }
+        }
         return toAjax(plGuaranteeLoanService.deletePlGuaranteeLoanByIds(ids));
     }
 
@@ -467,6 +495,11 @@ public class PlGuaranteeLoanController extends BaseController
                 String bzhdb = codeSelectName(plGuaranteeLoanVo.getGuarantee(), "bzhdb");
                 if (bzhdb != null && !bzhdb.equals("")) {
                     plGuaranteeLoanVo.setGuarantee(bzhdb);
+                }
+                // 查询地区名字
+                String deptId = plGuaranteeLoanVo.getDeptId();
+                if (deptId != null) {
+                    plGuaranteeLoanVo.setDeptName(deptService.selectDeptById(Long.valueOf(deptId)).getDeptName());
                 }
             }
         }

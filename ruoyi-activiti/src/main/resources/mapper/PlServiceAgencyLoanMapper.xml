@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.activiti.mapper.PlServiceAgencyLoanMapper">
-    
+
     <resultMap type="PlServiceAgencyLoanVo" id="PlServiceAgencyLoanResult">
         <result property="id"    column="id"    />
         <result property="type"    column="type"    />
@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectPlServiceAgencyLoanList" parameterType="PlServiceAgencyLoanVo" resultMap="PlServiceAgencyLoanResult">
         <include refid="selectPlServiceAgencyLoanVo"/>
-        <where>  
+        <where>
             <if test="type != null  and type != ''"> and psal.type = #{type}</if>
             <if test="startTime != null "> and psal.start_time = #{startTime}</if>
             <if test="endTime != null "> and psal.end_time = #{endTime}</if>
@@ -107,7 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from pl_service_agency_loan psal
         where psal.id = #{id}
     </select>
-        
+
     <insert id="insertPlServiceAgencyLoan" parameterType="PlServiceAgencyLoanVo" useGeneratedKeys="true" keyProperty="id">
         insert into pl_service_agency_loan
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -205,7 +205,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deletePlServiceAgencyLoanByIds" parameterType="String">
-        delete from pl_service_agency_loan where id in 
+        delete from pl_service_agency_loan where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
@@ -229,4 +229,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectComment" parameterType="PlComment"   resultType="PlComment">
             select * from pl_comment where product_id = #{productId}
     </select>
+    <select id="selectApplicitionIsNotNull"   resultMap="PlServiceAgencyLoanResult">
+            SELECT * from pl_service_agency_loan where application is not NULL and status in('1','2')
+    </select>
+    <select id="selectInstanceIdIsNotNull"   resultMap="PlServiceAgencyLoanResult">
+            SELECT * from pl_service_agency_loan where instance_id is not NULL
+    </select>
+
 </mapper>

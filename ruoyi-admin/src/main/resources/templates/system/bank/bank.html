@@ -150,14 +150,14 @@
         }
         /* 用户管理-停用 */
         function disable(id) {
-            $.modal.confirm("确认停用银行吗？", function() {
+            $.modal.confirm("确认停用该银行吗？", function() {
                 $.operate.post(prefix + "/changeStatus", { "id": id, "status": 1 });
             })
         }
 
         /* 用户管理启用 */
         function enable(id) {
-            $.modal.confirm("确认停用银行吗？", function() {
+            $.modal.confirm("确认启用该银行吗？", function() {
                 $.operate.post(prefix + "/changeStatus", { "id": id, "status": 0 });
             })
         }

@@ -17,10 +17,7 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.system.domain.PlBank;
-import com.ruoyi.system.domain.SysDictData;
-import com.ruoyi.system.domain.SysUser;
-import com.ruoyi.system.domain.SysUserRole;
+import com.ruoyi.system.domain.*;
 import com.ruoyi.system.mapper.SysUserRoleMapper;
 import com.ruoyi.system.service.ISysDictDataService;
 import com.ruoyi.system.service.ISysUserService;
@@ -48,7 +45,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * 7大板款信息Controller
+ * 8大板款信息Controller
  *
  * @author ruoyi
  * @date 2020-09-21
@@ -89,7 +86,7 @@ public class PlServiceAgencyLoanController extends BaseController
     }
 
     /**
-     * 查询7大板款信息列表
+     * 查询8大板款信息列表
      */
     @RequiresPermissions("system:loan:list")
     @PostMapping("/list")
@@ -100,12 +97,32 @@ public class PlServiceAgencyLoanController extends BaseController
         List<PlServiceAgencyLoan> list = plServiceAgencyLoanService.selectPlServiceAgencyLoanList(plServiceAgencyLoan);
         return getDataTable(list);
     }
-
+    // 用于判断该用户是否具有管理员权限，true为有，false为没有
+    public Boolean FindRoleUtil( SysUser sysUser){
+        Boolean sts = false;
+        if (sysUser != null) {
+            List<SysRole> roles = sysUser.getRoles();
+            if (roles != null) {
+                for (SysRole role : roles) {
+                    if(role.getRoleKey().equals("admin")){
+                        sts = true;
+                    }
+                    if(role.getRoleKey().equals("system")) {
+                        sts = true;
+                    }
+                    if(role.getRoleKey().equals("cityEcisionMaker")) {
+                        sts = true;
+                    }
+                }
+            }
+        }
+        return sts;
+    }
     /**
-     * 导出7大板款信息列表
+     * 导出8大板款信息列表
      */
     @RequiresPermissions("system:loan:export")
-    @Log(title = "7大板块信息", businessType = BusinessType.EXPORT)
+    @Log(title = "8大板块信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(PlServiceAgencyLoan plServiceAgencyLoan)
@@ -186,8 +203,9 @@ public class PlServiceAgencyLoanController extends BaseController
     }
 
     /**
-     * 修改7大板款信息
+     * 修改8大板款信息
      */
+    @RequiresPermissions("system:loan:edit")
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap mmap)
     {
@@ -197,14 +215,23 @@ public class PlServiceAgencyLoanController extends BaseController
     }
 
     /**
-     * 修改保存7大板款信息
+     * 修改保存8大板款信息
      */
     @RequiresPermissions("system:loan:edit")
-    @Log(title = "8大板块信息", businessType = BusinessType.UPDATE)
+    @Log(title = "保存8大板块信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(PlServiceAgencyLoan plServiceAgencyLoan)
     {
+        Long id = plServiceAgencyLoan.getId();
+        if (id != null) {
+            PlServiceAgencyLoanVo plServiceAgencyLoanVo = plServiceAgencyLoanService.selectPlServiceAgencyLoanById(id);
+            String instanceId = plServiceAgencyLoanVo.getInstanceId();
+            if (instanceId != null && !SysUser.isAdmin(ShiroUtils.getUserId())) {
+                return error("修改失败：不允许对已提交数据进行修改！");
+            }
+        }
+
         return toAjax(plServiceAgencyLoanService.updatePlServiceAgencyLoan(plServiceAgencyLoan));
     }
 
@@ -212,11 +239,26 @@ public class PlServiceAgencyLoanController extends BaseController
      * 删除8大板款信息
      */
     @RequiresPermissions("system:loan:remove")
-    @Log(title = "8大板块信息", businessType = BusinessType.DELETE)
+    @Log(title = "删除8大板款信息", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
     public AjaxResult remove(String ids)
     {
+        if (ids != null) {
+            String[] split = ids.split(",");
+            if (split.length>0) {
+                for (String s : split) {
+                    PlServiceAgencyLoanVo plServiceAgencyLoanVo = plServiceAgencyLoanService.selectPlServiceAgencyLoanById(Long.valueOf(s));
+                    if (plServiceAgencyLoanVo != null) {
+                        String instanceId = plServiceAgencyLoanVo.getInstanceId();
+                        if (instanceId != null && !SysUser.isAdmin(ShiroUtils.getUserId())) {
+                            return error("修改失败：不允许对已提交数据进行删除！");
+                        }
+                    }
+                }
+            }
+        }
+
         return toAjax(plServiceAgencyLoanService.deletePlServiceAgencyLoanByIds(ids));
     }
 
@@ -350,6 +392,7 @@ public class PlServiceAgencyLoanController extends BaseController
                 "attachment;fileName=" + FileUtils.setFileDownloadHeader(request, downloadName));
         FileUtils.writeBytes(downloadPath, response.getOutputStream());
     }
+    // 新增 根据session内的值自动 赋值给下拉框
     @PostMapping("/service")
     @ResponseBody
     public ArrayList<SysUser> service(String serviceId,ModelMap map,HttpServletRequest request)
@@ -363,9 +406,34 @@ public class PlServiceAgencyLoanController extends BaseController
                 SysUser sysUser = iSysUserService.selectUserRoleProductsById(sysUserRole.getUserId(), sysUserRole.getRoleId());
                 if (sysUser != null) {
                     usersList.add(sysUser);
-                if(userId != null && sysUser.getUserId().equals(userId)){
+                    if(userId != null && sysUser.getUserId().equals(userId)){
                         sysUser.setSelectedFlage("true");
                     }
+
+                }
+            }
+        }
+
+        return usersList;
+    }
+
+    // 修改 根据用户之前选择自动 赋值给下拉框
+    @PostMapping("/editService")
+    @ResponseBody
+    public ArrayList<SysUser> editService(String serviceId,Long productId,ModelMap map,HttpServletRequest request)
+    {
+        ArrayList<SysUser> usersList = new ArrayList<>();
+        List<SysUserRole> sysUserRoles = sysUserRoleMapper.selectUserRoleByRoleId(Long.valueOf(serviceId));
+        if (sysUserRoles != null) {
+            for (SysUserRole sysUserRole : sysUserRoles) {
+                SysUser sysUser = iSysUserService.selectUserRoleProductsById(sysUserRole.getUserId(), sysUserRole.getRoleId());                if (sysUser != null) {
+                    usersList.add(sysUser);
+                    if(productId != null){
+                            if(Long.valueOf(productId).equals(Long.valueOf(sysUser.getProductId()))){
+                                sysUser.setSelectedFlage("true");
+                            }
+                    }
+
 
                 }
             }

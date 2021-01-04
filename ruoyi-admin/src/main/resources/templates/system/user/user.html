@@ -24,7 +24,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="ui-layout-center">
 		<div class="container-div">
 			<div class="row">
@@ -38,7 +38,7 @@
 									登录名称：<input type="text" name="loginName"/>
 								</li>
 								<li>
-									手机号码：<input type="text" name="phonenumber"/>
+									手机号码：<input type="text" name="legalNumber"/>
 								</li>
 								<li>
 									用户状态：<select name="status" th:with="type=${@dict.getType('sys_normal_disable')}">
@@ -60,7 +60,7 @@
 						</div>
 					</form>
 				</div>
-				
+
 		        <div class="btn-group-sm" id="toolbar" role="group">
 		        	<a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="system:user:add">
 		                <i class="fa fa-plus"></i> 新增
@@ -78,14 +78,14 @@
 			            <i class="fa fa-download"></i> 导出
 			        </a>
 		        </div>
-		        
+
 		        <div class="col-sm-12 select-table table-striped">
 				    <table id="bootstrap-table"></table>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<th:block th:include="include :: footer" />
 	<th:block th:include="include :: layout-latest-js" />
 	<th:block th:include="include :: ztree-js" />
@@ -176,7 +176,7 @@
 		    };
 		    $.table.init(options);
 		}
-		
+
 		function queryDeptTree()
 		{
 			var url = ctx + "system/dept/treeData";
@@ -186,26 +186,26 @@
 		        onClick : zOnClick
 		    };
 			$.tree.init(options);
-			
+
 			function zOnClick(event, treeId, treeNode) {
 				$("#deptId").val(treeNode.id);
 				$("#parentId").val(treeNode.pId);
 				$.table.search();
 			}
 		}
-		
+
 		$('#btnExpand').click(function() {
 			$._tree.expandAll(true);
 		    $(this).hide();
 		    $('#btnCollapse').show();
 		});
-		
+
 		$('#btnCollapse').click(function() {
 			$._tree.expandAll(false);
 		    $(this).hide();
 		    $('#btnExpand').show();
 		});
-		
+
 		$('#btnRefresh').click(function() {
 			queryDeptTree();
 		});
@@ -221,13 +221,13 @@
 		    var url = prefix + '/resetPwd/' + userId;
 		    $.modal.open("重置密码", url, '800', '300');
 		}
-		
+
 		/* 用户管理-分配角色 */
 		function authRole(userId) {
 		    var url = prefix + '/authRole/' + userId;
 		    $.modal.openTab("用户分配角色", url);
 		}
-		
+
 		/* 用户状态显示 */
 		function statusTools(row) {
 		    if (row.status == 1) {
@@ -236,7 +236,7 @@
     			return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="disable(\'' + row.userId + '\')"></i> ';
     		}
 		}
-		
+
 		/* 用户管理-停用 */
 		function disable(userId) {
 			$.modal.confirm("确认要停用用户吗？", function() {
