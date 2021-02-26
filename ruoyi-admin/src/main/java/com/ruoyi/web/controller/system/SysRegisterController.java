@@ -144,10 +144,9 @@ public class SysRegisterController extends BaseController
         PlGuaranteeLoan plGuaranteeLoans = plGuaranteeLoanService.selectStatistics();
         HashMap<String, String> hashMap = new LinkedHashMap<>();
         hashMap.put("已注册企业数",plGuaranteeLoans.getNumOne());
-        hashMap.put("平台活动数量",plGuaranteeLoans.getNumTwo());
-        hashMap.put("已注册服务机构数",plGuaranteeLoans.getNumThree());
-        hashMap.put("助保金贷款总量",plGuaranteeLoans.getNumFour());
-        hashMap.put("服务项目数",plGuaranteeLoans.getNumFive());
+        hashMap.put("服务机构入驻数量",plGuaranteeLoans.getNumThree());
+        hashMap.put("金融服务申请数量",plGuaranteeLoans.getNumFour());
+        hashMap.put("完成申请事项数",plGuaranteeLoans.getNumFive());
         hashMap.put("企业需求数",plGuaranteeLoans.getNumSeven());
         map.put("plBanksList",plBanks);
         map.put("statisticsList",hashMap);

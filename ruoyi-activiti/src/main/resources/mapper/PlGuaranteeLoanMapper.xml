@@ -323,7 +323,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             (SELECT COUNT(*) FROM pl_todo_item pti WHERE pti.task_name ='taskBankLoan') numTwo,
             (select SUM(pl2.actual_loan_amount) from pl_guarantee_loan pl2) numThree,
             (select COUNT(*) from pl_bank ) numFour,
-            (SELECT count(*) from sys_user where flage != '1' or flage IS NULL ) numFive,
+            (SELECT COUNT(*) from sys_user where flage != '1' or flage IS NULL) numFive,
             (SELECT COUNT(*) from sys_user where flage = '1' and del_flag = '0') numSeven,
             (SELECT COUNT(*) from pl_service_agency_loan where application is not NULL and status in ('1','2')) numEight
         FROM
