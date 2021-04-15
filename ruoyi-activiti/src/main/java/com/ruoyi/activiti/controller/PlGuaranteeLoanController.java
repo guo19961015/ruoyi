@@ -11,6 +11,7 @@ import java.util.*;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.ruoyi.activiti.domain.*;
+import com.ruoyi.activiti.mapper.PlGuaranteeLoanMapper;
 import com.ruoyi.activiti.service.IPlGuaranteeService;
 import com.ruoyi.activiti.service.IPlTodoItemService;
 import com.ruoyi.activiti.service.IProcessService;
@@ -97,7 +98,8 @@ public class PlGuaranteeLoanController extends BaseController
     private ISysDeptService deptService;
     @Autowired
     private ISysRoleService iSysRoleService;
-
+    @Autowired
+    private PlGuaranteeLoanMapper plGuaranteeLoanMapper;
     @RequiresPermissions("pl:loan:view")
     @GetMapping()
     public String loan(ModelMap mmap)
@@ -114,7 +116,7 @@ public class PlGuaranteeLoanController extends BaseController
     @ResponseBody
     public TableDataInfo list(PlGuaranteeLoanVo plGuaranteeLoan)
     {
-        if (!SysUser.isAdmin(ShiroUtils.getUserId())) {
+        if (!SysUser.isAdmin(ShiroUtils.getUserId()) && !SysUser.isSystem(ShiroUtils.getUserId())) {
             plGuaranteeLoan.setCreateBy(ShiroUtils.getLoginName());
         }
         plGuaranteeLoan.setType("process");
@@ -176,9 +178,9 @@ public class PlGuaranteeLoanController extends BaseController
     @ResponseBody
     public AjaxResult export(PlGuaranteeLoanVo plGuaranteeLoan)
     {
-        List<PlGuaranteeLoanVo> list = plGuaranteeLoanService.selectPlGuaranteeLoanList(plGuaranteeLoan);
+        List<PlGuaranteeLoanVo> list = plGuaranteeLoanMapper.selectPlGuaranteeLoanList(plGuaranteeLoan);
         ExcelUtil<PlGuaranteeLoanVo> util = new ExcelUtil<PlGuaranteeLoanVo>(PlGuaranteeLoanVo.class);
-        return util.exportExcel(list, "loan");
+        return util.exportExcel(list, "助保贷信息");
     }
 
     /**

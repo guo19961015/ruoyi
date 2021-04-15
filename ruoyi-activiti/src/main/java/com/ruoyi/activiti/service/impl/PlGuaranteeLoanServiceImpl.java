@@ -37,6 +37,7 @@ import com.ruoyi.activiti.service.IPlGuaranteeLoanService;
 import com.ruoyi.common.core.text.Convert;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import com.ruoyi.common.core.controller.BaseController;
 
 
 /**
@@ -90,17 +91,19 @@ public class PlGuaranteeLoanServiceImpl implements IPlGuaranteeLoanService
         Integer pageSize = pageDomain.getPageSize();
 
         // PageHelper 仅对第一个 List 分页
-        Page<PlGuaranteeLoanVo> list = (Page<PlGuaranteeLoanVo>) plGuaranteeLoanMapper.selectPlGuaranteeLoanList(plGuaranteeLoan);
+        List<PlGuaranteeLoanVo> list = plGuaranteeLoanMapper.selectPlGuaranteeLoanList(plGuaranteeLoan);
         Page<PlGuaranteeLoanVo> returnList = new Page<>();
         for (PlGuaranteeLoanVo leave: list) {
-            SysUser sysUser = userMapper.selectUserByLoginName(leave.getCreateBy());
-            if (sysUser != null) {
-                leave.setCreateUserName(sysUser.getUserName());
+            String createById = leave.getCreateById();
+            if (createById != null) {
+                SysUser sysUser = userMapper.selectUserById(Long.valueOf(createById));
+                if (sysUser != null) {
+                    leave.setCreateUserName(sysUser.getUserName());
+                    leave.setApplyUserName(sysUser.getUserName());
+                }
             }
-            SysUser sysUser2 = userMapper.selectUserByLoginName(leave.getApplyUser());
-            if (sysUser2 != null) {
-                leave.setApplyUserName(sysUser2.getUserName());
-            }
+
+
             // 当前环节
             if (StringUtils.isNotBlank(leave.getInstanceId())) {
                 List<Task> taskList = taskService.createTaskQuery()
@@ -126,7 +129,7 @@ public class PlGuaranteeLoanServiceImpl implements IPlGuaranteeLoanService
             }
             returnList.add(leave);
         }
-        returnList.setTotal(CollectionUtils.isEmpty(list) ? 0 : list.getTotal());
+        returnList.setTotal(CollectionUtils.isEmpty(list) ? 0 : ((Page)list).getTotal());
         returnList.setPageNum(pageNum);
         returnList.setPageSize(pageSize);
         return returnList;
@@ -179,6 +182,7 @@ public class PlGuaranteeLoanServiceImpl implements IPlGuaranteeLoanService
     {
 
         plGuaranteeLoan.setCreateBy(ShiroUtils.getLoginName());
+        plGuaranteeLoan.setCreateById(String.valueOf(ShiroUtils.getUserId()));
         plGuaranteeLoan.setCreateTime(DateUtils.getNowDate());
         return plGuaranteeLoanMapper.insertPlGuaranteeLoan(plGuaranteeLoan);
     }

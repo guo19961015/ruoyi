@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="endTime"    column="end_time"    />
         <result property="totalTime"    column="total_time"    />
         <result property="instanceId"    column="instance_id"    />
+        <result property="createById"    column="create_by_id"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
@@ -56,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectPlGuaranteeLoanVo">
-        select id, type, start_time, end_time, total_time, instance_id, create_by, create_time, update_by, update_time, apply_user, apply_time, reality_start_time, reality_end_time, title, reason,  legal, legal_number, contacts, contacts_number, synopsis, total_assets, sales_volume, total_liabilities, total_profit, net_assets, tax_amount, fixed_assets, one_year_debt_due, loan_balance, other_liabilities, related_companies, lending_bank, short_loan_overdue_records, long_in_loan_overdue_records, application_amount, use_of_funds, mortgage_of_own_assets, third_party_asset_mortgage, guarantee, proposed_bank,   dept_id,bank_id,details_collateral,guarantee_id,credit_rating_report,status from pl_guarantee_loan
+        select id, type, start_time, end_time, total_time, instance_id, create_by_id, create_by, create_time, update_by, update_time, apply_user, apply_time, reality_start_time, reality_end_time, title, reason,  legal, legal_number, contacts, contacts_number, synopsis, total_assets, sales_volume, total_liabilities, total_profit, net_assets, tax_amount, fixed_assets, one_year_debt_due, loan_balance, other_liabilities, related_companies, lending_bank, short_loan_overdue_records, long_in_loan_overdue_records, application_amount, use_of_funds, mortgage_of_own_assets, third_party_asset_mortgage, guarantee, proposed_bank,   dept_id,bank_id,details_collateral,guarantee_id,credit_rating_report,status from pl_guarantee_loan
     </sql>
 
     <select id="selectPlGuaranteeLoanList" parameterType="PlGuaranteeLoanVo" resultMap="PlGuaranteeLoanResult">
@@ -120,6 +121,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="endTime != null ">end_time,</if>
             <if test="totalTime != null ">total_time,</if>
             <if test="instanceId != null  and instanceId != ''">instance_id,</if>
+            <if test="createById != null  and createById != ''">create_by_id,</if>
             <if test="createBy != null  and createBy != ''">create_by,</if>
             <if test="createTime != null ">create_time,</if>
             <if test="updateBy != null  and updateBy != ''">update_by,</if>
@@ -168,6 +170,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="endTime != null ">#{endTime},</if>
             <if test="totalTime != null ">#{totalTime},</if>
             <if test="instanceId != null  and instanceId != ''">#{instanceId},</if>
+            <if test="createById != null  and createById != ''">#{createById},</if>
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>

@@ -64,6 +64,7 @@ public class PlGuaranteeLoan extends BaseEntity
     @Excel(name = "企业名称")
     private String title;
 
+    private String CreateById;
     /** 主营业务 */
     @Excel(name = "主营业务")
     private String reason;
@@ -708,6 +709,14 @@ public class PlGuaranteeLoan extends BaseEntity
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getCreateById() {
+        return CreateById;
+    }
+
+    public void setCreateById(String createById) {
+        CreateById = createById;
     }
 
     @Override
